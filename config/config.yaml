@@ -15,7 +15,7 @@ theme:
   
 files:
   nameMaxLenght: 8                      # define the max lenght for the files and folders name
-  hiddenItems:							# list of files you don't want to be shown
+  hiddenItems:                          # list of files you don't want to be shown
     - .thumbnails
     - .DS_Store
     - Thumbs.db
