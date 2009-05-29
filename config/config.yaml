@@ -34,13 +34,13 @@ files:
       - gif
       - bmp
       - jpg
-	  
+  
   video:
     type:
       - video-x-msvideo
       - video--quicktime
       - video-mpeg
-	  
+
   audio:
     type:
       - audio-mpeg
