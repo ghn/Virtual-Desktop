@@ -5,16 +5,16 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" type="text/css" href="themes/light-view/fancyUpload/css/fancyUpload.css" media="screen, projection" />
 		
-		<script type="text/javascript" src="https://www.germain.cn:443/finder/js/mootools-1.2.1-core-yc.js"></script>
-		<script type="text/javascript" src="https://www.germain.cn:443/finder/js/fancyUpload/Swiff.js"></script>
-		<script type="text/javascript" src="https://www.germain.cn:443/finder/js/fancyUpload/Fx.js"></script>
-		<script type="text/javascript" src="https://www.germain.cn:443/finder/js/fancyUpload/FancyUpload2.js"></script>
-		<script type="text/javascript" src="https://www.germain.cn:443/finder/js/fancyUpload/FancyScript.js"></script>
+		<script type="text/javascript" src="/finder/js/mootools-1.2.1-core-yc.js"></script>
+		<script type="text/javascript" src="/finder/js/fancyUpload/Swiff.js"></script>
+		<script type="text/javascript" src="/finder/js/fancyUpload/Fx.js"></script>
+		<script type="text/javascript" src="/finder/js/fancyUpload/FancyUpload2.js"></script>
+		<script type="text/javascript" src="/finder/js/fancyUpload/FancyScript.js"></script>
 	</head>
 	
 	<body>
 		<div id="demo">
-			<form action="https://www.germain.cn:443/finder/upload-script.php" method="post" enctype="multipart/form-data" id="form-demo">
+			<form action="/finder/upload-script.php" method="post" enctype="multipart/form-data" id="form-demo">
 				<fieldset id="demo-fallback">
 					<legend>File Upload</legend>
 					<p>Selected your photo to upload.</p>

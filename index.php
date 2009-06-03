@@ -22,7 +22,8 @@
 		
 		<script type="text/javascript" src="js/mootools-1.2.1-core-yc.js"></script>
 		<script type="text/javascript" src="js/mootools-1.2-more.js"></script>
-		<script type="text/javascript" src="js/mediaBoxAdv/mediaboxAdv94.js"></script>
+		<script type="text/javascript" src="js/virtualdesktop/virtualdesktop.js"></script>
+		<script type="text/javascript" src="js/mediaBoxAdv/mediaboxAdv99g.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="<?php print $drive->getThemeName(); ?>/style.css" />
 	</head>

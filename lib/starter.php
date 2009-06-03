@@ -11,4 +11,3 @@
 	
 	# create a new drive
 	$drive = new CDrive();
-?>

@@ -8,4 +8,3 @@
 		$file = $_GET['p'];
 		echo $drive->getFile($file);
 	}
-?>

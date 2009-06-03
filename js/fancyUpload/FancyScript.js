@@ -4,7 +4,7 @@ window.addEvent('load', function() {
 	var swiffy = new FancyUpload2($('demo-status'), $('demo-list'), {
 		url: $('form-demo').action,
 		fieldName: 'photoupload',
-		path: 'https://www.germain.cn:443/finder/js/fancyUpload/Swiff.swf',
+		path: '/finder/js/fancyUpload/Swiff.swf',
 		limitSize: 2 * 1024 * 1024, // 2Mb
 		onLoad: function() {
 			$('demo-status').removeClass('hide');
