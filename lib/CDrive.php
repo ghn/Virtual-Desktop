@@ -384,12 +384,12 @@ class CDrive {
 		if (is_file($file)) {
 			
 			// !! CHECK YOUR SERVER PARAMETERS !!
-			//$mimeFile = 'C:/wamp/bin/php/php5.2.8/extras/magic';
-			$mimefile = dirname(__FILE__) .'/magic';
-			$mimefile = 'C:\xampp\php\extras\magic';
-			$handle = finfo_open(FILEINFO_MIME, $mimefile);
+			//$mimeFile = 'c:/xampp/php/magic/magic';
+			//$mimefile = dirname(__FILE__) .'/magic';
+			//$finfo = finfo_open(FILEINFO_MIME, $mimefile);
+			$finfo = finfo_open(FILEINFO_MIME);
 			
-			$mime = str_replace("/", "-", finfo_file($handle, $file));
+			$mime = str_replace("/", "-", finfo_file($finfo, $file));
 			
 			// Get the only reference only (ex: text-plain; textencode, ... => text-plain)
 			$mime2 = strstr($mime, ';');
