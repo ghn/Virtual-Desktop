@@ -70,4 +70,3 @@ class CAuth extends CDrive {
 		}
 	}
 }
-?>

@@ -15,11 +15,9 @@ class CDrive {
 	protected	$slash = '/';
 	const		FILE_GET = 'get.php?p=';
 	
-	
 	private $url_params = array();	# contains all folders leading to the current directory (work var)
 	private $fileCount = 0;
 	private $folderCount = 0;
-	private $themePath = '';			# Theme root (full path)
 	
 	public $auth;
 	
@@ -32,13 +30,13 @@ class CDrive {
 		$this->auth = new CAuth();
 		
 		# init user's folder path
-		$this->userDataPath = $this->config['general']['dataPath'] . $this->slash . $this->auth->getLogin();
+		$this->userDataPath = $this->config['general']['dataPath'] . $this->auth->getLogin() . $this->slash;
 		
 		# get and manage url
 		$this->initdirectory();
 				
 		# init theme path
-		$this->config['theme']['path'] = $this->slash . $this->config['general']['appName'] . $this->slash .'themes'. $this->slash . $this->config['theme']['name'];
+		$this->config['theme']['path'] = $this->config['general']['appURL'] .'themes'. $this->slash . $this->config['theme']['name'];
 	}
 	
 	/**
@@ -60,7 +58,7 @@ class CDrive {
 		$directory = $this->userDataPath;
 		if (!empty ($this->url_params)) {
 			foreach ($this->url_params as $id) {
-				$directory .= $this->slash . $id;
+				$directory .= $id .$this->slash;
 			}
 		}
 		
@@ -68,7 +66,7 @@ class CDrive {
 	}
 	
 	/**
-	 * IS IMAGE ?.
+	 * IS IMAGE ?
 	 * @param string path of the file
 	 */
 	protected function isImage ($file) {
@@ -83,7 +81,7 @@ class CDrive {
 	}
 	
 	/**
-	 * IS AUDIO ?.
+	 * IS AUDIO ?
 	 * @param string path of the file
 	 */
 	protected function isAudio ($file) {
@@ -98,7 +96,7 @@ class CDrive {
 	}
 	
 	/**
-	 * IS VIDEO ?.
+	 * IS VIDEO ?
 	 * @param string path of the file
 	 */
 	private function isVideo ($file) {
@@ -113,7 +111,7 @@ class CDrive {
 	}
 	
 	/**
-	 * GET PATH.
+	 * GET PATH
 	 */ 
 	public function getpath () {
 		$path = "";
@@ -172,7 +170,7 @@ class CDrive {
 			
 			# list current folder
 			while (false !== ($file = readdir($res))) {
-				if ((is_dir ($this->absoluteDirectoryPath . $this->slash . $file) == 1) && ($file != ".") && ($file != "..") && (!in_array($file, $this->config['files']['hiddenItems']))) {
+				if ((is_dir ($this->absoluteDirectoryPath . $file) == 1) && ($file != ".") && ($file != "..") && (!in_array($file, $this->config['files']['hiddenItems']))) {
 					$this->folderCount += 1;
 					$tab_1[] = $file;
 		    	}
@@ -225,7 +223,7 @@ class CDrive {
 			$dimg = opendir($this->absoluteDirectoryPath);
 			while (false !== ($imgfile = readdir($dimg))) {
 	 			# filter items
-				if (is_file($this->absoluteDirectoryPath . $this->slash . $imgfile) && !in_array($imgfile, $this->config['files']['hiddenItems'])) {
+				if (is_file($this->absoluteDirectoryPath . $imgfile) && !in_array($imgfile, $this->config['files']['hiddenItems'])) {
 					$file[] = $imgfile;
 		  	  		sort($file);
 			  		reset ($file);
@@ -241,7 +239,7 @@ class CDrive {
 				$picpath = self::FILE_GET. urlencode($this->getpath() . $file[$x]);
 				
 				# Absolute path to the file
-				$filepath = $this->userDataPath . $this->slash . $this->getpath() . $file[$x];
+				$filepath = $this->userDataPath . $this->getpath() . $file[$x];
 				
 				# filename
 				$shortFilename = $longFilename = $file[$x];
@@ -256,6 +254,7 @@ class CDrive {
 				if ($this->isImage($filepath)) {
 					
 					# Get thumbnail
+					print $filepath; exit;
 					$cPic = new CPicture($filepath);
 					$originalFile = "<a href='". $picpath ."'>Download original file</a>";
 					$thumbnail = self::FILE_GET . urlencode($cPic->getThumbnail($this->config['files']['pictures']['thumbFormats'][0]));
@@ -286,14 +285,14 @@ class CDrive {
 				
 				# IF AUDIO
 				} else if ($this->isAudio($filepath)) {
-					$return .= '<li class="document">
+					$return .= '<li class="audio">
 								<a href="'. $picpath .'" title="MP3 audio::'. $longFilename .'" rel="lightbox[audio 300 50]">
 									<img src="'. $icon .'" alt="'. $longFilename .'" /><br />
 									<span class="filename">'. $shortFilename .'</span>
 								</a>
 							</li>';
 				
-				# ELSE
+				# OTHER FORMAT
 				} else {
 					$return .= '<li class="document">
 								<a href="'. $picpath .'" title="'. $longFilename .'">
@@ -333,7 +332,7 @@ class CDrive {
 	 * @param $file
 	 */
 	public function getFile ($file) {
-		$fn = $this->userDataPath . $this->slash . $file;
+		$fn = $this->userDataPath . $file;
 		if (is_file($fn)) {
 			$type = $this->getMimeType($fn);
 			
@@ -355,7 +354,7 @@ class CDrive {
 		$res = opendir($this->userDataPath);
 		$tab_1 = array ();
 		while (false !== ($file = readdir($res))) {
-			if ((is_dir ($this->userDataPath . $this->slash . $file) == 1) && ($file != ".") && ($file != "..") && (!in_array($file, $this->config['files']['hiddenItems']))) {
+			if ((is_dir ($this->userDataPath . $file) == 1) && ($file != ".") && ($file != "..") && (!in_array($file, $this->config['files']['hiddenItems']))) {
 				$this->folderCount += 1;
 				$tab_1[] = $file;
 			}
@@ -367,19 +366,19 @@ class CDrive {
 		$menu = "";
 		foreach ($tab_1 as $folder) {
 			if ($folder == $this->url_params[0]) {
-				$menu .= '<li class="current"><a href="'. $this->slash . $this->config['general']['appName'] . $this->slash .'?p='. urlencode($folder) .'">'. $folder .'</a></li>' ."\n";
+				$menu .= '<li class="current"><a href="'. $this->config['general']['appURL'] .'?p='. urlencode($folder) .'">'. $folder .'</a></li>' ."\n";
 			} else {
-				$menu .= '<li><a href="'. $this->slash . $this->config['general']['appName'] . $this->slash . '?p='. urlencode($folder) .'">'. $folder .'</a></li>' ."\n";
+				$menu .= '<li><a href="'. $this->config['general']['appURL'] .'?p='. urlencode($folder) .'">'. $folder .'</a></li>' ."\n";
 			}
 		}		
 		
 		if (empty($this->url_params[0])) {
-			$menu = '<li class="home current"><a href="'. $this->slash . $this->config['general']['appName'] . $this->slash .'">'. $this->auth->getLogin() .'</a></li>'. "\n". $menu;
+			$menu = '<li class="home current"><a href="'. $this->config['general']['appURL'] .'">'. $this->auth->getLogin() .'</a></li>'. "\n". $menu;
 		} else {
-			$menu = '<li class="home"><a href="'. $this->slash . $this->config['general']['appName'] . $this->slash .'">'. $this->auth->getLogin() .'</a></li>'. "\n". $menu;
+			$menu = '<li class="home"><a href="'. $this->config['general']['appURL'] .'">'. $this->auth->getLogin() .'</a></li>'. "\n". $menu;
 		}
 		
-		print	'<ul>'. $menu .'</ul>';
+		print '<ul>'. $menu .'</ul>';
 	}
 	
 	/**
@@ -416,7 +415,7 @@ class CDrive {
 	 * @param -emtpy-
 	 */
 	public function getThemeName() {
-		return $this->config['theme']['name'];
+		return $this->config['theme']['path'];
 	}
 	
 	public function getVersion() {
@@ -427,9 +426,7 @@ class CDrive {
 		return $this->config['general']['appTitle'];
 	}
 	
-	public function getAppName() {
-		return $this->config['general']['appName'];
+	public function getAppURL() {
+		return $this->config['general']['appURL'];
 	}
 }
-
-?>

@@ -28,13 +28,13 @@
 		<script type="text/javascript" src="js/mootools-1.2-more.js"></script>
 		<script type="text/javascript" src="js/mediaBoxAdv/mediaboxAdv94.js"></script>
 		
-		<link rel="stylesheet" type="text/css" href="themes/<?php print $drive->getThemeName(); ?>/style.css" />
+		<link rel="stylesheet" type="text/css" href="<?php print $drive->getThemeName(); ?>/style.css" />
 	</head>
 	
 	<body>
 		<div id="page">
 			<div id="header">
-				<h1><a href="/<?php print $drive->getAppName(); ?>"><?php print $drive->getAppTitle() .' v'. $drive->getVersion(); ?></a></h1>
+				<h1><a href="<?php print $drive->getAppURL(); ?>"><?php print $drive->getAppTitle() .' v'. $drive->getVersion(); ?></a></h1>
 			</div>
 			
 			<div id="login">

@@ -22,7 +22,7 @@ class CPicture extends CDrive {
 	 *	CONSTRUCTOR
 	 */
 	public function __construct($image = "") {
-		parent::__construct();		// MANDATORY, so the class cpicture can get the values from cdrive
+		//parent::__construct();		// MANDATORY, so the class cpicture can get the values from cdrive
 		$this->picture = $image;
 	}
 	
@@ -98,7 +98,8 @@ class CPicture extends CDrive {
 		$format = $this->getMimeType($this->picture);
 		
 		switch($format) {
-			case 'image-jpeg':
+			case 'jpg':
+			case 'jpeg':
 				$src_img = imagecreatefromjpeg($this->picture);
 				
 				$realWidth = imageSX($src_img);
@@ -117,10 +118,10 @@ class CPicture extends CDrive {
 				imagedestroy($src_img);
 				break;
 			
-			case 'image-png':
+			case 'png':
 				break;
 				
-			case 'image-gif':
+			case 'gif':
 				break;
 		}
 	}

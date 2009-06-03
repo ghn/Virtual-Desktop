@@ -112,7 +112,7 @@
 			</div>
 			
 			<div id="footer">
-				&copy;2008 Germain.cn
+				<p class="copyright">&copy; 2007-<?php print date('Y', time()); ?> germain.cn | <a href="thanks.html" rel="lightbox[external 640 360]" title="Credits">Credits</a></p>
 			</div>
 		</div>
 	</body>
