@@ -5,7 +5,8 @@ class CPicture extends CDrive {
 	/*
 	 *	ATTRIBUTS
 	 */
-	public $picture;		// we will work on this picture
+	protected $picture;		// we will work on this picture
+	protected $config = array();
 	
 	/*
 	 *	WORKING VARS
@@ -21,24 +22,27 @@ class CPicture extends CDrive {
 	/*
 	 *	CONSTRUCTOR
 	 */
-	public function __construct($image = "") {
-		//parent::__construct();		// MANDATORY, so the class cpicture can get the values from cdrive
+	public function __construct($config, $image = "") {
+		$this->config = $config;
 		$this->picture = $image;
 	}
 	
 	/*
 	 *	GET THUMBNAIL
 	 */
-	public function getThumbnail($format, $forceCreate = false) {
-		$this->maxWidth = $format[0];
-		$this->maxHeight = $format[1];
+	public function getThumbnail($formatID, $forceCreate = false) {
+		$this->maxWidth = $this->config['files']['pictures']['thumbFormats'][$formatID][0];
+		$this->maxHeight = $this->config['files']['pictures']['thumbFormats'][$formatID][1];
 		
 		$file = basename($this->picture);
-		$source = str_replace($this->userDataPath . $this->slash, '', $this->picture);
+		
+		$source = str_replace($this->config['tmp']['userDataPath'], '', $this->picture);
 		$source = str_replace($file, '', $source);
 		
+		//echo $source .'<br>';
+		
 		# thumbnail exists?
-		$thumbPath = $this->userDataPath . $this->slash . $this->thumbnailFolder . $this->slash . $source;
+		$thumbPath = $this->config['tmp']['userDataPath'] . $this->config['general']['thumbnailFolder'] . $this->slash . $source;
 		$this->thumbnail = $thumbPath . $this->maxWidth .'x'. $this->maxHeight .'-'. $file;
 		
 		if ($forceCreate) {
@@ -47,11 +51,11 @@ class CPicture extends CDrive {
 		
 		if (!file_exists($this->thumbnail) || $forceCreate) {
 			$this->mkdir_r($thumbPath);
-			$this->thumbnail = $this->createThumbnail();
+			$this->createThumbnail();
 		}
 		
-		//return $this->thumbnail;
-		return $this->thumbnailFolder . $this->slash . $source . $this->maxWidth .'x'. $this->maxHeight .'-'. $file;
+		$ret = $this->config['general']['thumbnailFolder'] . $this->slash . $source . $this->maxWidth .'x'. $this->maxHeight .'-'. $file;
+		return $ret;
 	}
 	
 	/*
@@ -111,6 +115,7 @@ class CPicture extends CDrive {
 				imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $this->thumbWidth, $this->thumbHeight, $realWidth, $realHeight);					
 				imagejpeg($dst_img, $this->thumbnail);
 				
+				
 				# right 777 so I can manually remove the files if I want to
 				@chmod($this->thumbnail, 0777);
 				
@@ -134,11 +139,11 @@ class CPicture extends CDrive {
 	private function calculFormat($realWidth, $realHeight) {
 		if ($realWidth > $realHeight) {
 			$this->thumbWidth = $this->maxWidth;
-			$this->thumbHeight = $realHeight * ($this->maxHeight / $realWidth);
+			$this->thumbHeight = ceil($realHeight * ($this->maxHeight / $realWidth));
 		}
 		
 		if ($realWidth < $realHeight) {
-			$this->thumbWidth = $realWidth * ($this->maxWidth / $realHeight);
+			$this->thumbWidth = ceil($realWidth * ($this->maxWidth / $realHeight));
 			$this->thumbHeight = $this->maxHeight;
 		}
 		

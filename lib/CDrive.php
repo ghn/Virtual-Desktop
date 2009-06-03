@@ -5,7 +5,7 @@
 
 class CDrive {
 	
-	public $config = array ();			# configuration file
+	protected $config = array ();			# configuration file
 	
 	# --------------------------------------------------------------------------
 	# DO NOT MODIFIY
@@ -29,8 +29,9 @@ class CDrive {
 		$this->config = Spyc::YAMLLoad(dirname(__FILE__) .'/../config/config.yaml');
 		$this->auth = new CAuth();
 		
-		# init user's folder path
+		# init user's folder path & save in the config array
 		$this->userDataPath = $this->config['general']['dataPath'] . $this->auth->getLogin() . $this->slash;
+		$this->config['tmp']['userDataPath'] = $this->userDataPath;
 		
 		# get and manage url
 		$this->initdirectory();
@@ -254,11 +255,10 @@ class CDrive {
 				if ($this->isImage($filepath)) {
 					
 					# Get thumbnail
-					print $filepath; exit;
-					$cPic = new CPicture($filepath);
+					$cPic = new CPicture($this->config, $filepath);
 					$originalFile = "<a href='". $picpath ."'>Download original file</a>";
-					$thumbnail = self::FILE_GET . urlencode($cPic->getThumbnail($this->config['files']['pictures']['thumbFormats'][0]));
-					$thumbnail_slideshow = self::FILE_GET . urlencode($cPic->getThumbnail($this->config['files']['pictures']['thumbFormats'][1]));
+					$thumbnail = self::FILE_GET . urlencode($cPic->getThumbnail(0));
+					$thumbnail_slideshow = self::FILE_GET . urlencode($cPic->getThumbnail(1));
 					
 					$return .= '<li class="image">
 									<a href="'. $thumbnail_slideshow .'" title="'. $longFilename .'::'. $originalFile .'" rel="lightbox[set1]">

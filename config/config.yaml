@@ -44,3 +44,6 @@ files:
   audio:
     type:
       - audio-mpeg
+
+# use for internal reasons
+tmp:
