@@ -265,13 +265,6 @@ class CDrive {
 										<img src="'. $thumbnail .'" alt="'. $longFilename .'" /><br />
 										<span class="filename">'. $shortFilename .'</span><br />
 									</a>
-									<div class="actions">
-										<ul>
-											<li><a href="#">do something</a></li>
-											<li><a href="#">do something</a></li>
-											<li><a href="#">do something</a></li>
-										</ul>
-									</div>
 								</li>';
 
 				# IF VIDEO

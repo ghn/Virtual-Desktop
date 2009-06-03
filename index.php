@@ -1,9 +1,5 @@
 <?php
-	# load classes
-	function __autoload($class_name) {
-		require_once "lib/{$class_name}.php";
-	}
-	$drive = new CDrive();
+	require_once('lib/starter.php');
 	
 	# logout ?
 	if (isset($_GET['action']) && $_GET['action'] == 'logout') {
