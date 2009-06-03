@@ -270,29 +270,29 @@ class CDrive {
 				# IF VIDEO
 				} else if ($this->isVideo($filepath)) {
 					$return .= '<li class="video">
-								<a href="'. $picpath .'" title="'. $longFilename .'" rel="lightbox[flash 640 360]">
-									<img src="'. $icon .'" alt="'. $longFilename .'" /><br />
-									<span class="filename">'. $shortFilename .'</span>
-								</a>
-							</li>';
+									<a href="'. $picpath .'" title="'. $longFilename .'" rel="lightbox[flash 640 360]">
+										<img src="'. $icon .'" alt="'. $longFilename .'" /><br />
+										<span class="filename">'. $shortFilename .'</span>
+									</a>
+								</li>';
 				
 				# IF AUDIO
 				} else if ($this->isAudio($filepath)) {
 					$return .= '<li class="audio">
-								<a href="'. $picpath .'" title="MP3 audio::'. $longFilename .'" rel="lightbox[audio 300 50]">
-									<img src="'. $icon .'" alt="'. $longFilename .'" /><br />
-									<span class="filename">'. $shortFilename .'</span>
-								</a>
-							</li>';
+									<a href="'. $picpath .'" title="MP3 audio::'. $longFilename .'" rel="lightbox[audio 300 50]">
+										<img src="'. $icon .'" alt="'. $longFilename .'" /><br />
+										<span class="filename">'. $shortFilename .'</span>
+									</a>
+								</li>';
 				
 				# OTHER FORMAT
 				} else {
 					$return .= '<li class="document">
-								<a href="'. $picpath .'" title="'. $longFilename .'">
-									<img src="'. $icon .'" alt="'. $longFilename .'" /><br />
-									<span class="filename">'. $shortFilename .'</span>
-								</a>
-							</li>';
+									<a href="'. $picpath .'" title="'. $longFilename .'">
+										<img src="'. $icon .'" alt="'. $longFilename .'" /><br />
+										<span class="filename">'. $shortFilename .'</span>
+									</a>
+								</li>';
 				}
 			}
 			
@@ -326,9 +326,10 @@ class CDrive {
 	 */
 	public function getFile ($file) {
 		$fn = $this->userDataPath . $file;
+		$fn = str_replace("\\", "", $fn);
+		
 		if (is_file($fn)) {
 			$type = $this->getMimeType($fn);
-			
 			$filename = basename($fn);
 			
 			header('Content-Type: '. $type);
@@ -381,11 +382,11 @@ class CDrive {
 	protected function getMimeType($file) {
 		if (is_file($file)) {
 			
-			/*
 			// !! CHECK YOUR SERVER PARAMETERS !!
-			$mimeFile = 'C:/wamp/bin/php/php5.2.8/extras/magic';
-			$handle = finfo_open(FILEINFO_MIME, $mimeFile);
-			//$handle = finfo_open(FILEINFO_MIME);
+			//$mimeFile = 'C:/wamp/bin/php/php5.2.8/extras/magic';
+			$mimefile = dirname(__FILE__) .'/magic';
+			$mimefile = 'C:\xampp\php\extras\magic';
+			$handle = finfo_open(FILEINFO_MIME, $mimefile);
 			
 			$mime = str_replace("/", "-", finfo_file($handle, $file));
 			
@@ -394,8 +395,8 @@ class CDrive {
 			if (strlen($mime2) > 0) {
 				$mime = str_replace($mime2, '', $mime);
 			}
-			*/
-			$mime = substr(strrchr($file, '.'), 1);
+			
+			//$mime = substr(strrchr($file, '.'), 1);
 			
 			return $mime;
 		} else {

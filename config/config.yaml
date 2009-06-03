@@ -37,13 +37,14 @@ files:
   
   video:
     type:
-      - video-x-msvideo
-      - video--quicktime
-      - video-mpeg
+      - avi
+      - flv
+      - mpg
+      - mpeg
 
   audio:
     type:
-      - audio-mpeg
+      - mp3
 
 # use for internal reasons
 tmp:
