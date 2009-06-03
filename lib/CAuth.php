@@ -2,25 +2,28 @@
 
 class CAuth extends CDrive {
 	
-	private $currentPage = 'index.php';
 	public $user = "";		// instance of CAccounts class
 	
 	/**
 	 *
 	 */
 	public function __construct($parameters = null) {
-		@session_start();
-				
+		
+		//session_start();
 		if (!is_null($parameters)) {
 			$this->connect($parameters);
 		}
-		if (!$this->isconnected()) {
-			$_SESSION['VD_AUTH_CURRENT_PAGE'] = $this->currentPage;
-			header('Location: auth.php');
-		} else {
+		if ($this->isconnected()) {
 			if (!is_null($parameters)) { 
 				header('Location: '. $_SESSION['VD_AUTH_CURRENT_PAGE']);
 			}
+			
+		} else {
+			# save referer
+			$referer = 'http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+			$_SESSION['VD_AUTH_CURRENT_PAGE'] = $referer;
+			
+			header('Location: auth.php');
 		}
 	}
 	
@@ -60,8 +63,6 @@ class CAuth extends CDrive {
 	private function connect($p = array()) {
 		$login = $p['login'];
 		$password = $p['password'];
-		
-		require_once('CAuthAccounts.php');
 		
 		$this->user = new CAuthAccounts($login, $password);
 		

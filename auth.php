@@ -5,8 +5,10 @@
 			'login'		=> $_POST['vd_auth_login'],
 			'password'	=> $_POST['vd_auth_password']);
 		
+		session_start();
 		require_once ('lib/CDrive.php');
 		require_once ('lib/CAuth.php');
+		require_once ('lib/CAuthAccounts.php');
 		$auth = new CAuth($parameters);
 	}
 ?>
