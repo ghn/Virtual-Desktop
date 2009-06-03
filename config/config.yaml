@@ -11,7 +11,7 @@ general:
 
 theme:
   name: light-view
-  path: 
+  path:
   
 files:
   nameMaxLenght: 8                      # define the max lenght for the files and folders name

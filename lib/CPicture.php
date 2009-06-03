@@ -164,4 +164,3 @@ class CPicture extends CDrive {
 		}
 	}
 }
-?>
