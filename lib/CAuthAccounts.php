@@ -1,17 +1,8 @@
 <?php
 
 class CAuthAccounts extends CAuth {
-	
-	/**************************************************************************/
-	
-	private $accounts = array (
-		"test"		=> array (
-			"password"	=> "098f6bcd4621d373cade4e832627b4f6",
-			"fullname"	=> "test account"),
-		/* add more accounts here */);
-	
-	/**************************************************************************/
-	
+
+	private $accounts = array();
 	protected $isAutorized	= false;
 	protected $fullname		= "";
 	
@@ -21,15 +12,17 @@ class CAuthAccounts extends CAuth {
 	 */
 	public function __construct($login, $password) {
 		
+		$this->accounts = Spyc::YAMLLoad(dirname(__FILE__) .'/../config/accounts.yaml');
+		
 		$this->isAutorized = false;
 		
-		// check login
+		# check login
 		if (array_key_exists($login, $this->accounts)) {
 			
-			//check password
-			if ($this->accounts[$login]["password"] == md5($password)) {
+			# check password
+			if ($this->accounts[$login]["password"] == sha1($password)) {
 				$this->isAutorized = true;
-				$this->fullname = $this->accounts[$login]["fullname"];
+				$this->fullname = $this->accounts[$login]["name"];
 			}
 		}
 	}

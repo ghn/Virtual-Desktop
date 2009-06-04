@@ -102,8 +102,8 @@ class CPicture extends CDrive {
 		$format = $this->getMimeType($this->picture);
 		
 		switch($format) {
-			case 'jpg':
-			case 'jpeg':
+			case 'image-jpg':
+			case 'image-jpeg':
 				$src_img = imagecreatefromjpeg($this->picture);
 				
 				$realWidth = imageSX($src_img);
@@ -112,9 +112,9 @@ class CPicture extends CDrive {
 				$this->calculFormat($realWidth, $realHeight);
 				
 				$dst_img = ImageCreateTrueColor($this->thumbWidth, $this->thumbHeight);
-				imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $this->thumbWidth, $this->thumbHeight, $realWidth, $realHeight);					
-				imagejpeg($dst_img, $this->thumbnail);
+				imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $this->thumbWidth, $this->thumbHeight, $realWidth, $realHeight);				
 				
+				imagejpeg($dst_img, $this->thumbnail);
 				
 				# right 777 so I can manually remove the files if I want to
 				@chmod($this->thumbnail, 0777);
@@ -150,22 +150,6 @@ class CPicture extends CDrive {
 		if ($realWidth == $realHeight) {
 			$this->thumbWidth = $this->maxWidth;
 			$this->thumbHeight = $this->maxHeight;
-		}
-	}
-	
-	/*
-	 *	CREATE FOLDERS
-	 */
-	private function mkdir_r($dirName, $rights=0777) {
-		$dirs = explode('/', $dirName);
-		$dir = '';
-		
-		foreach ($dirs as $part) {
-			$dir .= $part .'/';
-			
-			if (strlen($dir)>0 && $dir != $this->slash) {
-				@mkdir($dir, $rights);
-			}
 		}
 	}
 }

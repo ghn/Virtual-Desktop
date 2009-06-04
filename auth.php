@@ -9,6 +9,7 @@
 		require_once ('lib/CDrive.php');
 		require_once ('lib/CAuth.php');
 		require_once ('lib/CAuthAccounts.php');
+		require_once ('lib/Spyc.php');
 		$auth = new CAuth($parameters);
 	}
 ?>

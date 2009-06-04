@@ -25,14 +25,17 @@ class CDrive {
 	 * Constructor.
 	 */
 	public function __construct() {
-		
-		
 		$this->config = Spyc::YAMLLoad(dirname(__FILE__) .'/../config/config.yaml');
 		$this->auth = new CAuth();
 
 		# init user's folder path & save in the config array
 		$this->userDataPath = $this->config['general']['dataPath'] . $this->auth->getLogin() . $this->slash;
 		$this->config['tmp']['userDataPath'] = $this->userDataPath;
+		
+		# create user home directory if needed
+		if (!is_dir($this->userDataPath)) {
+			$this->mkdir_r ($this->userDataPath);
+		}
 		
 		# get and manage url
 		$this->initdirectory();
@@ -402,6 +405,22 @@ class CDrive {
 			return $mime;
 		} else {
 			return 'unknown';
+		}
+	}
+	
+	/*
+	 *	CREATE FOLDERS
+	 */
+	protected function mkdir_r($dirName, $rights=0777) {
+		$dirs = explode('/', $dirName);
+		$dir = '';
+		
+		foreach ($dirs as $part) {
+			$dir .= $part .'/';
+			
+			if (strlen($dir)>0 && $dir != $this->slash) {
+				@mkdir($dir, $rights);
+			}
 		}
 	}
 	
