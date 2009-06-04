@@ -20,7 +20,7 @@ class CAuthAccounts extends CAuth {
 		if (array_key_exists($login, $this->accounts)) {
 			
 			# account must be enabled
-			if ($this->accounts[$login]["enable"])
+			if ($this->accounts[$login]["enable"]) {
 			
 				# check password
 				if ($this->accounts[$login]["password"] == sha1($password)) {

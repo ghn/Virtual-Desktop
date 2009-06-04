@@ -1,10 +1,5 @@
 <?php
 	require_once('lib/starter.php');
-	
-	# logout ?
-	if (isset($_GET['action']) && $_GET['action'] == 'logout') {
-		$drive->auth->logout();
-	}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -37,7 +32,7 @@
 			<div id="login">
 				<p>
 					<span class="logged">Logged as <?php print $drive->auth->getLogin(); ?></span>
-					<span class="logout"><a href="index.php?action=logout">Logout</a></span>
+					<span class="logout"><a href="index.php?a=logout">Logout</a></span>
 				</p>
 			</div>
 			
@@ -50,7 +45,7 @@
 							</div>
 							<div class="box-content">
 								<ul>
-									<li><a href="upload.php" rel="lightbox[external 640 360]">Add files</a></li>
+									<li><a href="upload.php" rel="lightbox[upload 640 360]">Add files</a></li>
 								</ul>
 							</div>
 						</div>
@@ -82,7 +77,7 @@
 			</div>
 			
 			<div id="footer">
-				<p class="copyright">&copy; 2007-<?php print date('Y', time()); ?> germain.cn | <a href="thanks.html" rel="lightbox[external 640 360]" title="Credits">Credits</a></p>
+				<p class="copyright">&copy; 2007-<?php print date('Y', time()); ?> germain.cn | <a href="thanks.html" rel="lightbox[thanks 640 360]" title="Credits">Thanks to</a></p>
 			</div>
 		</div>
 	</body>

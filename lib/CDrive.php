@@ -61,6 +61,8 @@ class CDrive {
 			$action = $_GET['a'];
 			
 			switch ($action) {
+				case 'logout':
+					$this->auth->logout();
 				case 'get':
 					$file = $_GET['p'];
 					$this->getFile($file);
