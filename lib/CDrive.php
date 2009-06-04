@@ -13,7 +13,7 @@ class CDrive {
 	protected 	$userDataPath;			# absolute path to the data folder
 	protected	$absoluteDirectoryPath;	# absolute path to the current directory
 	protected	$slash = '/';
-	const		FILE_GET = 'get.php?p=';
+	const		FILE_GET = 'index.php?a=get&p=';
 	
 	private $url_params = array();	# contains all folders leading to the current directory (work var)
 	private $fileCount = 0;
@@ -25,9 +25,12 @@ class CDrive {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->config = Spyc::YAMLLoad(dirname(__FILE__) .'/../config/config.yaml');
+		# Is authenticate?
 		$this->auth = new CAuth();
-
+		
+		# load config file
+		$this->config = Spyc::YAMLLoad(dirname(__FILE__) .'/../config/config.yaml');
+		
 		# init user's folder path & save in the config array
 		$this->userDataPath = $this->config['general']['dataPath'] . $this->auth->getLogin() . $this->slash;
 		$this->config['tmp']['userDataPath'] = $this->userDataPath;
@@ -37,16 +40,47 @@ class CDrive {
 			$this->mkdir_r ($this->userDataPath);
 		}
 		
-		# get and manage url
-		$this->initdirectory();
-				
-		# init theme path
+		# Init View: theme
 		$this->config['theme']['path'] = $this->config['general']['appURL'] .'themes'. $this->slash . $this->config['theme']['name'];
+		
+		# Init controller
+		$this->initController();
+	}
+	
+	/**
+	 * INIT CONTROLLER
+	 * @param: none
+	 */
+	private function initController() {
+	
+		# save current folder
+		$this->initdirectory();
+		
+		# save action if defined
+		if (isset($_GET['a']) && $_GET['a'] != '') {
+			$action = $_GET['a'];
+			
+			switch ($action) {
+				case 'get':
+					$file = $_GET['p'];
+					$this->getFile($file);
+					break;
+				
+				case 'rotate':
+					$file = $_GET['p'];
+					$picture = new CPicture($file);
+					$picture->rotate(90);
+					break;
+					
+				case 'createfolder':
+					break;
+			}
+		}
 	}
 	
 	/**
 	 * INIT DIRECTORY.
-	 * @param string directory
+	 * @param: none
 	 */
 	private function initdirectory () {
 		# no need to urldecode => $_GET already do this!
