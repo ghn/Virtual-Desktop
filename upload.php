@@ -30,7 +30,9 @@
 	
 	<body>
 		<div id="demo">
-			<form action="upload-script.php" method="post" enctype="multipart/form-data" id="form-demo">
+			<?php $path = $_GET['p']; ?>
+			<p>Upload in the folder <strong><?php print $path; ?></strong></p>
+			<form action="upload-script.php?p=<?php print $path; ?>" method="post" enctype="multipart/form-data" id="form-demo">
 				<fieldset id="demo-fallback">
 					<legend>File Upload</legend>
 					<p>Selected your photo to upload.</p>
@@ -39,7 +41,7 @@
 						<input type="file" name="photoupload" id="demo-photoupload" />
 					</label>
 				</fieldset>
-			 
+				
 				<div id="demo-status" class="hide">
 					<p>
 						<a href="#" id="demo-browse">Browse Files</a> |
@@ -49,11 +51,11 @@
 					</p>
 					<div>
 						<strong class="overall-title">Overall progress</strong><br />
-						<img src="themes/light-view/fancyUpload/images/progress-bar/progress.gif" class="progress overall-progress" alt="bar" />
+						<img src="themes/light-view/fancyUpload/images/progress-bar/bar.gif" class="progress overall-progress" alt="bar" />
 					</div>
 					<div>
 						<strong class="current-title">File Progress</strong><br />
-						<img src="themes/light-view/fancyUpload/images/progress-bar/progress.gif" class="progress current-progress" alt="bar" />
+						<img src="themes/light-view/fancyUpload/images/progress-bar/bar.gif" class="progress current-progress" alt="bar" />
 					</div>
 					<div class="current-text"></div>
 				</div>

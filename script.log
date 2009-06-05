@@ -1,0 +1,66 @@
+Array
+(
+    [time] => Fri, 05 Jun 2009 08:04:56 +0200
+    [addr] => ******9.41.206
+    [agent] => Shockwave Flash
+    [path] => demo
+    [get] => Array
+        (
+            [p] => demo
+        )
+
+    [post] => Array
+        (
+            [Filename] => Winter.jpg
+            [Upload] => Submit Query
+        )
+
+    [files] => Array
+        (
+            [Filedata] => Array
+                (
+                    [name] => Winter.jpg
+                    [type] => application/octet-stream
+                    [tmp_name] => /tmp/php64uUMI
+                    [error] => 0
+                    [size] => 105542
+                )
+
+        )
+
+)
+
+---
+Array
+(
+    [time] => Fri, 05 Jun 2009 08:05:46 +0200
+    [addr] => ******9.41.206
+    [agent] => Shockwave Flash
+    [path] => germainhugon
+    [get] => Array
+        (
+            [p] => germainhugon
+        )
+
+    [post] => Array
+        (
+            [Filename] => Sunset.jpg
+            [Upload] => Submit Query
+        )
+
+    [files] => Array
+        (
+            [Filedata] => Array
+                (
+                    [name] => Sunset.jpg
+                    [type] => application/octet-stream
+                    [tmp_name] => /tmp/phpgLXyqe
+                    [error] => 0
+                    [size] => 71189
+                )
+
+        )
+
+)
+
+---

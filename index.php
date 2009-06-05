@@ -43,7 +43,7 @@
 							</div>
 							<div class="box-content">
 								<ul>
-									<li><a href="upload.php" rel="lightbox[upload 640 360]">Add files</a></li>
+									<li><a href="upload.php?p=<?php print $_GET['p']; ?>" rel="lightbox[upload 640 360]">Add files</a></li>
 								</ul>
 							</div>
 						</div>
