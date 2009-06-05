@@ -44,6 +44,7 @@
 							<div class="box-content">
 								<ul>
 									<li><a href="upload.php?p=<?php print $_GET['p']; ?>" rel="lightbox[upload 640 360]">Add files</a></li>
+									<li><a href="createfolder.php?a=createfolder&amp;p=<?php print $_GET['p']; ?>" rel="lightbox[createfolder 200 200]">Create a new folder</a></li>
 								</ul>
 							</div>
 						</div>

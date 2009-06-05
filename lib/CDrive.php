@@ -421,14 +421,8 @@ class CDrive {
 	 */
 	protected function getMimeType($file) {
 		if (is_file($file)) {
-			
-			// !! CHECK YOUR SERVER PARAMETERS !!
-			//$mimeFile = 'c:/xampp/php/magic/magic';
-			//$mimefile = dirname(__FILE__) .'/magic';
-			//$finfo = finfo_open(FILEINFO_MIME, $mimefile);
 			$finfo = finfo_open(FILEINFO_MIME);
-			
-			$mime = str_replace("/", "-", finfo_file($finfo, $file));
+			$mime = finfo_file($finfo, $file);
 			
 			// Get the only reference only (ex: text-plain; textencode, ... => text-plain)
 			$mime2 = strstr($mime, ';');
