@@ -372,10 +372,19 @@ class CDrive {
 			$type = $this->getMimeType($fn);
 			$filename = basename($fn);
 			
-			header('Content-Type: '. $type);
-			header('Content-Length: '. filesize($fn));
-			header('Content-Disposition: attachment; filename="'.$filename.'"');
-			print file_get_contents($fn);
+			if ($this->isVideo($fn) || $this->isImage($fn) || $this->isAudio($fn)) {
+				header('Content-Type: '. $type);
+				header('Content-Length: '. filesize($fn));
+				header('filename="'.$filename.'"');
+				header('Cache-Control: no-cache, must-revalidate');
+				print file_get_contents($fn);
+			} else {
+				header('Content-Type: '. $type);
+				header('Content-Length: '. filesize($fn));
+				header('Content-Disposition: attachment; filename="'.$filename.'"');
+				header('Cache-Control: no-cache, must-revalidate');
+				print file_get_contents($fn);
+			}
 		}
 	}
 	
