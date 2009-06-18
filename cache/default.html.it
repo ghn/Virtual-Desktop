@@ -1,0 +1,82 @@
+a:4:{s:6:"blocks";a:3:{s:10:"__global__";s:1964:"<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>{appTitle} {appVersion}</title>
+<link rel="shortcut icon" type="image/x-icon" href="theme/{themeName}/favicon.ico" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- no cache -->
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta name="robots" content="noindex, nofollow" />
+<script type="text/javascript" src="js/mootools-1.2.1-core-yc.js"></script>
+<script type="text/javascript" src="js/mootools-1.2-more.js"></script>
+<script type="text/javascript" src="js/virtualdesktop/virtualdesktop.js"></script>
+<script type="text/javascript" src="js/mediaBoxAdv/mediaboxAdv99g.js"></script>
+<link rel="stylesheet" type="text/css" href="theme/{themeName}/style.css" />
+</head>
+<body>
+<div id="page">
+<div id="header">
+<h1><a href="{appURL}">{appTitle} {appVersion}</a></h1>
+</div>
+<div id="login">
+{__log_out__}
+{__log_in__}
+</div>
+<div id="content">
+<div id="navigation">
+<div id="tools">
+<div class="box">
+<div class="box-title">
+Options
+</div>
+<div class="box-content">
+<ul>
+<li><a href="{urlUpload}" rel="lightbox[upload 640 360]">Add files</a></li>
+<li><a href="{urlCreateFolder}" rel="lightbox[createfolder 200 200]">Create a new folder</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="shortcuts">
+<div class="box">
+<div class="box-title">
+Folders
+</div>
+<div class="box-content">
+{menuItems}
+</div>
+</div>
+</div>
+</div>
+<div id="list">
+{content}
+<div class="info">
+<div class="directory">{directory}</div>
+<p class="result">There is {nbFiles} files in that folder.</p>
+</div>
+</div>
+</div>
+<div id="footer">
+<p class="copyright">&copy; 2007-<?php print date('Y', time()); ?> germain.cn | <a href="thanks.html" rel="lightbox[thanks 640 360]" title="Credits">Thanks to</a></p>
+</div>
+</div>
+</body>
+</html>";s:7:"log_out";s:122:"<p>
+<span class="logged">Logged as {username}</span>
+<span class="logout"><a href="{urlDisconnect}">Logout</a></span>
+</p>";s:6:"log_in";s:415:"<form name="vd_auth_form" method="post" action="{urlConnect}">
+<p class="field">
+<label for="vd_auth_login">Login</label>
+<input type="text" id="vd_auth_login" name="vd_auth_login" />
+</p>
+<p class="field">
+<label for="vd_auth_password">Password</label>
+<input type="password" id="vd_auth_password" name="vd_auth_password" />
+</p>
+<p class="field">
+<input type="submit" value="Log in" />
+</p>
+</form>
+<p>{texte}</p>";}s:9:"variables";a:3:{s:10:"__global__";a:12:{s:8:"appTitle";b:1;s:10:"appVersion";b:1;s:9:"themeName";b:1;s:6:"appURL";b:1;s:11:"__log_out__";b:1;s:10:"__log_in__";b:1;s:9:"urlUpload";b:1;s:15:"urlCreateFolder";b:1;s:9:"menuItems";b:1;s:7:"content";b:1;s:9:"directory";b:1;s:7:"nbFiles";b:1;}s:7:"log_out";a:2:{s:8:"username";b:1;s:13:"urlDisconnect";b:1;}s:6:"log_in";a:2:{s:10:"urlConnect";b:1;s:5:"texte";b:1;}}s:8:"children";a:3:{s:10:"__global__";a:2:{s:7:"log_out";b:1;s:6:"log_in";b:1;}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}}s:9:"functions";a:3:{s:10:"__global__";a:0:{}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}}}

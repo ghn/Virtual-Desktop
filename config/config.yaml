@@ -3,14 +3,15 @@
 #
 
 general:
-  appURL: http://localhost/finder/      # URL Access
+  appURL: http://localhost/finder2/      # URL Access
   appTitle: My Virtual Desktop          # Application title
   version: 0.4.4
-  dataPath: C:/xampp/www/finder/datas/
+  dataPath: /Users/ghugon/Documents/finder2/datas/
   thumbnailFolder: .thumbnails
 
 theme:
   name: light-view
+  path:
   
 files:
   nameMaxLenght: 8                      # define the max lenght for the files and folders name
@@ -18,7 +19,6 @@ files:
     - .thumbnails
     - .DS_Store
     - Thumbs.db
-    - Picasa.ini
 
   pictures:
     thumbFormats:
@@ -36,6 +36,7 @@ files:
   video:
     type:
       - video/quicktime
+      - video/x-msvideo
       - flv
       - video/mpeg
 
