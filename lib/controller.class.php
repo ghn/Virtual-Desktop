@@ -4,40 +4,88 @@ require_once ('user.class.php');
 
 class controller {
 	
-	protected $action;
-	protected $action_method;
+	private $conf;				// configuration
+	private $action;			// module
+	private $action_method;		// method within the module
 	
-	protected $path;
-	protected $user;
+	private $path;				// current path
+	private $user;				// user
+	
+	private $tpl;				// template
+	
 	
 	/**
 	 *
 	 */
+	
 	public function __construct () {
 		
+		$this->conf = config::get();
+		
 		$this->getParams();
+		$this->initTemplate();
 		
-		# user is logged?
+		# execute action if connected!
 		$user = new user();
-		if (!$user->isConnected()) {
+		if ($user->isConnected()) {
+			require_once ($this->action.'.class.php');
+
+			$component = new $this->action ($this->path, $user->getLogin());
 			
-			//$this->action = 'user';
-			//$this->action_method = '';
+			# execute component, then render it
+			$component->run($this->action_method);
+			$html = $component->build();
+			
+			# hide items
+			$this->tpl->hideBlock('log_in');
+		} else {
+			
+			$html = 'homepage';
+			
+			# hide items
+			$this->tpl->hideBlock('log_out');
+			$this->tpl->hideBlock('tools');
 		}
+		
+		$this->tpl->setVariable(array(
+			'appTitle' 		=> $this->conf['general']['appTitle'],
+			'appVersion'	=> $this->conf['general']['version'],
+			'themeName'		=> $this->conf['theme']['name'],
+			'appURL'		=> $this->conf['general']['appURL'],
+			'urlUpload'		=> $this->conf['general']['appURL'] .'?action=upload&amp;path=',
+			'urlCreateFolder'=>$this->conf['general']['appURL'] .'?action=create.folder&amp;path=',
+			'urlDisconnect'	=> $this->conf['general']['appURL'] .'?action=user.logout',
+			'urlConnect'	=> $this->conf['general']['appURL'] .'?action=user.login',
 			
-			# execute action
-			if ($this->action == 'default') {
-				$include = 'drive';
-			} else {
-				$include = $this->action;
+			'username'		=> $user->getUserName(),
+			'menuItems'		=> '<ul><li><a href="#">la liste</a></li></ul>'
+		));
+		
+		if ($this->action == 'drive') {
+			$this->tpl->setCurrentBlock('drive');
+			$this->tpl->setVariable(array(
+				'nbFiles'		=> 8,
+				'directory'		=> $this->path
+			));
+			
+			if (is_array($html)) {
+				$this->tpl->setCurrentBlock('file');
+				foreach ($html as $item) {
+					$this->tpl->setVariable(array (
+						'title'		=> $item['title'],
+						'type'		=> $item['type'],
+						'path'		=> $item['path'],
+						'icon'		=> $item['icon'],
+						'alt'		=> $item['alt'],
+						'name'		=> $item['name']
+					));
+					$this->tpl->parse('file');
+				}
 			}
+		}
 		
-		require_once ($include .'.class.php');
-		$component = new $include ($this->path);
-		
-		# execute component, then render it
-		$component->run($this->action_method);
-		$component->build();
+		# print the page
+		$this->tpl->show();
 	}
 	
 	
@@ -50,7 +98,7 @@ class controller {
 		if (isset($_GET['action']) && !empty($_GET['action'])) {
 			list($this->action, $this->action_method) = explode('.', $_GET['action']);
 		} else {
-			$this->action = 'default';
+			$this->action = 'drive';		// default action
 		}
 		
 		# get path
@@ -59,12 +107,16 @@ class controller {
 		} else {
 			$this->path = '';
 		}
-		
-		/*
-		# Merge action and class file
-		switch ($this->action) {
-			case 'log':
-				$this->action = 'user';
-		}*/
+	}
+	
+	
+	/**
+	 *	INIT TEMPLATE
+	 */
+	
+	private function initTemplate() {
+		$this->tpl =& new HTML_Template_Sigma('./theme/'. $this->conf['theme']['name'], './cache');
+		$this->tpl->setErrorHandling(PEAR_ERROR_DIE);
+		$this->tpl->loadTemplateFile('default.html');
 	}
 }

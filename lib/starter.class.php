@@ -6,6 +6,8 @@ class starter {
 
 	public function init() {
 		
+		session_start();
+		
 		# include required files
 		require_once ('PEAR.php');
 		require_once ('sigma.php');

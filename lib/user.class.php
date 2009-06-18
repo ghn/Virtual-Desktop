@@ -9,28 +9,47 @@ class user extends component {
 	 */
 	
 	private $connected = false;
-	
+	private $userName = '';
+	private $login = '';
 	
 	public function __construct() {
 		if (!empty($_SESSION['auth_login'])) {
 			$this->connected = true;
+			$this->login = $_SESSION['auth_login'];
+			$this->userName = $_SESSION['auth_userName'];
 		} else {
 			$this->connected = false;
 		}
+		
+		# try to connect
+		$this->login();
 	}
 	
 	
-	private function login($login, $password) {
-		$_SESSION['auth_login'] = $login;
-		$this->connected = true;
+	private function login() {
+		if (isset ($_POST['vd_auth_login']) && isset ($_POST['vd_auth_password'])) {
+			$login = $_POST['vd_auth_login'];
+			$password = $_POST['vd_auth_password'];
+			
+			if ($login == 'test' && $password == 'test') {
+				$_SESSION['auth_login'] = $login;
+				$_SESSION['auth_userName'] = 'test demo';
+				$this->connected = true;
+				$this->userName = 'test demo';
+				$this->login = $login;
+			}
+		}
 		
 		# redirect to homepage
-		$conf = config::get();
-		header('Location: '. $conf['general']['appURL']);
+		//header('Location: '. $this->conf['general']['appURL']);
 	}
 	
 	
-	protected function logout() {
+	private function logout() {
+		unset ($_SESSION['auth_login']);
+		$this->connected = false;
+		
+		header('Location: '. $this->conf['general']['appURL']);
 	}
 	
 	
@@ -44,12 +63,24 @@ class user extends component {
 	}
 	
 	
+	public function getLogin() {
+		return $this->login;
+	}
+	
+	
 	public function get() {
 		return "module user";
 	}
 	
 	
 	public function run($action_method) {
-		$this->login($_POST['vd_auth_login'],$_POST['vd_auth_password']);
+	
+		switch ($action_method) {
+			case 'logout':
+				$this->logout();
+				break;
+			case 'login':
+				$this->login();
+		}
 	}
 }

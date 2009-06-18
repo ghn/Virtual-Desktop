@@ -4,75 +4,152 @@ class drive extends component {
 	
 	private $files = array();
 	private $tmp;
+	private $user;
 	
-	public function __construct ($path = '') {
+	public function __construct ($path = '', $user = 'test') {
 		$this->path = $path;
+		$this->user = $user;
 	}
 	
 	public function get () {
-		return $this->tmp;
+		return $this->listAll();
 	}
 	
 	public function run () {
-		$this->tmp = "trop cool";
+		$this->tmp = "module Drive";
 	}
 	
 	
-	public function listfolders () {
-		$return = '';
+	private function listAll () {
+		$return = array();
 		
 		# print 'go back' if needed
-		if (!is_null($this->url_params)) {
-			$return = '	<li class="folder">
-							<a href="?p='. $this->moveup() .'" title="Go backward">
-								<img src="'. $this->config['theme']['path'] .'/icons/folder-enable.png" alt="" title="Go backward" /><br />
-								<span class="filename">...</span>
-							</a>
-						</li>';
+		if (!is_null($this->path)) {
+			$return[] = array (
+				'type' 		=> 'folder',
+				'title'		=> 'Go backward',
+				'path'		=> $this->moveup(),
+				'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
+				'alt'		=> '',
+				'name'		=> '...',
+				'rel'		=> ''
+				);
 		}
 		
-		# if folder exists
-		if (is_dir($this->absoluteDirectoryPath)) {
-			$res = opendir($this->absoluteDirectoryPath);
-			$tab_1 = array ();
+		# rel image lightbox[set1]
+		
+		$absolutePath = $this->conf['general']['dataPath'] . $this->user . '/'. $this->path;
+		
+		if (is_dir($absolutePath)) {
+			$res = opendir($absolutePath);
 			
-			# list current folder
+			#
+			#	LIST FOLDERS
+			#
+			
+			$tabFolders = array ();
+			while (false !== ($folder = readdir($res))) {
+				if ((is_dir($absolutePath . $folder)) && ($folder != ".") && ($folder != "..") && (!in_array($folder, $this->conf['files']['hiddenItems']))) {
+					$tabFolders[] = $folder;
+		    	}
+			}
+			
+			$this->folderCount = count($tabFolders);
+			
+			# sort result
+			sort($tabFolders);
+			
+			foreach ($tabFolders as $file) {
+				
+				# folder name
+		    	$shortFolderName = $file;
+				if (strlen($file) > $this->conf['files']['nameMaxLenght']) {
+					$shortFolderName = substr ($file, 0, $this->conf['files']['nameMaxLenght']) .'...';
+				}
+				
+				# folder layout
+				$link = '?path='. urlencode($this->path . $file);
+				
+				$return[] = array (
+					'type' 		=> 'folder',
+					'title'		=> $file,
+					'path'		=> $link,
+					'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
+					'alt'		=> '',
+					'name'		=> $shortFolderName,
+					'rel'		=> ''
+				);
+			}
+			
+			#
+			#	LIST FILES
+			#
+			
+			$tabFiles = array ();
 			while (false !== ($file = readdir($res))) {
-				if ((is_dir ($this->absoluteDirectoryPath . $file) == 1) && ($file != ".") && ($file != "..") && (!in_array($file, $this->config['files']['hiddenItems']))) {
-					$this->folderCount += 1;
-					$tab_1[] = $file;
+				if ((is_file($absolutePath . $file)) && ($file != ".") && ($file != "..") && (!in_array($file, $this->conf['files']['hiddenItems']))) {
+					$tabFiles[] = $file;
 		    	}
 			}
 			
 			# sort result
-			sort($tab_1);
+			sort($tabFiles);
 			
-			foreach ($tab_1 as $file) {
-				$new_name = $file;
+			print_r ($tabFiles);
+			
+			foreach ($tabFiles as $file) {
 				
 				# folder name
-		    	$shortFolderName = $new_name;
-				if (strlen($new_name) > $this->config['files']['nameMaxLenght']) {
-					$shortFolderName = substr ($new_name, 0, $this->config['files']['nameMaxLenght']) .'...';
+		    	$shortFileName = $file;
+				if (strlen($file) > $this->conf['files']['nameMaxLenght']) {
+					$shortFolderName = substr ($file, 0, $this->conf['files']['nameMaxLenght']) .'...';
 				}
 				
 				# folder layout
-				$link = urlencode($this->getPath() . $new_name);
+				$link = '?path='. urlencode($this->path . $file);
 				
-				$return .= '<li class="folder">
-								<a href="?p='. $link .'" title="'. $new_name .'">
-									<img src="'. $this->config['theme']['path'] . $this->slash .'icons/folder-enable.png" height="52" alt="" title="'. $new_name .'" /><br />
-									<span class="filename">'. $shortFolderName .'</span>
-								</a>
-							</li>';
+				$return[] = array (
+					'type' 		=> 'file',
+					'title'		=> $file,
+					'path'		=> $link,
+					'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
+					'alt'		=> '',
+					'name'		=> $shortFileName,
+					'rel'		=> ''
+				);
 			}
-			closedir($res);
 			
-			return $return;
-		} else {
+			# close ressource
+			closedir($res);
+		}
+		return $return;
+	}
+	
+	/**
+	 * MOVE UP.
+	 * @param link of the top level folder if exists
+	 */
+	private function moveup () {
+		$path = '';
 
-			# do something if folder selected does not exit
-			return 'no such file or directory.';
+		/*
+		if (count ($this->url_params) == 1) {
+			$path = '';
+		} else {
+			if (!empty ($this->url_params)) {
+				for ($i=0; $i<count($this->url_params)-2; $i++) {
+					$path .= $this->url_params[$i] .'/';
+				}
+				
+				$path .= $this->url_params[$i];
+			}
+		}
+		*/
+		
+		if (empty($this->path)) {
+			return $this->conf['general']['appURL'];
+		} else {
+			return $this->conf['general']['appURL'] .'?path='. urlencode($this->path);
 		}
 	}
 }

@@ -65,7 +65,7 @@ div#login {
 	padding: 5px;
 	color: #fff;
 }
-	div#login p {margin: 0;}
+	div#login p {margin: 0; display: inline;}
 		div#login p span.logout a {
 			background: url(shortcuts/system-log-out.png) 3px 3px no-repeat #dde189;
 			text-decoration: none;

@@ -47,17 +47,18 @@
 						<input type="submit" value="Log in" />
 					</p>
 				</form>
-				<p>{texte}</p>
 				<!-- END log_in -->
 			</div>
 			
 			<div id="content">
 				<div id="navigation">
+					<!-- BEGIN tools -->
 					<div id="tools">
 						<div class="box">
 							<div class="box-title">
 								Options
 							</div>
+							
 							<div class="box-content">
 								<ul>
 									<li><a href="{urlUpload}" rel="lightbox[upload 640 360]">Add files</a></li>
@@ -66,6 +67,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- END tools -->
 					
 					<div id="shortcuts">
 						<div class="box">
@@ -79,7 +81,18 @@
 					</div>
 				</div>
 				
+				<!-- BEGIN drive -->
 				<div id="list">
+					<ul>
+						<!-- BEGIN file -->
+						<li class="{type}">
+							<a href="{path}" title="{title}" rel="{rel}">
+								<img src="{icon}" alt="{alt}" title="{title}" /><br />
+								<span class="filename">{name}</span>
+							</a>
+						</li>
+						<!-- END file -->
+					</ul>
 					{content}
 					
 					<div class="info">
@@ -87,10 +100,11 @@
 						<p class="result">There is {nbFiles} files in that folder.</p>
 					</div>
 				</div>
+				<!-- END drive -->
 			</div>
 			
 			<div id="footer">
-				<p class="copyright">&copy; 2007-<?php print date('Y', time()); ?> germain.cn | <a href="thanks.html" rel="lightbox[thanks 640 360]" title="Credits">Thanks to</a></p>
+				<p class="copyright">&copy; 2007-2009 germain.cn | <a href="thanks.html" rel="lightbox[thanks 640 360]" title="Credits">Thanks to</a></p>
 			</div>
 		</div>
 	</body>
