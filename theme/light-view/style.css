@@ -219,6 +219,9 @@ div#list {
 		}
 		
 			/* ITEM = file / images */
+			div#list ul li.image img {
+				height: 52px;
+			}
 			div#list ul li.image div.actions {
 				position: relative;
 				top: -90px;

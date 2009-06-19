@@ -1,6 +1,6 @@
 <?php
 
-class user extends component {
+class user {
 	
 	/*
 	 * SESSION vars
@@ -8,73 +8,106 @@ class user extends component {
 	 *   auth_date
 	 */
 	
-	private $connected = false;
-	private $userName = '';
-	private $login = '';
+	private static $connected = false;
+	private static $userName = '';
+	private static $login = '';
+	protected $conf = array();
+	
+	
+	/**
+	 *
+	 */
 	
 	public function __construct() {
+		
+		$this->conf = config::get();
+		
 		if (!empty($_SESSION['auth_login'])) {
 			$this->connected = true;
-			$this->login = $_SESSION['auth_login'];
-			$this->userName = $_SESSION['auth_userName'];
+			self::$login = $_SESSION['auth_login'];
+			self::$userName = $_SESSION['auth_userName'];
 		} else {
 			$this->connected = false;
 		}
-		
-		# try to connect
-		$this->login();
 	}
 	
+	/**
+	 *
+	 */
 	
 	private function login() {
 		if (isset ($_POST['vd_auth_login']) && isset ($_POST['vd_auth_password'])) {
 			$login = $_POST['vd_auth_login'];
 			$password = $_POST['vd_auth_password'];
 			
-			if ($login == 'test' && $password == 'test') {
-				$_SESSION['auth_login'] = $login;
-				$_SESSION['auth_userName'] = 'test demo';
-				$this->connected = true;
-				$this->userName = 'test demo';
-				$this->login = $login;
+			$accountsFile = Spyc::YAMLLoad(dirname(__FILE__) .'/../config/accounts.yaml');
+			
+			if (isset($accountsFile[$login])) {
+				if ($login == $accountsFile[$login]['login'] && sha1($password) == $accountsFile[$login]['password']) {
+					$_SESSION['auth_login'] = $login;
+					$_SESSION['auth_userName'] = $accountsFile[$login]['name'];
+					
+					$this->connected = true;
+					$this->userName = $accountsFile[$login]['name'];
+					$this->login = $login;
+				}
 			}
 		}
 		
 		# redirect to homepage
-		//header('Location: '. $this->conf['general']['appURL']);
+		header('Location: '. $this->conf['general']['appURL']);
 	}
 	
+	/**
+	 *
+	 */
 	
 	private function logout() {
 		unset ($_SESSION['auth_login']);
 		$this->connected = false;
 		
+		# redirect to homepage
 		header('Location: '. $this->conf['general']['appURL']);
 	}
 	
+	/**
+	 *
+	 */
 	
 	public function isConnected() {
 		return $this->connected;
 	}
 	
+	/**
+	 *
+	 */
 	
 	public function getUserName() {
-		return $this->userName;
+		return self::$userName;
 	}
 	
+	/**
+	 *
+	 */
 	
 	public function getLogin() {
-		return $this->login;
+		return self::$login;
 	}
 	
+	/**
+	 *
+	 */
 	
 	public function get() {
 		return "module user";
 	}
 	
+	/**
+	 *
+	 */
 	
 	public function run($action_method) {
-	
+		
 		switch ($action_method) {
 			case 'logout':
 				$this->logout();

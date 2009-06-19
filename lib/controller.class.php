@@ -1,6 +1,7 @@
 <?php
 
 require_once ('user.class.php');
+require_once ('drive.class.php');
 
 class controller {
 	
@@ -26,47 +27,24 @@ class controller {
 		$this->initTemplate();
 		
 		# execute action if connected!
-		$user = new user();
-		if ($user->isConnected()) {
-			require_once ($this->action.'.class.php');
-
-			$component = new $this->action ($this->path, $user->getLogin());
+		$this->user = new user();
+		$this->user->run($this->action_method);
+		
+		if ($this->user->isConnected()) {
 			
-			# execute component, then render it
-			$component->run($this->action_method);
-			$html = $component->build();
+			$drive = new drive ($this->path, $this->user->getLogin());
 			
 			# hide items
 			$this->tpl->hideBlock('log_in');
-		} else {
-			
-			$html = 'homepage';
-			
-			# hide items
-			$this->tpl->hideBlock('log_out');
-			$this->tpl->hideBlock('tools');
-		}
-		
-		$this->tpl->setVariable(array(
-			'appTitle' 		=> $this->conf['general']['appTitle'],
-			'appVersion'	=> $this->conf['general']['version'],
-			'themeName'		=> $this->conf['theme']['name'],
-			'appURL'		=> $this->conf['general']['appURL'],
-			'urlUpload'		=> $this->conf['general']['appURL'] .'?action=upload&amp;path=',
-			'urlCreateFolder'=>$this->conf['general']['appURL'] .'?action=create.folder&amp;path=',
-			'urlDisconnect'	=> $this->conf['general']['appURL'] .'?action=user.logout',
-			'urlConnect'	=> $this->conf['general']['appURL'] .'?action=user.login',
-			
-			'username'		=> $user->getUserName(),
-			'menuItems'		=> '<ul><li><a href="#">la liste</a></li></ul>'
-		));
-		
-		if ($this->action == 'drive') {
 			$this->tpl->setCurrentBlock('drive');
 			$this->tpl->setVariable(array(
-				'nbFiles'		=> 8,
+				'nbFiles'		=> $drive->nbFiles(),
 				'directory'		=> $this->path
 			));
+			
+			# execute drive, then render it
+			$html = $drive->run($this->action);
+			
 			
 			if (is_array($html)) {
 				$this->tpl->setCurrentBlock('file');
@@ -77,12 +55,37 @@ class controller {
 						'path'		=> $item['path'],
 						'icon'		=> $item['icon'],
 						'alt'		=> $item['alt'],
-						'name'		=> $item['name']
+						'name'		=> $item['name'],
+						'rel'		=> $item['rel']
 					));
 					$this->tpl->parse('file');
 				}
 			}
+		} else {
+			$this->tpl->setCurrentBlock('drive');
+			$this->tpl->setVariable(array (
+				'date' => date('Y:m:s')
+			));
+			
+			# hide items
+			$this->tpl->hideBlock('log_out');
+			$this->tpl->hideBlock('tools');
 		}
+		
+		# print general information
+		$this->tpl->setVariable(array(
+			'appTitle' 		=> $this->conf['general']['appTitle'],
+			'appVersion'	=> $this->conf['general']['version'],
+			'themeName'		=> $this->conf['theme']['name'],
+			'appURL'		=> $this->conf['general']['appURL'],
+			'urlUpload'		=> $this->conf['general']['appURL'] .'?action=upload&amp;path=',
+			'urlCreateFolder'=>$this->conf['general']['appURL'] .'?action=create.folder&amp;path=',
+			'urlDisconnect'	=> $this->conf['general']['appURL'] .'?action=user.logout',
+			'urlConnect'	=> $this->conf['general']['appURL'] .'?action=user.login',
+			
+			'username'		=> $this->user->getUserName(),
+			'menuItems'		=> '<ul><li><a href="#">la liste</a></li></ul>'
+		));
 		
 		# print the page
 		$this->tpl->show();
@@ -96,7 +99,7 @@ class controller {
 	private function getParams() {
 		# get action
 		if (isset($_GET['action']) && !empty($_GET['action'])) {
-			list($this->action, $this->action_method) = explode('.', $_GET['action']);
+			@list($this->action, $this->action_method) = explode('.', $_GET['action']);
 		} else {
 			$this->action = 'drive';		// default action
 		}

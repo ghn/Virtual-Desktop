@@ -1,24 +1,68 @@
 <?php
 
-class drive extends component {
+require_once ('document.class.php');
+require_once ('file.class.php');
+
+class drive {
 	
-	private $files = array();
-	private $tmp;
-	private $user;
+	private $nbFiles;
+	private $absolutePath;
+	private $imgPath;
 	
-	public function __construct ($path = '', $user = 'test') {
+	protected $path;
+	protected $user;
+	protected $conf = array();
+	
+	/**
+	 *
+	 */
+	
+	public function __construct ($path, $user) {
+		
+		$this->conf = config::get();
+		
 		$this->path = $path;
 		$this->user = $user;
+		
+		if (empty($this->path)) {
+			$this->absolutePath = $this->conf['general']['dataPath'] . $this->user . '/';
+			$this->imgPath = '';
+		} else {
+			$this->absolutePath = $this->conf['general']['dataPath'] . $this->user . '/'. $this->path .'/';
+			$this->imgPath = $this->conf['general']['dataPath'] . $this->user . '/'. $this->path;
+		}
 	}
 	
-	public function get () {
-		return $this->listAll();
+	/**
+	 *
+	 */
+	
+	public function run ($action = 'default') {
+		switch ($action) {
+			case 'get':
+				if (is_file($this->imgPath)) {
+					$file = new document($this->imgPath);
+					$file->getFile();
+				}
+				break;
+				
+			default:
+				return $this->listAll();
+		}
 	}
 	
-	public function run () {
-		$this->tmp = "module Drive";
+	
+	/**
+	 *
+	 */
+	
+	public function nbFiles() {
+		return $this->nbFiles;
 	}
 	
+	/**
+	 *
+	 */
 	
 	private function listAll () {
 		$return = array();
@@ -36,12 +80,8 @@ class drive extends component {
 				);
 		}
 		
-		# rel image lightbox[set1]
-		
-		$absolutePath = $this->conf['general']['dataPath'] . $this->user . '/'. $this->path;
-		
-		if (is_dir($absolutePath)) {
-			$res = opendir($absolutePath);
+		if (is_dir($this->absolutePath)) {
+			$res = opendir($this->absolutePath);
 			
 			#
 			#	LIST FOLDERS
@@ -49,30 +89,32 @@ class drive extends component {
 			
 			$tabFolders = array ();
 			while (false !== ($folder = readdir($res))) {
-				if ((is_dir($absolutePath . $folder)) && ($folder != ".") && ($folder != "..") && (!in_array($folder, $this->conf['files']['hiddenItems']))) {
+				if ((is_dir($this->absolutePath . $folder)) && ($folder != ".") && ($folder != "..") && (!in_array($folder, $this->conf['files']['hiddenItems']))) {
 					$tabFolders[] = $folder;
 		    	}
 			}
 			
-			$this->folderCount = count($tabFolders);
-			
 			# sort result
 			sort($tabFolders);
 			
-			foreach ($tabFolders as $file) {
+			foreach ($tabFolders as $folder) {
 				
 				# folder name
-		    	$shortFolderName = $file;
-				if (strlen($file) > $this->conf['files']['nameMaxLenght']) {
-					$shortFolderName = substr ($file, 0, $this->conf['files']['nameMaxLenght']) .'...';
+		    	$shortFolderName = $folder;
+				if (strlen($folder) > $this->conf['files']['nameMaxLenght']) {
+					$shortFolderName = substr ($folder, 0, $this->conf['files']['nameMaxLenght']) .'...';
 				}
 				
 				# folder layout
-				$link = '?path='. urlencode($this->path . $file);
+				if (empty($this->path)) {
+					$link = '?path='. self::doUrl($folder);
+				} else {
+					$link = '?path='. self::doUrl($this->path .'/'. $folder);
+				}
 				
 				$return[] = array (
 					'type' 		=> 'folder',
-					'title'		=> $file,
+					'title'		=> $folder,
 					'path'		=> $link,
 					'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
 					'alt'		=> '',
@@ -81,41 +123,56 @@ class drive extends component {
 				);
 			}
 			
+			# close ressource
+			closedir($res);
+			
 			#
 			#	LIST FILES
 			#
 			
+			$res = opendir($this->absolutePath);
 			$tabFiles = array ();
 			while (false !== ($file = readdir($res))) {
-				if ((is_file($absolutePath . $file)) && ($file != ".") && ($file != "..") && (!in_array($file, $this->conf['files']['hiddenItems']))) {
+				if ((is_file($this->absolutePath . $file)) && ($file != ".") && ($file != "..") && (!in_array($file, $this->conf['files']['hiddenItems']))) {
 					$tabFiles[] = $file;
 		    	}
 			}
 			
 			# sort result
 			sort($tabFiles);
-			
-			print_r ($tabFiles);
+			$this->nbFiles = count($tabFiles);
 			
 			foreach ($tabFiles as $file) {
 				
-				# folder name
+				$this->oFile = new document($this->absolutePath . $file);
+				
+				# file name
 		    	$shortFileName = $file;
 				if (strlen($file) > $this->conf['files']['nameMaxLenght']) {
-					$shortFolderName = substr ($file, 0, $this->conf['files']['nameMaxLenght']) .'...';
+					$shortFileName = substr ($file, 0, $this->conf['files']['nameMaxLenght']) .'...';
 				}
 				
-				# folder layout
-				$link = '?path='. urlencode($this->path . $file);
+				# file layout
+				$link = '?path='. self::doUrl($this->path .'/'. $file) . '&amp;action=get';
+				
+				if ($this->oFile->isVideo()) {
+					$rel = '';
+				} else if ($this->oFile->isAudio()) {
+					$rel = '';
+				} else if ($this->oFile->isImage()) {
+					$rel = 'lightbox[set1]';
+				} else {
+					$rel = '';
+				}
 				
 				$return[] = array (
-					'type' 		=> 'file',
+					'type' 		=> 'document',
 					'title'		=> $file,
 					'path'		=> $link,
-					'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
+					'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/'. $this->oFile->getMimeType() .'.png',
 					'alt'		=> '',
 					'name'		=> $shortFileName,
-					'rel'		=> ''
+					'rel'		=> $rel .'WHAT'
 				);
 			}
 			
@@ -125,31 +182,31 @@ class drive extends component {
 		return $return;
 	}
 	
+	
 	/**
 	 * MOVE UP.
 	 * @param link of the top level folder if exists
 	 */
+	
 	private function moveup () {
-		$path = '';
-
-		/*
-		if (count ($this->url_params) == 1) {
-			$path = '';
-		} else {
-			if (!empty ($this->url_params)) {
-				for ($i=0; $i<count($this->url_params)-2; $i++) {
-					$path .= $this->url_params[$i] .'/';
-				}
-				
-				$path .= $this->url_params[$i];
-			}
-		}
-		*/
 		
-		if (empty($this->path)) {
+		$up = explode ('/', $this->path, -1);
+		$up = implode ('/', $up);
+		
+		if (empty($up)) {
 			return $this->conf['general']['appURL'];
 		} else {
-			return $this->conf['general']['appURL'] .'?path='. urlencode($this->path);
+			return $this->conf['general']['appURL'] .'?path='. self::doUrl($up);
 		}
+	}
+	
+	/**
+	 *
+	 */
+	
+	private function doUrl($url) {
+		$url = urlencode($url);
+		$url = str_replace('%2F', '/', $url);
+		return $url;
 	}
 }

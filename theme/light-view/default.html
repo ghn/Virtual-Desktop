@@ -81,8 +81,8 @@
 					</div>
 				</div>
 				
-				<!-- BEGIN drive -->
 				<div id="list">
+					<!-- BEGIN drive -->
 					<ul>
 						<!-- BEGIN file -->
 						<li class="{type}">
@@ -93,14 +93,19 @@
 						</li>
 						<!-- END file -->
 					</ul>
-					{content}
 					
 					<div class="info">
-						<div class="directory">{directory}</div>
+						<div class="directory">@root: {directory}</div>
 						<p class="result">There is {nbFiles} files in that folder.</p>
 					</div>
+					<!-- END drive -->
+					
+					<!-- BEGIN homepage -->
+					<div id="homepage">
+						<p>Salut {date}</p>
+					</div>
+					<!-- END homepage -->
 				</div>
-				<!-- END drive -->
 			</div>
 			
 			<div id="footer">
