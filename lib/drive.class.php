@@ -1,6 +1,7 @@
 <?php
 
 require_once ('document.class.php');
+require_once ('picture.class.php');
 require_once ('file.class.php');
 
 class drive {
@@ -144,7 +145,8 @@ class drive {
 			
 			foreach ($tabFiles as $file) {
 				
-				$this->oFile = new document($this->absolutePath . $file);
+				//$this->oFile = new document($this->absolutePath . $file);
+				$this->oFile = new picture($this->absolutePath . $file);
 				
 				# file name
 		    	$shortFileName = $file;
@@ -168,11 +170,11 @@ class drive {
 				$return[] = array (
 					'type' 		=> 'document',
 					'title'		=> $file,
-					'path'		=> $link,
-					'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/'. $this->oFile->getMimeType() .'.png',
+					'path'		=> $this->oFile->getThumbnail(1) .'&amp;action=get',
+					'icon'		=> $this->oFile->getThumbnail(0) .'&amp;action=get',
 					'alt'		=> '',
 					'name'		=> $shortFileName,
-					'rel'		=> $rel .'WHAT'
+					'rel'		=> $rel
 				);
 			}
 			
