@@ -8,9 +8,9 @@ class user {
 	 *   auth_date
 	 */
 	
-	private static $connected = false;
-	private static $userName = '';
-	private static $login = '';
+	private $connected = false;
+	private $userName = '';
+	private $login = '';
 	protected $conf = array();
 	
 	
@@ -24,8 +24,8 @@ class user {
 		
 		if (!empty($_SESSION['auth_login'])) {
 			$this->connected = true;
-			self::$login = $_SESSION['auth_login'];
-			self::$userName = $_SESSION['auth_userName'];
+			$this->login = $_SESSION['auth_login'];
+			$this->userName = $_SESSION['auth_userName'];
 		} else {
 			$this->connected = false;
 		}
@@ -43,7 +43,7 @@ class user {
 			$accountsFile = Spyc::YAMLLoad(dirname(__FILE__) .'/../config/accounts.yaml');
 			
 			if (isset($accountsFile[$login])) {
-				if ($login == $accountsFile[$login]['login'] && sha1($password) == $accountsFile[$login]['password']) {
+				if ($login == $accountsFile[$login]['login'] && sha1($password) == $accountsFile[$login]['password'] && $accountsFile[$login]['enable'] == 'true') {
 					$_SESSION['auth_login'] = $login;
 					$_SESSION['auth_userName'] = $accountsFile[$login]['name'];
 					
@@ -83,7 +83,7 @@ class user {
 	 */
 	
 	public function getUserName() {
-		return self::$userName;
+		return $this->userName;
 	}
 	
 	/**
@@ -91,7 +91,7 @@ class user {
 	 */
 	
 	public function getLogin() {
-		return self::$login;
+		return $this->login;
 	}
 	
 	/**

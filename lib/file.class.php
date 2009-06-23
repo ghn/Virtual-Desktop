@@ -2,13 +2,13 @@
 
 abstract class file {
 	
-	protected $file		= '';
-	protected $conf		= array();
+	protected $file		= '';		// file we'll work on (filesystem)
+	protected $conf		= array();	// configuration parameters
 	protected $format;				// file format
 	
-	protected $audio	= false;
-	protected $video	= false;
-	protected $picture	= false;
+	protected $audio	= false;	// true | false
+	protected $video	= false;	// true | false
+	protected $picture	= false;	// true | false
 	
 	/**
 	 *

@@ -14,7 +14,6 @@ class controller {
 	
 	private $tpl;				// template
 	
-	
 	/**
 	 *
 	 */
@@ -45,26 +44,37 @@ class controller {
 			# execute drive, then render it
 			$html = $drive->run($this->action);
 			
-			
+			# print all items and all attribut
 			if (is_array($html)) {
 				$this->tpl->setCurrentBlock('file');
+				
 				foreach ($html as $item) {
-					$this->tpl->setVariable(array (
-						'title'		=> $item['title'],
-						'type'		=> $item['type'],
-						'path'		=> $item['path'],
-						'icon'		=> $item['icon'],
-						'alt'		=> $item['alt'],
-						'name'		=> $item['name'],
-						'rel'		=> $item['rel']
-					));
+					foreach ($item as $k => $v) {
+						$this->tpl->setVariable(array ($k => $v));
+					}
 					$this->tpl->parse('file');
 				}
 			}
+			
+			# print menu items
+			$menu = $drive->getMenuItems();
+			
+			# print all items and all attribut
+			if (is_array($menu)) {
+				$this->tpl->setCurrentBlock('menuItems');
+				
+				foreach ($menu as $item) {
+					foreach ($item as $k => $v) {
+						$this->tpl->setVariable(array ($k => $v));
+					}
+					$this->tpl->parse('menuItems');
+				}
+			}
+			
 		} else {
 			$this->tpl->setCurrentBlock('drive');
 			$this->tpl->setVariable(array (
-				'date' => date('Y:m:s')
+				'date' => date('l jS \of F Y h:i:s A')
 			));
 			
 			# hide items
@@ -83,8 +93,7 @@ class controller {
 			'urlDisconnect'	=> $this->conf['general']['appURL'] .'?action=user.logout',
 			'urlConnect'	=> $this->conf['general']['appURL'] .'?action=user.login',
 			
-			'username'		=> $this->user->getUserName(),
-			'menuItems'		=> '<ul><li><a href="#">la liste</a></li></ul>'
+			'username'		=> $this->user->getUserName()
 		));
 		
 		# print the page
@@ -111,7 +120,6 @@ class controller {
 			$this->path = '';
 		}
 	}
-	
 	
 	/**
 	 *	INIT TEMPLATE

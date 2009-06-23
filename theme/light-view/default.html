@@ -75,7 +75,13 @@
 								Folders
 							</div>
 							<div class="box-content">
-								{menuItems}
+								<ul>
+									<!-- BEGIN menuItems -->
+									<li class="{class}">
+										<a href="{url}">{name}</a>
+									</li>
+									<!-- END menuItems -->
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -102,7 +108,7 @@
 					
 					<!-- BEGIN homepage -->
 					<div id="homepage">
-						<p>Salut {date}</p>
+						<p>You're still not logged on. <strong>{date}</strong></p>
 					</div>
 					<!-- END homepage -->
 				</div>

@@ -7,9 +7,10 @@ class drive {
 	
 	private $nbFiles;
 	private $absolutePath;
+	private $rootPath;
 	private $imgPath;
 	
-	protected $path;
+	protected $path = '';
 	protected $user;
 	protected $conf = array();
 	
@@ -24,11 +25,12 @@ class drive {
 		$this->path = $path;
 		$this->user = $user;
 		
+		$this->rootPath = $this->conf['general']['dataPath'] . $this->user . '/';
 		if (empty($this->path)) {
-			$this->absolutePath = $this->conf['general']['dataPath'] . $this->user . '/';
+			$this->absolutePath = $this->rootPath;
 			$this->imgPath = '';
 		} else {
-			$this->absolutePath = $this->conf['general']['dataPath'] . $this->user . '/'. $this->path .'/';
+			$this->absolutePath = $this->rootPath . $this->path .'/';
 			$this->imgPath = $this->conf['general']['dataPath'] . $this->user . '/'. $this->path;
 		}
 	}
@@ -68,7 +70,7 @@ class drive {
 		$return = array();
 		
 		# print 'go back' if needed
-		if (!is_null($this->path)) {
+		if (!empty($this->path)) {
 			$return[] = array (
 				'type' 		=> 'folder',
 				'title'		=> 'Go backward',
@@ -174,6 +176,38 @@ class drive {
 		return $return;
 	}
 	
+	/**
+	 * GET MENU ITEMS.
+	 */
+	
+	public function getMenuItems () {
+
+		# list folder at top level if exists
+		$res = opendir($this->rootPath);
+		
+		$tab = array ();
+		while (false !== ($file = readdir($res))) {
+			if ((is_dir ($this->rootPath . $file) == 1) && ($file != ".") && ($file != "..") && (!in_array($file, $this->conf['files']['hiddenItems']))) {
+				$tab[] = $file;
+			}
+		}
+		sort($tab);
+		
+		# get root folder
+		list($root) = explode ('/', $this->path);
+		
+		foreach ($tab as $key => $val) {
+			if ($val == $root) {
+				$ret[$key]['class'] = 'current';
+			} else {
+				$ret[$key]['class'] = '';
+			}
+			
+			$ret[$key]['url'] = '?path='. $val;
+			$ret[$key]['name'] = $val;
+		}
+		return $ret;
+	}
 	
 	/**
 	 * MOVE UP.
