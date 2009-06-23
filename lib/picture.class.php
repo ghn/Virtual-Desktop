@@ -23,9 +23,7 @@ class picture extends file {
 	 */
 	
 	public function getThumbnail($formatID, $forceCreate = false) {
-		$icon = $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/unknown.png';
 		
-		////////////
 		$this->maxWidth = $this->conf['files']['pictures']['thumbFormats'][$formatID][0];
 		$this->maxHeight = $this->conf['files']['pictures']['thumbFormats'][$formatID][1];
 		
@@ -50,7 +48,11 @@ class picture extends file {
 			$this->createThumbnail();
 		}
 		
-		$ret = $this->conf['general']['appURL'] .'?path='. $this->conf['general']['thumbnailFolder'] .'/'. $source .'/'. $this->maxWidth .'x'. $this->maxHeight .'-'. $filename;
+		if (empty($source)) {
+			$ret = '';
+		} else {
+			$ret = $this->conf['general']['appURL'] .'?path='. $this->conf['general']['thumbnailFolder'] .'/'. $source .'/'. $this->maxWidth .'x'. $this->maxHeight .'-'. $filename;
+		}
 		
 		return $ret;
 	}
@@ -62,15 +64,13 @@ class picture extends file {
 	private function createThumbnail() {
 	
 		# thumb created only if format supported
-		if (!$this->isImage()) {return false;}
+		if (!$this->isPicture()) {return false;}
 		
 		$thumb_w = 0;
 		$thumb_h = 0;
 		
 		# Create thumbnail for supported format only
-		$format = $this->getMimeType();
-		
-		switch($format) {
+		switch($this->format) {
 			case 'image/jpg':
 			case 'image/jpeg':
 				$src_img = imagecreatefromjpeg($this->file);
@@ -100,24 +100,25 @@ class picture extends file {
 	}
 	
 	/*
-   *  CALCUL THUMB FORMAT
-   *    IN: real_w / real_h AND max_w / max_h
-   *    OUT: thumb_w / thumb_h
-   */
-  private function calculFormat($realWidth, $realHeight) {
-    if ($realWidth > $realHeight) {
-      $this->thumbWidth = $this->maxWidth;
-      $this->thumbHeight = ceil($realHeight * ($this->maxHeight / $realWidth));
-    }
-    
-    if ($realWidth < $realHeight) {
-      $this->thumbWidth = ceil($realWidth * ($this->maxWidth / $realHeight));
-      $this->thumbHeight = $this->maxHeight;
-    }
-    
-    if ($realWidth == $realHeight) {
-      $this->thumbWidth = $this->maxWidth;
-      $this->thumbHeight = $this->maxHeight;
-    }
-  }
+	 *  CALCUL THUMB FORMAT
+	 *    IN: real_w / real_h AND max_w / max_h
+	 *    OUT: thumb_w / thumb_h
+	 */
+
+	private function calculFormat($realWidth, $realHeight) {
+		if ($realWidth > $realHeight) {
+			$this->thumbWidth = $this->maxWidth;
+			$this->thumbHeight = ceil($realHeight * ($this->maxHeight / $realWidth));
+		}
+		
+		if ($realWidth < $realHeight) {
+			$this->thumbWidth = ceil($realWidth * ($this->maxWidth / $realHeight));
+			$this->thumbHeight = $this->maxHeight;
+		}
+		
+		if ($realWidth == $realHeight) {
+			$this->thumbWidth = $this->maxWidth;
+			$this->thumbHeight = $this->maxHeight;
+		}
+	}
 }

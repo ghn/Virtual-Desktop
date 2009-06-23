@@ -2,8 +2,13 @@
 
 abstract class file {
 	
-	protected $file = '';
-	protected $conf = array();
+	protected $file		= '';
+	protected $conf		= array();
+	protected $format;				// file format
+	
+	protected $audio	= false;
+	protected $video	= false;
+	protected $picture	= false;
 	
 	/**
 	 *
@@ -12,6 +17,7 @@ abstract class file {
 	public function __construct($file) {
 		$this->conf = config::get();
 		$this->file = $file;
+		$this->getMimeType();
 	}
 	
 	/**
@@ -21,24 +27,55 @@ abstract class file {
 	public function getFile() {
 		
 		if (is_file($this->file)) {
-			$type = $this->getMimeType();
 			
 			$filename = basename($this->file);
 			
-			if ($this->isVideo($this->file) || $this->isImage($this->file) || $this->isAudio($this->file)) {
-				header('Content-Type: '. $type);
-				header('Content-Length: '. filesize($this->file));
-				header('filename="'.$filename.'"');
+			if ($this->isVideo() || $this->isPicture() || $this->isAudio()) {
+				header('Content-Type: '. $this->format);
+				header('Content-Length: '. $this->getSize());
+				header('filename="'. $filename .'"');
 				header('Cache-Control: no-cache, must-revalidate');
 				print file_get_contents($this->file);
 			} else {
-				header('Content-Type: '. $type);
+				header('Content-Type: '. $this->format);
 				header('Content-Length: '. filesize($this->file));
-				header('Content-Disposition: attachment; filename="'.$filename.'"');
+				header('Content-Disposition: attachment; filename="'. $filename .'"');
 				header('Cache-Control: no-cache, must-revalidate');
 				print file_get_contents($this->file);
 			}
 		}
+	}
+	
+	/**
+	 *
+	 */
+	
+	public function getSize() {
+		return filesize($this->file);
+	}
+	
+	/**
+	 *
+	 */
+	
+	public function isVideo() {
+		return $this->video;
+	}
+	
+	/**
+	 *
+	 */
+	
+	public function isPicture() {
+		return $this->picture;
+	}
+	
+	/**
+	 *
+	 */
+	
+	public function isAudio() {
+		return $this->audio;
 	}
 	
 	/*
@@ -62,9 +99,14 @@ abstract class file {
 	 *
 	 */
 	 
-	public function getMimeType() {
+	private function getMimeType() {
 		
 		if (is_file($this->file)) {
+		
+			#
+			#	MIME TYPE
+			#
+			
 			$finfo = finfo_open(FILEINFO_MIME, $this->conf['files']['mimeMagicPath']);
 			$mime = finfo_file($finfo, $this->file);
 
@@ -74,56 +116,26 @@ abstract class file {
 			$mime = str_replace($mime2, '', $mime);
 			}
 			
-			return $mime;
-		} else {
-			return 'unknown';
-		}
-	}
-	
-	/**
-	 *
-	 */
-	
-	public function run () {
-		$this->tmp = "module Drive";
-	}
-	
-	/**
-	 *
-	 */
-	
-	public function isVideo() {
-		if (in_array($this->getMimeType(), $this->conf['files']['video']['type'])) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 *
-	 */
-	
-	public function isImage() {
-		
-		if (in_array($this->getMimeType(), $this->conf['files']['pictures']['type'])) {
-			return true;
+			$this->format = $mime;
+			
+			#
+			#	MEDIA TYPE
+			#
+			
+			if (in_array($this->format, $this->conf['files']['video']['type'])) {
+				$this->video = true;
+			}
+			
+			if (in_array($this->format, $this->conf['files']['pictures']['type'])) {
+				$this->picture = true;
+			}
+			
+			if (in_array($this->format, $this->conf['files']['audio']['type'])) {
+				$this->audio = true;
+			}
 			
 		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 *
-	 */
-	
-	public function isAudio() {
-		
-		if (in_array($this->getMimeType(), $this->conf['files']['audio']['type'])) {
-			return true;
-		} else {
-			return false;
+			$this->format = 'unknown';
 		}
 	}
 }

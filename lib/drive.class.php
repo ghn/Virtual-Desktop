@@ -2,7 +2,6 @@
 
 require_once ('document.class.php');
 require_once ('picture.class.php');
-require_once ('file.class.php');
 
 class drive {
 	
@@ -156,16 +155,7 @@ class drive {
 				
 				# file layout
 				$link = '?path='. self::doUrl($this->path .'/'. $file) . '&amp;action=get';
-				
-				if ($this->oFile->isVideo()) {
-					$rel = '';
-				} else if ($this->oFile->isAudio()) {
-					$rel = '';
-				} else if ($this->oFile->isImage()) {
-					$rel = 'lightbox[set1]';
-				} else {
-					$rel = '';
-				}
+				//$icon = $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/unknown.png';
 				
 				$return[] = array (
 					'type' 		=> 'document',
@@ -174,7 +164,7 @@ class drive {
 					'icon'		=> $this->oFile->getThumbnail(0) .'&amp;action=get',
 					'alt'		=> '',
 					'name'		=> $shortFileName,
-					'rel'		=> $rel
+					'rel'		=> 'lightbox[set1]'
 				);
 			}
 			
