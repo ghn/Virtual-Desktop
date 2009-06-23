@@ -35,11 +35,6 @@ class controller {
 			
 			# hide items
 			$this->tpl->hideBlock('log_in');
-			$this->tpl->setCurrentBlock('drive');
-			$this->tpl->setVariable(array(
-				'nbFiles'		=> $drive->nbFiles(),
-				'directory'		=> $this->path
-			));
 			
 			# execute drive, then render it
 			$html = $drive->run($this->action);
@@ -55,6 +50,12 @@ class controller {
 					$this->tpl->parse('file');
 				}
 			}
+			
+			$this->tpl->setCurrentBlock('drive');
+			$this->tpl->setVariable(array(
+				'nbFiles'		=> $drive->nbFiles(),
+				'directory'		=> $this->path
+			));
 			
 			# print menu items
 			$menu = $drive->getMenuItems();

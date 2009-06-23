@@ -5,7 +5,7 @@ require_once ('picture.class.php');
 
 class drive {
 	
-	private $nbFiles;
+	private $nbFiles = 0;
 	private $absolutePath;
 	private $rootPath;
 	private $imgPath;
@@ -162,8 +162,8 @@ class drive {
 				$return[] = array (
 					'type' 		=> 'document',
 					'title'		=> $file,
-					'path'		=> $this->oFile->getThumbnail(1) .'&amp;action=get',
-					'icon'		=> $this->oFile->getThumbnail(0) .'&amp;action=get',
+					'path'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(1) .'&amp;action=get',
+					'icon'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(0) .'&amp;action=get',
 					'alt'		=> '',
 					'name'		=> $shortFileName,
 					'rel'		=> 'lightbox[set1]'

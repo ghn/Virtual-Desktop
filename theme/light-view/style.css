@@ -220,7 +220,7 @@ div#list {
 		
 			/* ITEM = file / images */
 			div#list ul li.image img {
-				height: 52px;
+				/*height: 52px;*/
 			}
 			div#list ul li.image div.actions {
 				position: relative;
@@ -268,9 +268,6 @@ div#list {
 				color: #000;
 				text-decoration: none;
 			}
-				div#list ul li.document img {
-					height: 52px;
-				}
 			
 			/* ITEM = file / videos */
 			div#list ul li.video a, div#list ul li.video a:hover {	
@@ -289,9 +286,7 @@ div#list {
 		text-align: left;
 	}
 		div#list div.info div.directory {
-			position: absolute;
-			top: 90px;
-			left: 240px;
+			
 		}
 	
 /**
