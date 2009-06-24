@@ -110,11 +110,8 @@ class picture extends file {
 
 	private function calculFormat() {
 		if ($this->realWidth > $this->realHeight) {
-			
 			$this->thumbWidth = $this->maxWidth;
 			$this->thumbHeight = ceil($this->realHeight * ($this->maxHeight / $this->realWidth));
-			
-			echo $this->thumbWidth .' => '. $this->thumbHeight;
 		}
 		
 		if ($this->realWidth < $this->realHeight) {
