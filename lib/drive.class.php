@@ -26,6 +26,8 @@ class drive {
 		$this->user = $user;
 		
 		$this->rootPath = $this->conf['general']['dataPath'] . $this->user . '/';
+		$this->mkdir_r($this->rootPath);
+		
 		if (empty($this->path)) {
 			$this->absolutePath = $this->rootPath;
 			$this->imgPath = '';
@@ -196,16 +198,21 @@ class drive {
 		# get root folder
 		list($root) = explode ('/', $this->path);
 		
+		$ret[0]['class'] = '';
+		$ret[0]['url'] = '';
+		$ret[0]['name'] = 'Home';
+		
 		foreach ($tab as $key => $val) {
 			if ($val == $root) {
-				$ret[$key]['class'] = 'current';
+				$ret[$key+1]['class'] = 'current';
 			} else {
-				$ret[$key]['class'] = '';
+				$ret[$key+1]['class'] = '';
 			}
 			
-			$ret[$key]['url'] = '?path='. $val;
-			$ret[$key]['name'] = $val;
+			$ret[$key+1]['url'] = '?path='. $val;
+			$ret[$key+1]['name'] = $val;
 		}
+		
 		return $ret;
 	}
 	
@@ -234,5 +241,22 @@ class drive {
 		$url = urlencode($url);
 		$url = str_replace('%2F', '/', $url);
 		return $url;
+	}
+	
+	/*
+	 *  CREATE FOLDERS
+	 */
+	
+	private function mkdir_r($dirName, $rights = 0777) {
+		$dirs = explode('/', $dirName);
+		$dir = '';
+		
+		foreach ($dirs as $part) {
+			$dir .= $part .'/';
+
+			if (strlen($dir)>0 && $dir != '/') {
+				@mkdir($dir, $rights);
+			}
+		}
 	}
 }

@@ -107,7 +107,11 @@ abstract class file {
 			#	MIME TYPE
 			#
 			
-			$finfo = finfo_open(FILEINFO_MIME, $this->conf['files']['mimeMagicPath']);
+			if (isset($this->conf['files']['mimeMagicPath'])) {
+				$finfo = finfo_open(FILEINFO_MIME, $this->conf['files']['mimeMagicPath']);
+			} else {
+				$finfo = finfo_open(FILEINFO_MIME);
+			}
 			$mime = finfo_file($finfo, $this->file);
 
 			// Get the only reference only (ex: text-plain; textencode, ... => text-plain)

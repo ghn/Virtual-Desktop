@@ -127,7 +127,7 @@ class controller {
 	 */
 	
 	private function initTemplate() {
-		$this->tpl =& new HTML_Template_Sigma('./theme/'. $this->conf['theme']['name'], './cache');
+		$this->tpl =& new HTML_Template_Sigma('./theme/'. $this->conf['theme']['name'], 'cache');
 		$this->tpl->setErrorHandling(PEAR_ERROR_DIE);
 		$this->tpl->loadTemplateFile('default.html');
 	}

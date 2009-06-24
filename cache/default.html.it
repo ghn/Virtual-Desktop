@@ -1,4 +1,4 @@
-a:4:{s:6:"blocks";a:8:{s:10:"__global__";s:1649:"<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+a:4:{s:6:"blocks";a:8:{s:10:"__global__";s:1755:"<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -13,6 +13,7 @@ a:4:{s:6:"blocks";a:8:{s:10:"__global__";s:1649:"<!DOCTYPE html PUBLIC "-//W3C//
 <script type="text/javascript" src="js/mootools-1.2-more.js"></script>
 <script type="text/javascript" src="js/virtualdesktop/virtualdesktop.js"></script>
 <script type="text/javascript" src="js/mediaBoxAdv/mediaboxAdv99g.js"></script>
+<!-- script src="http://lite.piclens.com/current/piclens_optimized.js"type="text/javascript"></script -->
 <link rel="stylesheet" type="text/css" href="theme/{themeName}/style.css" />
 </head>
 <body>
@@ -68,7 +69,7 @@ Folders
 <p class="field">
 <input type="submit" value="Log in" />
 </p>
-</form>";s:5:"tools";s:305:"<div id="tools">
+</form>";s:5:"tools";s:490:"<div id="tools">
 <div class="box">
 <div class="box-title">
 Options
@@ -77,6 +78,7 @@ Options
 <ul>
 <li><a href="{urlUpload}" rel="lightbox[upload 640 360]">Add files</a></li>
 <li><a href="{urlCreateFolder}" rel="lightbox[createfolder 200 200]">Create a new folder</a></li>
+<li><a id="gSlideshowLink" class="gMenuElement" href="javascript:PicLensLite.start({maxScale:0,feedUrl:PicLensLite.indexFeeds()[0].url})" title="View slideshow">View slideshow</a></li>
 </ul>
 </div>
 </div>

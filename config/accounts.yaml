@@ -2,14 +2,8 @@
 # accounts
 #
  
-test:
-  login: test
-  name: Test
-  password: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
-  enable: true
-
-demo:
-  login: demo
-  name: Demo
-  password: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+ghugon:
+  login: ghugon
+  name: Germain ;-)
+  password: 3d0a99392906b530a43e279d0c3c444ade86a828
   enable: true
