@@ -5,7 +5,7 @@ require_once ('drive.class.php');
 
 class controller {
 	
-	private $conf;						// configuration
+	private $conf			= array();	// configuration
 	private $action			= 'drive';	// module
 	private $action_method	= null;		// method within the module
 	private $path			= '';		// current path
@@ -30,56 +30,25 @@ class controller {
 		
 		if ($this->user->isConnected()) {
 			
-			$component = new $this->action ($this->path, $this->user->getLogin());
-			
 			# hide items
 			$this->tpl->hideBlock('log_in');
 			
 			# execute component, then render it
+			$component = new $this->action ($this->path, $this->user->getLogin());
 			$html = $component->run($this->action_method);
-			
-			# print all items and all attribut
-			if (is_array($html)) {
-				$this->tpl->setCurrentBlock('file');
-				
-				foreach ($html as $item) {
-					foreach ($item as $k => $v) {
-						$this->tpl->setVariable(array ($k => $v));
-					}
-					$this->tpl->parse('file');
-				}
-			}
-			
-			$this->tpl->setCurrentBlock('drive');
-			$this->tpl->setVariable(array(
-				'nbFiles'		=> $component->nbFiles(),
-				'directory'		=> $this->path
-			));
-			
-			# print menu items
-			$menu = $component->getMenuItems();
-			
-			# print all items and all attribut
-			if (is_array($menu)) {
-				$this->tpl->setCurrentBlock('menuItems');
-				
-				foreach ($menu as $item) {
-					foreach ($item as $k => $v) {
-						$this->tpl->setVariable(array ($k => $v));
-					}
-					$this->tpl->parse('menuItems');
-				}
-			}
+			$this->setModuleVar($html);
 			
 		} else {
-			$this->tpl->setCurrentBlock('homepage');
-			$this->tpl->setVariable(array (
-				'date' => date('l jS \of F Y h:i:s A')
-			));
 			
 			# hide items
 			$this->tpl->hideBlock('log_out');
 			$this->tpl->hideBlock('tools');
+			
+			# render homepage
+			$this->tpl->setCurrentBlock('homepage');
+			$this->tpl->setVariable(array (
+				'date' => date('l jS \of F Y h:i:s A')
+			));
 		}
 		
 		# print general information
@@ -129,5 +98,33 @@ class controller {
 		$this->tpl =& new HTML_Template_Sigma('./theme/'. $this->conf['theme']['name'], 'cache');
 		$this->tpl->setErrorHandling(PEAR_ERROR_DIE);
 		$this->tpl->loadTemplateFile('default.html');
+	}
+	
+	/**
+	 *	SET VARIABLES
+	 */
+	 
+	private function setModuleVar($html) {
+		# print all items and all attribut
+		if (is_array($html)) {
+			$this->tpl->setCurrentBlock($this->action);
+			
+			foreach ($html as $key => $var) {
+				if (!is_array($var)) {
+					$this->tpl->setVariable($key, $var);
+				} else {
+					foreach ($var as $item) {
+						foreach ($item as $k => $v) {
+							$this->tpl->setVariable(array ($k => $v));
+						}
+						$this->tpl->parse($key);
+					}
+				}
+			}
+			
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

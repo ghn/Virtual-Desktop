@@ -1,4 +1,4 @@
-a:4:{s:6:"blocks";a:8:{s:10:"__global__";s:1543:"<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+a:4:{s:6:"blocks";a:8:{s:10:"__global__";s:1545:"<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -40,7 +40,7 @@ Folders
 </div>
 </div>
 </div>
-<div id="list">
+<div id="module">
 {__drive__}
 {__homepage__}
 </div>
@@ -80,15 +80,15 @@ Options
 </div>";s:9:"menuItems";s:53:"<li class="{class}">
 <a href="{url}">{name}</a>
 </li>";s:5:"drive";s:127:"<ul>
-{__file__}
+{__list__}
 </ul>
 <div class="info">
 <p class="result">There is {nbFiles} files in <strong>{directory}</strong>.</p>
-</div>";s:4:"file";s:168:"<li class="{type}">
+</div>";s:4:"list";s:168:"<li class="{type}">
 <a href="{path}" title="{title}" rel="{rel}">
 <img src="{icon}" alt="{alt}" title="{title}" /><br />
 <span class="filename">{name}</span>
 </a>
 </li>";s:8:"homepage";s:85:"<div id="homepage">
 <p>You're still not logged on. <strong>{date}</strong></p>
-</div>";}s:9:"variables";a:8:{s:10:"__global__";a:10:{s:8:"appTitle";b:1;s:10:"appVersion";b:1;s:9:"themeName";b:1;s:6:"appURL";b:1;s:11:"__log_out__";b:1;s:10:"__log_in__";b:1;s:9:"__tools__";b:1;s:13:"__menuItems__";b:1;s:9:"__drive__";b:1;s:12:"__homepage__";b:1;}s:7:"log_out";a:2:{s:8:"username";b:1;s:13:"urlDisconnect";b:1;}s:6:"log_in";a:1:{s:10:"urlConnect";b:1;}s:5:"tools";a:2:{s:9:"urlUpload";b:1;s:15:"urlCreateFolder";b:1;}s:9:"menuItems";a:3:{s:5:"class";b:1;s:3:"url";b:1;s:4:"name";b:1;}s:5:"drive";a:3:{s:8:"__file__";b:1;s:7:"nbFiles";b:1;s:9:"directory";b:1;}s:4:"file";a:7:{s:4:"type";b:1;s:4:"path";b:1;s:5:"title";b:1;s:3:"rel";b:1;s:4:"icon";b:1;s:3:"alt";b:1;s:4:"name";b:1;}s:8:"homepage";a:1:{s:4:"date";b:1;}}s:8:"children";a:8:{s:10:"__global__";a:6:{s:7:"log_out";b:1;s:6:"log_in";b:1;s:5:"tools";b:1;s:9:"menuItems";b:1;s:5:"drive";b:1;s:8:"homepage";b:1;}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}s:5:"tools";a:0:{}s:9:"menuItems";a:0:{}s:5:"drive";a:1:{s:4:"file";b:1;}s:4:"file";a:0:{}s:8:"homepage";a:0:{}}s:9:"functions";a:8:{s:10:"__global__";a:0:{}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}s:5:"tools";a:0:{}s:9:"menuItems";a:0:{}s:5:"drive";a:0:{}s:4:"file";a:0:{}s:8:"homepage";a:0:{}}}
+</div>";}s:9:"variables";a:8:{s:10:"__global__";a:10:{s:8:"appTitle";b:1;s:10:"appVersion";b:1;s:9:"themeName";b:1;s:6:"appURL";b:1;s:11:"__log_out__";b:1;s:10:"__log_in__";b:1;s:9:"__tools__";b:1;s:13:"__menuItems__";b:1;s:9:"__drive__";b:1;s:12:"__homepage__";b:1;}s:7:"log_out";a:2:{s:8:"username";b:1;s:13:"urlDisconnect";b:1;}s:6:"log_in";a:1:{s:10:"urlConnect";b:1;}s:5:"tools";a:2:{s:9:"urlUpload";b:1;s:15:"urlCreateFolder";b:1;}s:9:"menuItems";a:3:{s:5:"class";b:1;s:3:"url";b:1;s:4:"name";b:1;}s:5:"drive";a:3:{s:8:"__list__";b:1;s:7:"nbFiles";b:1;s:9:"directory";b:1;}s:4:"list";a:7:{s:4:"type";b:1;s:4:"path";b:1;s:5:"title";b:1;s:3:"rel";b:1;s:4:"icon";b:1;s:3:"alt";b:1;s:4:"name";b:1;}s:8:"homepage";a:1:{s:4:"date";b:1;}}s:8:"children";a:8:{s:10:"__global__";a:6:{s:7:"log_out";b:1;s:6:"log_in";b:1;s:5:"tools";b:1;s:9:"menuItems";b:1;s:5:"drive";b:1;s:8:"homepage";b:1;}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}s:5:"tools";a:0:{}s:9:"menuItems";a:0:{}s:5:"drive";a:1:{s:4:"list";b:1;}s:4:"list";a:0:{}s:8:"homepage";a:0:{}}s:9:"functions";a:8:{s:10:"__global__";a:0:{}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}s:5:"tools";a:0:{}s:9:"menuItems";a:0:{}s:5:"drive";a:0:{}s:4:"list";a:0:{}s:8:"homepage";a:0:{}}}

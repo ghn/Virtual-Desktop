@@ -50,16 +50,20 @@ class drive {
 			$file = new document($this->imgPath);
 			$file->getFile();
 		} else {
-			return $this->listCurrentFolder();
+			return array (
+				'list'		=> $this->listCurrentFolder(),	// must be called first
+				'menuItems'	=> $this->getMenuItems(),
+				'nbFiles'	=> $this->nbFiles(),
+				'directory'	=> $this->path
+			);
 		}
 	}
-	
 	
 	/**
 	 *
 	 */
 	
-	public function nbFiles() {
+	private function nbFiles() {
 		return $this->nbFiles;
 	}
 	
@@ -181,7 +185,7 @@ class drive {
 	 * GET MENU ITEMS.
 	 */
 	
-	public function getMenuItems () {
+	private function getMenuItems () {
 
 		# list folder at top level if exists
 		$res = opendir($this->rootPath);
@@ -194,13 +198,18 @@ class drive {
 		}
 		sort($tab);
 		
+		if (empty($this->path)) {
+			$ret[0]['class'] = 'current';
+			$ret[0]['url'] = $this->conf['general']['appURL'];
+			$ret[0]['name'] = 'Home';
+		} else {
+			$ret[0]['class'] = '';
+			$ret[0]['url'] = $this->conf['general']['appURL'];
+			$ret[0]['name'] = 'Home';
+		}
+		
 		# get root folder
 		list($root) = explode ('/', $this->path);
-		
-		$ret[0]['class'] = '';
-		$ret[0]['url'] = '';
-		$ret[0]['name'] = 'Home';
-		
 		foreach ($tab as $key => $val) {
 			if ($val == $root) {
 				$ret[$key+1]['class'] = 'current';
