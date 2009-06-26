@@ -25,4 +25,21 @@ class tools {
 			return 'unknown';
 		}
 	}
+	
+	/*
+	 *  CREATE FOLDERS
+	 */
+	
+	public function mkdir_r($dirName, $rights = 0777) {
+		$dirs = explode('/', $dirName);
+		$dir = '';
+		
+		foreach ($dirs as $part) {
+			$dir .= $part .'/';
+
+			if (strlen($dir)>0 && $dir != '/') {
+				@mkdir($dir, $rights);
+			}
+		}
+	}
 }

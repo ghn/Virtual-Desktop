@@ -5,14 +5,13 @@ require_once ('drive.class.php');
 
 class controller {
 	
-	private $conf;				// configuration
-	private $action;			// module
-	private $action_method;		// method within the module
+	private $conf;						// configuration
+	private $action			= 'drive';	// module
+	private $action_method	= null;		// method within the module
+	private $path			= '';		// current path
 	
-	private $path;				// current path
-	private $user;				// user
-	
-	private $tpl;				// template
+	private $user;						// instance of class user
+	private $tpl;						// instance of class template
 	
 	/**
 	 *
@@ -31,13 +30,13 @@ class controller {
 		
 		if ($this->user->isConnected()) {
 			
-			$drive = new drive ($this->path, $this->user->getLogin());
+			$component = new $this->action ($this->path, $this->user->getLogin());
 			
 			# hide items
 			$this->tpl->hideBlock('log_in');
 			
-			# execute drive, then render it
-			$html = $drive->run($this->action);
+			# execute component, then render it
+			$html = $component->run($this->action_method);
 			
 			# print all items and all attribut
 			if (is_array($html)) {
@@ -53,12 +52,12 @@ class controller {
 			
 			$this->tpl->setCurrentBlock('drive');
 			$this->tpl->setVariable(array(
-				'nbFiles'		=> $drive->nbFiles(),
+				'nbFiles'		=> $component->nbFiles(),
 				'directory'		=> $this->path
 			));
 			
 			# print menu items
-			$menu = $drive->getMenuItems();
+			$menu = $component->getMenuItems();
 			
 			# print all items and all attribut
 			if (is_array($menu)) {
@@ -73,7 +72,7 @@ class controller {
 			}
 			
 		} else {
-			$this->tpl->setCurrentBlock('drive');
+			$this->tpl->setCurrentBlock('homepage');
 			$this->tpl->setVariable(array (
 				'date' => date('l jS \of F Y h:i:s A')
 			));
@@ -109,16 +108,16 @@ class controller {
 	private function getParams() {
 		# get action
 		if (isset($_GET['action']) && !empty($_GET['action'])) {
-			@list($this->action, $this->action_method) = explode('.', $_GET['action']);
-		} else {
-			$this->action = 'drive';		// default action
+			@list($action, $this->action_method) = explode('.', $_GET['action']);
+			
+			if (class_exists($action)) {
+				$this->action = $action;
+			}
 		}
 		
 		# get path
 		if (isset($_GET['path']) && !empty($_GET['path'])) {
 			$this->path = $_GET['path'];
-		} else {
-			$this->path = '';
 		}
 	}
 	

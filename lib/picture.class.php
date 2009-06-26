@@ -1,5 +1,6 @@
 <?php
 
+require_once ('tools.class.php');
 require_once ('file.class.php');
 
 class picture extends file {
@@ -49,7 +50,7 @@ class picture extends file {
 			}
 			
 			if (!file_exists($this->thumbnail) || $forceCreate) {
-				$this->mkdir_r($thumbPath);
+				tools::mkdir_r($thumbPath);
 				$this->createThumbnail();
 			}
 			

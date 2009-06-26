@@ -6,9 +6,9 @@ abstract class file {
 	protected $conf		= array();	// configuration parameters
 	protected $format;				// file format
 	
-	protected $audio	= false;	// true | false
-	protected $video	= false;	// true | false
-	protected $picture	= false;	// true | false
+	private $audio		= false;	// true | false
+	private $video		= false;	// true | false
+	private $picture	= false;	// true | false
 	
 	/**
 	 *

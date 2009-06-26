@@ -1,5 +1,6 @@
 <?php
 
+require_once ('tools.class.php');
 require_once ('document.class.php');
 require_once ('picture.class.php');
 
@@ -26,7 +27,7 @@ class drive {
 		$this->user = $user;
 		
 		$this->rootPath = $this->conf['general']['dataPath'] . $this->user . '/';
-		$this->mkdir_r($this->rootPath);
+		tools::mkdir_r($this->rootPath);
 		
 		if (empty($this->path)) {
 			$this->absolutePath = $this->rootPath;
@@ -41,17 +42,15 @@ class drive {
 	 *
 	 */
 	
-	public function run ($action = 'default') {
-		switch ($action) {
-			case 'get':
-				if (is_file($this->imgPath)) {
-					$file = new document($this->imgPath);
-					$file->getFile();
-				}
-				break;
-				
-			default:
-				return $this->listAll();
+	public function run ($action = 'list') {
+		
+		# return the file it there is one.
+		#  or list the current folder
+		if (is_file($this->imgPath)) {
+			$file = new document($this->imgPath);
+			$file->getFile();
+		} else {
+			return $this->listCurrentFolder();
 		}
 	}
 	
@@ -68,7 +67,7 @@ class drive {
 	 *
 	 */
 	
-	private function listAll () {
+	private function listCurrentFolder () {
 		$return = array();
 		
 		# print 'go back' if needed
@@ -158,14 +157,14 @@ class drive {
 				}
 				
 				# file layout
-				$link = '?path='. self::doUrl($this->path .'/'. $file) . '&amp;action=get';
+				$link = '?path='. self::doUrl($this->path .'/'. $file);
 				//$icon = $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/unknown.png';
 				
 				$return[] = array (
 					'type' 		=> 'document',
 					'title'		=> $file,
-					'path'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(1) .'&amp;action=get',
-					'icon'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(0) .'&amp;action=get',
+					'path'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(1),
+					'icon'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(0),
 					'alt'		=> '',
 					'name'		=> $shortFileName,
 					'rel'		=> 'lightbox[set1]'
@@ -241,22 +240,5 @@ class drive {
 		$url = urlencode($url);
 		$url = str_replace('%2F', '/', $url);
 		return $url;
-	}
-	
-	/*
-	 *  CREATE FOLDERS
-	 */
-	
-	private function mkdir_r($dirName, $rights = 0777) {
-		$dirs = explode('/', $dirName);
-		$dir = '';
-		
-		foreach ($dirs as $part) {
-			$dir .= $part .'/';
-
-			if (strlen($dir)>0 && $dir != '/') {
-				@mkdir($dir, $rights);
-			}
-		}
 	}
 }

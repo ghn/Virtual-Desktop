@@ -15,7 +15,6 @@
 		<script type="text/javascript" src="js/mootools-1.2-more.js"></script>
 		<script type="text/javascript" src="js/virtualdesktop/virtualdesktop.js"></script>
 		<script type="text/javascript" src="js/mediaBoxAdv/mediaboxAdv99g.js"></script>
-		<!-- script src="http://lite.piclens.com/current/piclens_optimized.js"type="text/javascript"></script -->
 
 		<link rel="stylesheet" type="text/css" href="theme/{themeName}/style.css" />
 	</head>
@@ -64,7 +63,6 @@
 								<ul>
 									<li><a href="{urlUpload}" rel="lightbox[upload 640 360]">Add files</a></li>
 									<li><a href="{urlCreateFolder}" rel="lightbox[createfolder 200 200]">Create a new folder</a></li>
-									<li><a id="gSlideshowLink" class="gMenuElement" href="javascript:PicLensLite.start({maxScale:0,feedUrl:PicLensLite.indexFeeds()[0].url})" title="View slideshow">View slideshow</a></li>
 								</ul>
 							</div>
 						</div>
@@ -102,6 +100,10 @@
 						<!-- END file -->
 					</ul>
 					
+					<div class="info">
+						<p class="result">There is {nbFiles} files in <strong>{directory}</strong>.</p>
+					</div>
+					
 					<!-- END drive -->
 					
 					<!-- BEGIN homepage -->
@@ -109,10 +111,6 @@
 						<p>You're still not logged on. <strong>{date}</strong></p>
 					</div>
 					<!-- END homepage -->
-					
-					<div class="info">
-						<p class="result">There is {nbFiles} files in <strong>{directory}</strong>.</p>
-					</div>
 				</div>
 			</div>
 			
