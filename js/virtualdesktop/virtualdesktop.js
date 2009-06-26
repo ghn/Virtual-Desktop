@@ -1,15 +1,25 @@
 window.addEvent("domready", function() {
 	
-	var togEvent = $$('div#tools div.box')[0];
-	var togable = $$('div#tools div.box-content')[0];
+	$('vd_auth_login').focus();
 	
-	togable.setStyle('display', 'none');
+	// login set focus if exists
+	if ($chk('vd_auth_login')) {
+		$('vd_auth_login').focus();
+	}
 	
-	togEvent.addEvent('mouseover', function(elem) {
-		togable.setStyle('display', 'block');
-	});
-	
-	togEvent.addEvent('mouseleave', function(elem) {
-		togable.setStyle('display', 'none');
-	});
+	// tool menu (show / hide)
+	if ($chk('div#tools div.box-content')[0]) {
+		var toolsEvent = $$('div#tools div.box')[0];
+		var tools = $$('div#tools div.box-content')[0];
+		
+		tools.setStyle('display', 'none');
+		
+		toolsEvent.addEvent('mouseover', function(elem) {
+			tools.setStyle('display', 'block');
+		});
+		
+		toolsEvent.addEvent('mouseleave', function(elem) {
+			tools.setStyle('display', 'none');
+		});
+	}
 });

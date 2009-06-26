@@ -8,9 +8,10 @@ class tools {
 	 
 	public function getMimeType($file) {
 	
-		$conf = config::get();
-		
+		# check if it is a file
 		if (is_file($file)) {
+			$conf = config::get();
+			
 			$finfo = finfo_open(FILEINFO_MIME, $conf['files']['mimeMagicPath']);
 			$mime = finfo_file($finfo, $file);
 
@@ -24,6 +25,33 @@ class tools {
 		} else {
 			return 'unknown';
 		}
+	}
+	
+	/**
+	 *	return: type !! must be a class name too !!
+	 */
+	 
+	public function getType($file) {
+		
+		$mime = self::getMimeType($file);
+		$conf = config::get();
+		$type = '';
+		
+		#
+		#	MEDIA TYPE [audio / video / picture / document]
+		#
+		
+		if (in_array($mime, $conf['files']['video']['type'])) {
+			$type = 'video';
+		} else if (in_array($mime, $conf['files']['pictures']['type'])) {
+			$type = 'picture';
+		} else if (in_array($mime, $conf['files']['audio']['type'])) {
+			$type = 'audio';
+		} else {
+			$type = 'document';
+		}
+		
+		return $type;
 	}
 	
 	/*

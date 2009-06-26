@@ -219,37 +219,37 @@ div#module {
 		}
 		
 			/* ITEM = file / images */
-			div#module ul li.image img {
+			div#module ul li.picture img {
 				/*height: 52px;*/
 			}
-			div#module ul li.image div.actions {
+			div#module ul li.picture div.actions {
 				position: relative;
 				top: -90px;
 				left: 35px;
 				background-color: #fff;
 			}
-				div#module ul li.image div.actions ul li {
+				div#module ul li.picture div.actions ul li {
 					width: 130px;
 					
 					text-align: left;
 				}
-					div#module ul li.image div.actions ul li a {
+					div#module ul li.picture div.actions ul li a {
 						display: inline;
 						padding-left: 22px;
 					}
-				div#module ul li.image div.actions ul li.rotate a {
+				div#module ul li.picture div.actions ul li.rotate a {
 					background: url(shortcuts/object-rotate-right.png) 3px 3px no-repeat #fff;
 				}
-				div#module ul li.image div.actions ul li.refresh a {
+				div#module ul li.picture div.actions ul li.refresh a {
 					background: url(shortcuts/view-refresh.png) 3px 3px no-repeat #fff;
 				}
-					div#module ul li.image div.actions ul li a span {display: none;}
+					div#module ul li.picture div.actions ul li a span {display: none;}
 					
-				div#module ul li.image span.filename, div#module ul li.document span.filename {
+				div#module ul li.picture span.filename, div#module ul li.document span.filename {
 					font-size: .6em;
 					color: #999;
 				}
-				div#module ul li.image a, div#module ul li.image a:hover {
+				div#module ul li.picture a, div#module ul li.picture a:hover {
 					color: #000;
 					text-decoration: none;
 				}

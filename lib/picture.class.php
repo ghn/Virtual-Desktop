@@ -28,43 +28,38 @@ class picture extends file {
 	
 	public function getThumbnail($formatID, $forceCreate = false) {
 		
-		if ($this->isPicture()) {
-			$this->maxWidth = $this->conf['files']['pictures']['thumbFormats'][$formatID][0];
-			$this->maxHeight = $this->conf['files']['pictures']['thumbFormats'][$formatID][1];
-			
-			$filename = basename($this->file);
-			
-			$source = str_replace($this->conf['general']['dataPath'], '', $this->file);
-			$source = str_replace($filename, '', $source);
-			
-			# get username
-			list($user) = explode('/', $source);
-			$source = str_replace($user, '', $source);
-			
-			# thumbnail exists?
-			$thumbPath = $this->conf['general']['dataPath'] . $user .'/'. $this->conf['general']['thumbnailFolder'] . '/' . $source .'/';
-			$this->thumbnail = $thumbPath . $this->maxWidth .'x'. $this->maxHeight .'-'. $filename;
-			
-			if ($forceCreate) {
-			  $this->removeThumbnail($format);
-			}
-			
-			if (!file_exists($this->thumbnail) || $forceCreate) {
-				tools::mkdir_r($thumbPath);
-				$this->createThumbnail();
-			}
-			
-			if (empty($source)) {
-				$ret = '';
-			} else {
-				$ret = $this->conf['general']['thumbnailFolder'] . $source . $this->maxWidth .'x'. $this->maxHeight .'-'. $filename;
-			}
-			
-			return $ret;
-			
-		} else {
-			return false;
+		$this->maxWidth = $this->conf['files']['pictures']['thumbFormats'][$formatID][0];
+		$this->maxHeight = $this->conf['files']['pictures']['thumbFormats'][$formatID][1];
+		
+		$filename = basename($this->file);
+		
+		$source = str_replace($this->conf['general']['dataPath'], '', $this->file);
+		$source = str_replace($filename, '', $source);
+		
+		# get username
+		list($user) = explode('/', $source);
+		$source = str_replace($user, '', $source);
+		
+		# thumbnail exists?
+		$thumbPath = $this->conf['general']['dataPath'] . $user .'/'. $this->conf['general']['thumbnailFolder'] . '/' . $source .'/';
+		$this->thumbnail = $thumbPath . $this->maxWidth .'x'. $this->maxHeight .'-'. $filename;
+		
+		if ($forceCreate) {
+		  $this->removeThumbnail($format);
 		}
+		
+		if (!file_exists($this->thumbnail) || $forceCreate) {
+			tools::mkdir_r($thumbPath);
+			$this->createThumbnail();
+		}
+		
+		if (empty($source)) {
+			$ret = '';
+		} else {
+			$ret = $this->conf['general']['thumbnailFolder'] . $source . $this->maxWidth .'x'. $this->maxHeight .'-'. $filename;
+		}
+		
+		return $ret;
 	}
 	
 	/**

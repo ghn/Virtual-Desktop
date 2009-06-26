@@ -3,13 +3,16 @@
 require_once ('tools.class.php');
 require_once ('document.class.php');
 require_once ('picture.class.php');
+require_once ('audio.class.php');
+require_once ('video.class.php');
 
 class drive {
 	
 	private $nbFiles = 0;
 	private $absolutePath;
 	private $rootPath;
-	private $imgPath;
+	private $userPath;
+	private $oFile;
 	
 	protected $path = '';
 	protected $user;
@@ -31,10 +34,10 @@ class drive {
 		
 		if (empty($this->path)) {
 			$this->absolutePath = $this->rootPath;
-			$this->imgPath = '';
+			$this->userPath = '';
 		} else {
 			$this->absolutePath = $this->rootPath . $this->path .'/';
-			$this->imgPath = $this->conf['general']['dataPath'] . $this->user . '/'. $this->path;
+			$this->userPath = $this->conf['general']['dataPath'] . $this->user . '/'. $this->path;
 		}
 	}
 	
@@ -46,8 +49,9 @@ class drive {
 		
 		# return the file it there is one.
 		#  or list the current folder
-		if (is_file($this->imgPath)) {
-			$file = new document($this->imgPath);
+		
+		if (is_file($this->userPath)) {
+			$file = new document($this->userPath);
 			$file->getFile();
 		} else {
 			return array (
@@ -106,12 +110,6 @@ class drive {
 			
 			foreach ($tabFolders as $folder) {
 				
-				# folder name
-		    	$shortFolderName = $folder;
-				if (strlen($folder) > $this->conf['files']['nameMaxLenght']) {
-					$shortFolderName = substr ($folder, 0, $this->conf['files']['nameMaxLenght']) .'...';
-				}
-				
 				# folder layout
 				if (empty($this->path)) {
 					$link = '?path='. self::doUrl($folder);
@@ -125,7 +123,7 @@ class drive {
 					'path'		=> $link,
 					'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
 					'alt'		=> '',
-					'name'		=> $shortFolderName,
+					'name'		=>  $this->makeShort($folder),
 					'rel'		=> ''
 				);
 			}
@@ -150,29 +148,61 @@ class drive {
 			$this->nbFiles = count($tabFiles);
 			
 			foreach ($tabFiles as $file) {
+				$type = tools::getType($this->absolutePath . $file);
+				$this->oFile = new $type($this->absolutePath . $file);
 				
-				//$this->oFile = new document($this->absolutePath . $file);
-				$this->oFile = new picture($this->absolutePath . $file);
-				
-				# file name
-		    	$shortFileName = $file;
-				if (strlen($file) > $this->conf['files']['nameMaxLenght']) {
-					$shortFileName = substr ($file, 0, $this->conf['files']['nameMaxLenght']) .'...';
+				switch ($type) {
+					case 'picture':
+						# file layout
+						$return[] = array (
+							'type' 		=> $type,
+							'title'		=> $file,
+							'path'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(1),
+							'icon'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(0),
+							'alt'		=> $type,
+							'name'		=> $this->makeShort($file),
+							'rel'		=> 'lightbox[set1]'
+						);
+						break;
+					
+					case 'audio':
+						# file layout
+						$return[] = array (
+							'type' 		=> $type,
+							'title'		=> $file,
+							'path'		=> $this->conf['general']['appURL'] .'?path='. $this->path .'/'. $file,
+							'icon'		=> $this->conf['general']['appURL'] .'?path=',
+							'alt'		=> $type,
+							'name'		=> $this->makeShort($file),
+							'rel'		=> 'lightbox[audio 50% 40]'
+						);
+						break;
+					
+					case 'video':
+						# file layout
+						$return[] = array (
+							'type' 		=> $type,
+							'title'		=> $file,
+							'path'		=> $this->conf['general']['appURL'] .'?path='. $this->path .'/'. $file,
+							'icon'		=> $this->conf['general']['appURL'] .'?path=',
+							'alt'		=> $type,
+							'name'		=> $this->makeShort($file),
+							'rel'		=> 'lightbox[flash 640 360]'
+						);
+						break;
+						
+					default:
+						# file layout
+						$return[] = array (
+							'type' 		=> $type,
+							'title'		=> $file,
+							'path'		=> $this->conf['general']['appURL'] .'?path='. $this->path .'/'. $file,
+							'icon'		=> $this->conf['general']['appURL'] .'?path='. '',
+							'alt'		=> $type,
+							'name'		=> $this->makeShort($file),
+							'rel'		=> ''
+						);
 				}
-				
-				# file layout
-				$link = '?path='. self::doUrl($this->path .'/'. $file);
-				//$icon = $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/unknown.png';
-				
-				$return[] = array (
-					'type' 		=> 'document',
-					'title'		=> $file,
-					'path'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(1),
-					'icon'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(0),
-					'alt'		=> '',
-					'name'		=> $shortFileName,
-					'rel'		=> 'lightbox[set1]'
-				);
 			}
 			
 			# close ressource
@@ -249,5 +279,18 @@ class drive {
 		$url = urlencode($url);
 		$url = str_replace('%2F', '/', $url);
 		return $url;
+	}
+	
+	/**
+	 *
+	 */
+
+	private function makeShort($string) {
+		
+		if (strlen($string) > $this->conf['files']['nameMaxLenght']) {
+			return substr ($string, 0, $this->conf['files']['nameMaxLenght']) .'...';
+		} else {
+			return $string;
+		}
 	}
 }
