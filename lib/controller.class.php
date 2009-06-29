@@ -33,7 +33,6 @@ class controller {
 			$this->tpl->hideBlock('log_in');
 			
 			# execute component, then render it
-			require_once ($this->action .'.class.php');
 			$component = new $this->action ($this->path, $this->user->getLogin());
 			$html = $component->run($this->action_method);
 			$this->setModuleVar($html);
@@ -90,7 +89,11 @@ class controller {
 				if (class_exists($action)) {
 					$this->action = $action;
 				}
+			} else {
+				require_once ($this->action .'.class.php');
 			}
+		} else {
+			require_once ($this->action .'.class.php');
 		}
 		
 		# get path

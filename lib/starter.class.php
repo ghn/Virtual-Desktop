@@ -18,6 +18,7 @@ class starter {
 		require_once ('spyc.class.php');
 		require_once ('config.class.php');
 		require_once ('controller.class.php');
+		require_once ('interface.module.class.php');
 		
 		# Read config
 		config::load();

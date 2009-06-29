@@ -6,7 +6,7 @@ require_once ('picture.class.php');
 require_once ('audio.class.php');
 require_once ('video.class.php');
 
-class drive {
+class drive implements module {
 	
 	private $nbFiles = 0;
 	private $absolutePath;

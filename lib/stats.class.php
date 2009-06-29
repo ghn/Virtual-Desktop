@@ -2,7 +2,7 @@
 
 require_once ('tools.class.php');
 
-class stats {
+class stats implements module {
 	
 	private $path;
 	private $user;
@@ -30,10 +30,25 @@ class stats {
 				return array(
 					'name'			=> 'Statistics',
 					'description'	=> 'stats of your folders',
-					'stats'			=> $this->show()
+					'stats'			=> $this->show(),
+					'menuItems'		=> $this->getMenuItems()
 				);
 				break;
 		}
+	}
+	
+	/**
+	 *
+	 */
+	 
+	private function getMenuItems() {
+		return array (
+						0	=> array (
+							'url'	=> 'Mon url',
+							'name'	=> 'Statistics',
+							'class'	=> 'current'
+						)
+					);
 	}
 	
 	/**
@@ -60,7 +75,6 @@ class stats {
 		while ($f = readdir($h)){
 			if ($f != "..") {
 				$sf += filesize($nd = $d ."/". $f);
-				++$tot;
 				if ($f != "." && is_dir($nd)){
 					$sf += $this->GetFolderSize($nd);
 				}

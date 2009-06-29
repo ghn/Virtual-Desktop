@@ -12,7 +12,11 @@ class tools {
 		if (is_file($file)) {
 			$conf = config::get();
 			
-			$finfo = finfo_open(FILEINFO_MIME, $conf['files']['mimeMagicPath']);
+			if (!isset($conf['files']['mimeMagicPath']) || is_null($conf['files']['mimeMagicPath'])) {
+				$finfo = finfo_open(FILEINFO_MIME);
+			} else {
+				$finfo = finfo_open(FILEINFO_MIME, $conf['files']['mimeMagicPath']);
+			}
 			$mime = finfo_file($finfo, $file);
 
 			// Get the only reference only (ex: text-plain; textencode, ... => text-plain)
