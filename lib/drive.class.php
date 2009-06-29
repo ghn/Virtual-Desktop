@@ -54,11 +54,16 @@ class drive {
 			$file = new document($this->userPath);
 			$file->getFile();
 		} else {
+			if (empty($this->path)) {
+				$directory = 'root folder';
+			} else {
+				$directory = $this->path;
+			}
 			return array (
 				'list'		=> $this->listCurrentFolder(),	// must be called first
 				'menuItems'	=> $this->getMenuItems(),
 				'nbFiles'	=> $this->nbFiles(),
-				'directory'	=> $this->path
+				'directory'	=> $directory
 			);
 		}
 	}

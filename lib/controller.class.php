@@ -1,7 +1,6 @@
 <?php
 
 require_once ('user.class.php');
-require_once ('drive.class.php');
 
 class controller {
 	
@@ -34,6 +33,7 @@ class controller {
 			$this->tpl->hideBlock('log_in');
 			
 			# execute component, then render it
+			require_once ($this->action .'.class.php');
 			$component = new $this->action ($this->path, $this->user->getLogin());
 			$html = $component->run($this->action_method);
 			$this->setModuleVar($html);
@@ -47,7 +47,8 @@ class controller {
 			# render homepage
 			$this->tpl->setCurrentBlock('homepage');
 			$this->tpl->setVariable(array (
-				'date' => date('l jS \of F Y h:i:s A')
+				'error'	=> $this->user->getError(),
+				'date'	=> date('l jS \of F Y h:i:s A')
 			));
 		}
 		
@@ -79,8 +80,16 @@ class controller {
 		if (isset($_GET['action']) && !empty($_GET['action'])) {
 			@list($action, $this->action_method) = explode('.', $_GET['action']);
 			
-			if (class_exists($action)) {
-				$this->action = $action;
+			# check if class file exists
+			$classFile = $action .'.class.php';
+			
+			if (file_exists(dirname(__FILE__) .'/'. $classFile)) {
+				require_once ($classFile);
+				
+				# class exists?
+				if (class_exists($action)) {
+					$this->action = $action;
+				}
 			}
 		}
 		

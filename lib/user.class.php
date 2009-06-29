@@ -54,7 +54,12 @@ class user {
 					
 					$this->connected = true;
 					$this->userName = $accountsFile[$this->login]['name'];
+					
+					// reset error
+					$this->setError();
 				}
+			} else {
+				$this->setError('Login or password not valid.');
 			}
 			
 			# redirect to homepage
@@ -76,6 +81,31 @@ class user {
 		
 		# redirect to homepage
 		header('Location: '. $this->conf['general']['appURL']);
+	}
+	
+	/**
+	 *
+	 */
+	
+	private function setError($msg = null) {
+		if (is_null($msg)) {
+			unset ($_SESSION['auth_error']);
+		} else {
+			$_SESSION['auth_error'] = $msg;
+		}
+	}
+	
+	/**
+	 *
+	 */
+	
+	public function getError() {
+		if (isset($_SESSION['auth_error'])) {
+			$error = $_SESSION['auth_error'];
+			return $error;
+		} else {
+			return null;
+		}
 	}
 	
 	/**

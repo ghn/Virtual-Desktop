@@ -189,6 +189,9 @@ div#module {
 	-moz-border-radius-bottomleft: .5em;
 	-moz-border-radius-bottomright: .5em;
 }
+	div#module p.error {
+		color: red;
+	}
 	div#module ul li {
 		list-style-type: none;
 		text-align: center;

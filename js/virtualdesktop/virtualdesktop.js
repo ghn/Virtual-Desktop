@@ -1,10 +1,8 @@
 window.addEvent("domready", function() {
 	
-	$('vd_auth_login').focus();
-	
 	// login set focus if exists
 	if ($chk('vd_auth_login')) {
-		$('vd_auth_login').focus();
+		//$('vd_auth_login').focus();
 	}
 	
 	// tool menu (show / hide)
