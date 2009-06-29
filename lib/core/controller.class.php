@@ -1,6 +1,6 @@
 <?php
 
-require_once ('user.class.php');
+require_once (LIB_MOD .'/user/user.class.php');
 
 class controller {
 	
@@ -35,8 +35,11 @@ class controller {
 			# execute component, then render it
 			$component = new $this->action ($this->path, $this->user->getLogin());
 			$html = $component->run($this->action_method);
-			$this->setModuleVar($html);
+			$this->setComponentVars($html);
 			
+			# search all plugins
+			$modules = $this->listModules();
+			$this->setComponentVars($modules);
 		} else {
 			
 			# hide items
@@ -79,10 +82,10 @@ class controller {
 		if (isset($_GET['action']) && !empty($_GET['action'])) {
 			@list($action, $this->action_method) = explode('.', $_GET['action']);
 			
-			# check if class file exists
-			$classFile = $action .'.class.php';
+			# check if module file exists
+			$classFile = LIB_MOD . $action .'/'. $action .'.class.php';
 			
-			if (file_exists(dirname(__FILE__) .'/'. $classFile)) {
+			if (file_exists($classFile)) {
 				require_once ($classFile);
 				
 				# class exists?
@@ -90,10 +93,10 @@ class controller {
 					$this->action = $action;
 				}
 			} else {
-				require_once ($this->action .'.class.php');
+				require_once (LIB_MOD . $this->action .'/'. $this->action .'.class.php');
 			}
 		} else {
-			require_once ($this->action .'.class.php');
+			require_once (LIB_MOD . $this->action .'/'. $this->action .'.class.php');
 		}
 		
 		# get path
@@ -116,7 +119,7 @@ class controller {
 	 *	SET VARIABLES
 	 */
 	 
-	private function setModuleVar($html) {
+	private function setComponentVars($html) {
 		# print all items and all attribut
 		if (is_array($html)) {
 			$this->tpl->setCurrentBlock($this->action);
@@ -138,5 +141,33 @@ class controller {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 *	TODO: to be completed !!
+	 */
+	
+	private function listModules() {
+		
+		$tabModules = array ();
+		
+		# search for modules in {appPath}/lib/modules/{module_name}/{module_name}.class.php
+		$res = opendir(LIB_MOD);
+		$i = 0;
+		while (false !== ($fModule = readdir($res))) {
+			if (is_dir(LIB_MOD . $fModule) && $fModule != '.' && $fModule != '..') {
+				if (is_file(LIB_MOD . $fModule .'/'. $fModule .'.class.php') && $fModule != 'user') {
+					$tabModules[$i]['name'] = $fModule;
+					$tabModules[$i]['link'] = $this->conf['general']['appURL'] .'?action='. $fModule .'.show';
+					++$i;
+				}
+			}
+		}
+		closedir($res);
+		$ret = array (
+			'modules'	=> $tabModules
+		);
+		
+		return $ret;
 	}
 }

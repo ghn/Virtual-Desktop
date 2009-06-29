@@ -1,6 +1,6 @@
 <?php
 
-require_once ('tools.class.php');
+require_once (LIB_CORE .'tools.class.php');
 require_once ('document.class.php');
 require_once ('picture.class.php');
 require_once ('audio.class.php');

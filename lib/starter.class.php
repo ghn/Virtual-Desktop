@@ -9,16 +9,19 @@ class starter {
 		# enable compression
 		ob_start("ob_gzhandler");
 		
+		define('LIB_CORE', dirname(__FILE__) .'/core/');
+		define('LIB_MOD', dirname(__FILE__) .'/modules/');
+		
 		session_start();
 		
 		# include required files
 		require_once ('PEAR.php');
-		require_once ('Sigma.php');
-		require_once ('tools.class.php');
-		require_once ('spyc.class.php');
-		require_once ('config.class.php');
-		require_once ('controller.class.php');
-		require_once ('interface.module.class.php');
+		require_once (LIB_CORE .'/Sigma.php');
+		require_once (LIB_CORE .'/tools.class.php');
+		require_once (LIB_CORE .'/interface.module.class.php');
+		
+		require_once (LIB_CORE .'/config.class.php');
+		require_once (LIB_CORE .'/controller.class.php');
 		
 		# Read config
 		config::load();

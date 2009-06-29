@@ -297,10 +297,13 @@ div#module {
  */
 div#footer {
     padding: 1em;
-	background: #e8e8e8;
 }
-	div#footer img {border: 0;}
-	div#footer a {
+	div#footer div.copyright a {
 		color: #000;
 		text-decoration: none;
+	}
+	
+	div#footer div.modules ul li {
+		display: inline;
+		margin-right: 10px;
 	}

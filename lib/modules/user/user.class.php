@@ -1,5 +1,7 @@
 <?php
 
+require_once (LIB_CORE .'tools.class.php');
+
 class user {
 	
 	/*
@@ -45,7 +47,7 @@ class user {
 		
 		if (!$this->connected && !is_null($this->login) && !is_null($this->password)) {
 		
-			$accountsFile = Spyc::YAMLLoad(dirname(__FILE__) .'/../config/accounts.yaml');
+			$accountsFile = Spyc::YAMLLoad(dirname(__FILE__) .'/../../../config/accounts.yaml');
 			
 			if (isset($accountsFile[$this->login])) {
 				if ($this->login == $accountsFile[$this->login]['login'] && $this->password == $accountsFile[$this->login]['password'] && $accountsFile[$this->login]['enable'] == 'true') {

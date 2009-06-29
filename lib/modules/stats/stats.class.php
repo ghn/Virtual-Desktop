@@ -1,6 +1,6 @@
 <?php
 
-require_once ('tools.class.php');
+require_once (LIB_CORE .'tools.class.php');
 
 class stats implements module {
 	
