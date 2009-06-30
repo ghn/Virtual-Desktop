@@ -1,0 +1,5 @@
+Virtual Desktop is a simple file browser in PHP5.
+
+How to install?
+> download the archive and unzip it on your website.
+> Edit both files /config/config.yaml and config/account.yaml
