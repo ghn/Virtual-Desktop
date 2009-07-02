@@ -88,6 +88,13 @@
 				</div>
 				
 				<div id="module">
+					<!-- BEGIN homepage -->
+						<div id="homepage">
+							<p class="error">{error}</p>
+							<p>You're still not logged on. <strong>{date}</strong></p>
+						</div>
+					<!-- END homepage -->
+					
 					<!-- BEGIN drive -->
 						<ul>
 							<!-- BEGIN list -->
@@ -105,12 +112,22 @@
 						</div>
 					<!-- END drive -->
 					
-					<!-- BEGIN homepage -->
-						<div id="homepage">
-							<p class="error">{error}</p>
-							<p>You're still not logged on. <strong>{date}</strong></p>
+					<!-- BEGIN flickr -->
+						<ul>
+							<!-- BEGIN flickrList -->
+							<li class="{type}">
+								<a href="{path}" title="{title}" rel="{rel}">
+									<img src="{icon}" alt="{alt}" title="{title}" /><br />
+									<span class="filename">{name}</span>
+								</a>
+							</li>
+							<!-- END flickrList -->
+						</ul>
+						
+						<div class="info">
+							<p class="result">There is {nbFiles} files in <strong>{directory}</strong>.</p>
 						</div>
-					<!-- END homepage -->
+					<!-- END flickr -->
 					
 					<!-- BEGIN stats -->
 						<h2>{name}</h2>

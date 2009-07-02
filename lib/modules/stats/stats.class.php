@@ -43,12 +43,12 @@ class stats implements module {
 	 
 	private function getMenuItems() {
 		return array (
-						0	=> array (
-							'url'	=> 'Mon url',
-							'name'	=> 'Statistics',
-							'class'	=> 'current'
-						)
-					);
+			0	=> array (
+				'url'	=> 'Mon url',
+				'name'	=> 'Statistics',
+				'class'	=> 'current'
+			)
+		);
 	}
 	
 	/**

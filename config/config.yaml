@@ -45,5 +45,5 @@ files:
     type:
       - audio/mpeg
 
-# use for internal reasons
-tmp:
+flickr:
+  APIKey: < your api key here >
