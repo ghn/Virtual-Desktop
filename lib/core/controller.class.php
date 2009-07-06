@@ -29,11 +29,21 @@ class controller {
 		
 		if ($this->user->isConnected()) {
 			
+			# save user info
+			bus::setData('user', array (
+				'login' => $this->user->getLogin(),
+				'flickrName' => $this->user->getFlickrName()
+				)
+			);
+			
+			# save Path
+			bus::setData('path', $this->path);
+			
 			# hide items
 			$this->tpl->hideBlock('log_in');
 			
 			# execute component, then render it
-			$component = new $this->action ($this->path, $this->user->getLogin());
+			$component = new $this->action ();
 			$html = $component->run($this->action_method);
 			$this->setComponentVars($html);
 			

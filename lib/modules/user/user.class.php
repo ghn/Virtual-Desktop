@@ -16,6 +16,7 @@ class user {
 	private $userName	= null;
 	private $login		= null;
 	private $password	= null;
+	private $flickrName = null;
 	
 	
 	/**
@@ -30,6 +31,7 @@ class user {
 			$this->connected = true;
 			$this->login = $_SESSION['auth_login'];
 			$this->userName = $_SESSION['auth_userName'];
+			$this->flickrName = $_SESSION['auth_flickrName'];
 			
 		} else if (isset($_POST['vd_auth_login']) && isset ($_POST['vd_auth_password'] ) ){
 			$this->login = $_POST['vd_auth_login'];
@@ -50,15 +52,19 @@ class user {
 			$accountsFile = Spyc::YAMLLoad(dirname(__FILE__) .'/../../../config/accounts.yaml');
 			
 			if (isset($accountsFile[$this->login])) {
-				if ($this->login == $accountsFile[$this->login]['login'] && $this->password == $accountsFile[$this->login]['password'] && $accountsFile[$this->login]['enable'] == 'true') {
+				if ($this->password == $accountsFile[$this->login]['password'] && $accountsFile[$this->login]['enable'] == 'true') {
 					$_SESSION['auth_login'] = $this->login;
 					$_SESSION['auth_userName'] = $accountsFile[$this->login]['name'];
+					$_SESSION['auth_flickrName'] = $accountsFile[$this->login]['flickrName'];
 					
 					$this->connected = true;
 					$this->userName = $accountsFile[$this->login]['name'];
+					$this->flickrName = $accountsFile[$this->login]['flickrName'];
 					
 					// reset error
 					$this->setError();
+				} else {
+					$this->setError('Login or password not valid.');
 				}
 			} else {
 				$this->setError('Login or password not valid.');
@@ -103,8 +109,7 @@ class user {
 	
 	public function getError() {
 		if (isset($_SESSION['auth_error'])) {
-			$error = $_SESSION['auth_error'];
-			return $error;
+			return $_SESSION['auth_error'];
 		} else {
 			return null;
 		}
@@ -138,8 +143,8 @@ class user {
 	 *
 	 */
 	
-	public function get() {
-		return "module user";
+	public function getFlickrName() {
+		return $this->flickrName;
 	}
 	
 	/**

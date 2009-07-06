@@ -4,7 +4,6 @@ require_once (LIB_CORE .'tools.class.php');
 
 class stats implements module {
 	
-	private $path;
 	private $user;
 	private $conf;
 	
@@ -12,10 +11,10 @@ class stats implements module {
 	 *
 	 */
 	
-	public function __construct($path, $user) {
-		$this->path = $path;
-		$this->user = $user;
+	public function __construct() {
+		$datas = bus::getData('user');
 		
+		$this->user = $datas['login'];
 		$this->conf = config::get();
 	}
 	

@@ -22,12 +22,13 @@ class drive implements module {
 	 *
 	 */
 	
-	public function __construct ($path, $user) {
+	public function __construct () {
 		
 		$this->conf = config::get();
+		$user = bus::getData('user');
 		
-		$this->path = $path;
-		$this->user = $user;
+		$this->path = bus::getData('path');;
+		$this->user = $user['login'];
 		
 		$this->rootPath = $this->conf['general']['dataPath'] . $this->user . '/';
 		tools::mkdir_r($this->rootPath);

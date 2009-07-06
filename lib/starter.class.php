@@ -18,6 +18,7 @@ class starter {
 		require_once ('PEAR.php');
 		require_once (LIB_CORE .'/Sigma.php');
 		require_once (LIB_CORE .'/tools.class.php');
+		require_once (LIB_CORE .'/bus.class.php');
 		require_once (LIB_CORE .'/interface.module.class.php');
 		
 		require_once (LIB_CORE .'/config.class.php');

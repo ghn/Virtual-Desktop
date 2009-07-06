@@ -13,10 +13,12 @@ class flickr implements module {
 	 *
 	 */
 	
-	public function __construct($path, $user) {
-		$this->conf = config::get();
-		$this->user = $config['user'];
+	public function __construct() {
 		
+		$this->conf = config::get();
+		$datas = bus::getData('user');
+		
+		$this->user = $datas['flickrName'];
 		$this->fli = new phpFlickr($this->conf['flickr']['APIKey']);
 	}
 	
@@ -25,7 +27,7 @@ class flickr implements module {
 	 */
 	
 	public function __destruct() {
-		unset $this->fli;
+		unset ($this->fli);
 	}
 	
 	/**
@@ -51,6 +53,7 @@ class flickr implements module {
 		$photos = $this->fli->people_getPublicPhotos($this->user, NULL, NULL, 36);
 		
 		// Loop through the photos and output the html
+		$return = array();
 		foreach ((array)$photos['photos']['photo'] as $photo) {
 			$return[] = array (
 				'icon'	=> $this->fli->buildPhotoURL($photo, 'Square'),
