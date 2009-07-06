@@ -134,6 +134,22 @@
 						<p>{description}</p>
 						<p>Total disk space {stats}</p>
 					<!-- END stats -->
+					
+					<!-- BEGIN logs -->
+						<h2>{name}</h2>
+						<p>{description}</p>
+						
+						<table>
+						<!-- BEGIN logsList -->
+						<tr>
+							<td>{date}</td>
+							<td>{ip}</td>
+							<td>{module}</td>
+							<td>{message}</td>
+						</tr>
+						<!-- END logsList -->
+						</table>
+					<!-- END logs -->
 				</div>
 			</div>
 			

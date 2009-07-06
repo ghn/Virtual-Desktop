@@ -146,6 +146,7 @@ class controller {
 					}
 				}
 			}
+			$this->tpl->parseCurrentBlock();
 			
 			return true;
 		} else {

@@ -6,7 +6,7 @@ window.addEvent("domready", function() {
 	}
 	
 	// tool menu (show / hide)
-	if ($chk('div#tools div.box-content')[0]) {
+	if ($chk('div#tools div.box-content')) {
 		var toolsEvent = $$('div#tools div.box')[0];
 		var tools = $$('div#tools div.box-content')[0];
 		
