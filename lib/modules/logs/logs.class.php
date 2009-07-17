@@ -1,6 +1,8 @@
 <?php
 
-class logs {
+require_once(LIB_CORE .'plugin.class.php');
+
+class logs extends plugin {
 	
 	private $logFile = null;
 	
@@ -15,29 +17,65 @@ class logs {
 	 *
 	 */
 	
-	public function write() {
+	public function run($actionMethod = 'show') {
+		$this->actionMethod = $actionMethod;
+		
+		switch ($actionMethod) {
+			case 'about':
+				$about = $this->about();
+				
+				return array (
+					'name'			=> $about['title'],
+					'description'	=> $about['description'],
+					'menuItems'		=> $this->getMenuItems()
+				);
+				break;
+				
+			case 'show':
+			default:
+				return array (
+					'name'			=> 'Log file',
+					'description'	=> '',
+					'logsList'		=> $this->show(),
+					'menuItems'		=> $this->getMenuItems()
+				);
+				break;
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	
+	protected function write() {
 	}
 	
 	/**
 	 *
 	 */
 	
-	public function run($action_method = 'show') {
-		return array (
-			'name'			=> 'Log file',
-			'description'	=> '',
-			'logsList'		=> $this->show(),
-			'menuItems'		=> $this->getMenuItems()
-		);
-	}
-	
-	/**
-	 *
-	 */
-	
-	private function show() {
+	protected function show() {
 		return array (
 			0	=> array (
+				'date'		=> '2009-10-20',
+				'ip'		=> '10.1.22',
+				'module'	=> 'mpdule',
+				'message'	=> 'asdlfgjk asgdkjfh '
+			),
+			1	=> array (
+				'date'		=> '2009-10-20',
+				'ip'		=> '10.1.22',
+				'module'	=> 'mpdule',
+				'message'	=> 'asdlfgjk asgdkjfh '
+			),
+			2	=> array (
+				'date'		=> '2009-10-20',
+				'ip'		=> '10.1.22',
+				'module'	=> 'mpdule',
+				'message'	=> 'asdlfgjk asgdkjfh '
+			),
+			3	=> array (
 				'date'		=> '2009-10-20',
 				'ip'		=> '10.1.22',
 				'module'	=> 'mpdule',
@@ -46,22 +84,5 @@ class logs {
 		);
 	}
 	
-	/**
-	 *
-	 */
 	
-	private function getMenuItems() {
-		return array (
-			0	=> array (
-				'url'	=> '?action=logs.show',
-				'name'	=> 'Log file',
-				'class'	=> 'current'
-			),
-			1	=> array (
-				'url'	=> '?action=logs.about',
-				'name'	=> 'About',
-				'class'	=> ''
-			)
-		);
-	}
 }

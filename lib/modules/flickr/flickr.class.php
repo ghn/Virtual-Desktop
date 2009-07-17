@@ -34,7 +34,7 @@ class flickr implements module {
 	 *
 	 */
 	
-	public function run ($action = 'list') {
+	public function run ($action = 'show') {
 		return array (
 				'flickrList'	=> $this->getPictures(),	// must be called first
 				'menuItems'		=> $this->getMenuItems(),

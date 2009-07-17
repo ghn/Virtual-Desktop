@@ -116,9 +116,15 @@ Options
 </a>
 </li>";s:5:"stats";s:68:"<h2>{name}</h2>
 <p>{description}</p>
-<p>Total disk space {stats}</p>";s:4:"logs";s:68:"<h2>{name}</h2>
+<p>Total disk space {stats}</p>";s:4:"logs";s:138:"<h2>{name}</h2>
 <p>{description}</p>
 <table>
+<tr>
+<th>Date</th>
+<th>IP</th>
+<th>Module</th>
+<th>Message</th>
+</tr>
 {__logsList__}
 </table>";s:8:"logsList";s:77:"<tr>
 <td>{date}</td>

@@ -1,11 +1,11 @@
 <?php
 
-require_once (LIB_CORE .'tools.class.php');
+require_once(LIB_CORE .'plugin.class.php');
 
-class stats implements module {
+class stats extends plugin {
 	
-	private $user;
-	private $conf;
+	private $user = null;
+	private $conf = array();
 	
 	/**
 	 *
@@ -34,20 +34,6 @@ class stats implements module {
 				);
 				break;
 		}
-	}
-	
-	/**
-	 *
-	 */
-	 
-	private function getMenuItems() {
-		return array (
-			0	=> array (
-				'url'	=> 'Mon url',
-				'name'	=> 'Statistics',
-				'class'	=> 'current'
-			)
-		);
 	}
 	
 	/**
