@@ -37,7 +37,7 @@ abstract class file {
 					header('Content-Length: '. $this->getSize());
 					header('filename="'. $filename .'"');
 					header('Cache-Control: no-cache, must-revalidate');
-					print file_get_contents($this->file);
+					readfile($this->file);
 					break;
 					
 				default:
@@ -45,7 +45,7 @@ abstract class file {
 					header('Content-Length: '. filesize($this->file));
 					header('Content-Disposition: attachment; filename="'. $filename .'"');
 					header('Cache-Control: no-cache, must-revalidate');
-					print file_get_contents($this->file);
+					readfile($this->file);
 			}
 		}
 	}

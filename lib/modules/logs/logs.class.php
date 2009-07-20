@@ -1,6 +1,6 @@
 <?php
 
-require_once(LIB_CORE .'plugin.class.php');
+require_once (LIB_CORE .'plugin.class.php');
 
 class logs extends plugin {
 	
@@ -11,16 +11,19 @@ class logs extends plugin {
 	 */
 	
 	public function __construct() {
+		parent::__construct();
+		
+		$this->logFile = dirname(__FILE__). '/test.log';
 	}
 	
 	/**
 	 *
 	 */
 	
-	public function run($actionMethod = 'show') {
-		$this->actionMethod = $actionMethod;
+	public function run($action_method = 'show') {
+		$this->action_method = $action_method;
 		
-		switch ($actionMethod) {
+		switch ($action_method) {
 			case 'about':
 				$about = $this->about();
 				
@@ -48,7 +51,16 @@ class logs extends plugin {
 	 *
 	 */
 	
-	protected function write() {
+	public function write($module, $message) {
+		
+		if (!empty($message) && !is_array($message)) {
+			$ip = $_SERVER['REMOTE_ADDR'];
+			$date = date('Y-m-d');
+			
+			$handle = fopen($this->logFile, 'a');
+			fwrite($handle, $date ."\t". $ip ."\t". $module ."\t". $message ."\n");
+			fclose($handle);
+		}
 	}
 	
 	/**
@@ -56,33 +68,34 @@ class logs extends plugin {
 	 */
 	
 	protected function show() {
-		return array (
-			0	=> array (
-				'date'		=> '2009-10-20',
-				'ip'		=> '10.1.22',
-				'module'	=> 'mpdule',
-				'message'	=> 'asdlfgjk asgdkjfh '
-			),
-			1	=> array (
-				'date'		=> '2009-10-20',
-				'ip'		=> '10.1.22',
-				'module'	=> 'mpdule',
-				'message'	=> 'asdlfgjk asgdkjfh '
-			),
-			2	=> array (
-				'date'		=> '2009-10-20',
-				'ip'		=> '10.1.22',
-				'module'	=> 'mpdule',
-				'message'	=> 'asdlfgjk asgdkjfh '
-			),
-			3	=> array (
-				'date'		=> '2009-10-20',
-				'ip'		=> '10.1.22',
-				'module'	=> 'mpdule',
-				'message'	=> 'asdlfgjk asgdkjfh '
-			)
-		);
+		
+		if (file_exists($this->logFile)) {
+			$handle = fopen($this->logFile, 'r');
+			
+			$date = null;
+			$ip = null;
+			$module = null;
+			$message = null;
+			
+			while (!feof($handle)) {
+				$buffer = fgets($handle, 4096);
+				if (!empty($buffer)) {
+					list($date, $ip, $module, $message) = split("\t", $buffer);
+					
+					$ret [] = array (
+						'date'		=> $date,
+						'ip'		=> $ip,
+						'module'	=> $module,
+						'message'	=> $message
+					);
+				}
+			}
+			fclose($handle);
+			return $ret;
+		} else {
+			return array();
+		}
+		
+		
 	}
-	
-	
 }

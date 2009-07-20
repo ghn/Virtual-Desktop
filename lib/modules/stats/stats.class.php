@@ -1,21 +1,20 @@
 <?php
 
-require_once(LIB_CORE .'plugin.class.php');
+require_once (LIB_CORE .'plugin.class.php');
 
 class stats extends plugin {
 	
 	private $user = null;
-	private $conf = array();
 	
 	/**
 	 *
 	 */
 	
 	public function __construct() {
-		$datas = bus::getData('user');
+		parent::__construct();
 		
+		$datas = bus::getData('user');
 		$this->user = $datas['login'];
-		$this->conf = config::get();
 	}
 	
 	/**
@@ -24,7 +23,19 @@ class stats extends plugin {
 	
 	public function run($action_method = 'show') {
 		
+		$this->action_method = $action_method;
+		
 		switch ($action_method) {
+			case 'about':
+				$about = $this->about();
+				
+				return array (
+					'name'			=> $about['title'],
+					'description'	=> $about['description'],
+					'menuItems'		=> $this->getMenuItems()
+				);
+				break;
+				
 			case 'show':
 				return array(
 					'name'			=> 'Statistics',

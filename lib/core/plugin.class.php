@@ -2,15 +2,18 @@
 
 abstract class plugin {
 	
-	private $listMethod	= array ('show', 'about');
-	private $pluginName = 'stats';
-	private $actionMethod = null;
+	private $listMethod			= array ('show', 'about');
+	protected $pluginName		= null;
+	protected $action_method	= null;
+	protected $conf				= null;
 	
 	/**
 	 *
 	 */
 	
-	public function __construct($pluginName, $actionMethod) {
+	public function __construct() {
+		$this->pluginName = get_class($this);
+		$this->conf = config::get();
 	}
 	
 	/**
@@ -18,9 +21,17 @@ abstract class plugin {
 	 */
 	
 	protected function about() {
-		$file = LIB_MOD . $this->pluginName .'/about.yaml';
-		$about = Spyc::YAMLLoad($file);
-		return $about;
+		$file_about = LIB_MOD . $this->pluginName .'/about.yaml';
+		if (file_exists($file_about)) {
+			
+			return Spyc::YAMLLoad($file_about);
+		} else {
+			return array (
+				'name'			=> $this->pluginName,
+				'description'	=> 'cannot find a description for this plugin',
+				'menuItems'		=> $this->getMenuItems()
+			);
+		}
 	}
 	
 	/**
@@ -39,7 +50,7 @@ abstract class plugin {
 		
 		foreach ($this->listMethod as $item) {
 			
-			if ($item == $this->actionMethod) {
+			if ($item == $this->action_method) {
 				$class = 'current';
 			} else {
 				$class = '';

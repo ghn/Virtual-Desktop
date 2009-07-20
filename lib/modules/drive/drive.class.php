@@ -1,44 +1,45 @@
 <?php
 
+require_once (LIB_CORE .'plugin.class.php');
 require_once (LIB_CORE .'tools.class.php');
 require_once ('document.class.php');
 require_once ('picture.class.php');
 require_once ('audio.class.php');
 require_once ('video.class.php');
 
-class drive implements module {
+class drive extends plugin {
 	
 	private $nbFiles = 0;
 	private $absolutePath;
 	private $rootPath;
-	private $userPath;
-	private $oFile;
+	private $filePath;
 	
-	protected $path = '';
-	protected $user;
-	protected $conf = array();
+	private $path = null;
 	
 	/**
 	 *
 	 */
 	
 	public function __construct () {
+		parent::__construct();
 		
-		$this->conf = config::get();
-		$user = bus::getData('user');
-		
+		# get current path
 		$this->path = bus::getData('path');;
-		$this->user = $user['login'];
 		
-		$this->rootPath = $this->conf['general']['dataPath'] . $this->user . '/';
+		# get user login
+		$user = bus::getData('user');
+		$login = $user['login'];
+		
+		# init user path and create his folder if needed
+		$this->rootPath = $this->conf['general']['dataPath'] . $login . '/';
 		tools::mkdir_r($this->rootPath);
 		
 		if (empty($this->path)) {
 			$this->absolutePath = $this->rootPath;
-			$this->userPath = '';
+			$this->filePath = null;
 		} else {
 			$this->absolutePath = $this->rootPath . $this->path .'/';
-			$this->userPath = $this->conf['general']['dataPath'] . $this->user . '/'. $this->path;
+			$this->filePath = $this->conf['general']['dataPath'] . $login . '/'. $this->path;
 		}
 	}
 	
@@ -46,13 +47,14 @@ class drive implements module {
 	 *
 	 */
 	
-	public function run ($action = 'list') {
+	public function run ($action_method = 'show') {
+	
+		$this->action_method = $action_method;
 		
 		# return the file it there is one.
 		#  or list the current folder
-		
-		if (is_file($this->userPath)) {
-			$file = new document($this->userPath);
+		if (is_file($this->filePath)) {
+			$file = new document($this->filePath);
 			$file->getFile();
 		} else {
 			if (empty($this->path)) {
@@ -155,7 +157,7 @@ class drive implements module {
 			
 			foreach ($tabFiles as $file) {
 				$type = tools::getType($this->absolutePath . $file);
-				$this->oFile = new $type($this->absolutePath . $file);
+				$current_file = new $type($this->absolutePath . $file);
 				
 				switch ($type) {
 					case 'picture':
@@ -163,8 +165,8 @@ class drive implements module {
 						$return[] = array (
 							'type' 		=> $type,
 							'title'		=> $file,
-							'path'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(1),
-							'icon'		=> $this->conf['general']['appURL'] .'?path='. $this->oFile->getThumbnail(0),
+							'path'		=> $this->conf['general']['appURL'] .'?path='. $current_file->getThumbnail(1),
+							'icon'		=> $this->conf['general']['appURL'] .'?path='. $current_file->getThumbnail(0),
 							'alt'		=> $type,
 							'name'		=> $this->makeShort($file),
 							'rel'		=> 'lightbox[set1]'
@@ -221,7 +223,7 @@ class drive implements module {
 	 * GET MENU ITEMS.
 	 */
 	
-	private function getMenuItems () {
+	protected function getMenuItems () {
 
 		# list folder at top level if exists
 		$res = opendir($this->rootPath);

@@ -1,21 +1,20 @@
 <?php
 
+require_once (LIB_CORE .'plugin.class.php');
 require_once ('phpFlickr.php');
 
-class flickr implements module {
+class flickr extends plugin {
 	
 	private $user;			// flickr user
 	private $fli;			// instance of flickr
-	
-	private $conf;
 	
 	/**
 	 *
 	 */
 	
 	public function __construct() {
+		parent::__construct();
 		
-		$this->conf = config::get();
 		$datas = bus::getData('user');
 		
 		$this->user = $datas['flickrName'];
@@ -34,7 +33,8 @@ class flickr implements module {
 	 *
 	 */
 	
-	public function run ($action = 'show') {
+	public function run ($action_method = 'show') {
+		$this->action_method = $action_method;
 		return array (
 				'flickrList'	=> $this->getPictures(),	// must be called first
 				'menuItems'		=> $this->getMenuItems(),
@@ -65,20 +65,6 @@ class flickr implements module {
 		
 		$this->nbFiles = count($return);
 		return $return;
-	}
-	
-	/**
-	 *
-	 */
-	
-	private function getMenuItems() {
-		return array (
-			0	=> array (
-				'url'	=> 'Mon url',
-				'name'	=> 'Flickr Pictures',
-				'class'	=> 'current'
-			)
-		);
 	}
 	
 	/**

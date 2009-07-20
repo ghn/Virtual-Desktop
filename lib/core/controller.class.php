@@ -1,6 +1,8 @@
 <?php
 
+# required plugins
 require_once (LIB_MOD .'/user/user.class.php');
+require_once (LIB_MOD .'/logs/logs.class.php');
 
 class controller {
 	
@@ -23,16 +25,21 @@ class controller {
 		$this->getParams();
 		$this->initTemplate();
 		
-		# execute action if connected!
+		# Create user object and log result if any
 		$this->user = new user();
-		$this->user->run($this->action_method);
+		if ($this->action == 'user') {
+			$ret = $this->user->run($this->action_method);
+			logs::write('user', $ret);
+		}
 		
+		# execute action if connected!
 		if ($this->user->isConnected()) {
 			
 			# save user info
-			bus::setData('user', array (
-				'login' => $this->user->getLogin(),
-				'flickrName' => $this->user->getFlickrName()
+			bus::setData(
+				'user', array (
+					'login'			=> $this->user->getLogin(),
+					'flickrName'	=> $this->user->getFlickrName()
 				)
 			);
 			
@@ -167,7 +174,7 @@ class controller {
 		$i = 0;
 		while (false !== ($fModule = readdir($res))) {
 			if (is_dir(LIB_MOD . $fModule) && $fModule != '.' && $fModule != '..') {
-				if (is_file(LIB_MOD . $fModule .'/'. $fModule .'.class.php') && $fModule != 'user') {
+				if (is_file(LIB_MOD . $fModule .'/'. $fModule .'.class.php')) {
 					$tabModules[$i]['name'] = $fModule;
 					$tabModules[$i]['link'] = $this->conf['general']['appURL'] .'?action='. $fModule .'.show';
 					++$i;

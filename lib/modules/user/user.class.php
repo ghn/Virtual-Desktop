@@ -1,8 +1,9 @@
 <?php
 
+require_once (LIB_CORE .'plugin.class.php');
 require_once (LIB_CORE .'tools.class.php');
 
-class user {
+class user extends plugin {
 	
 	/*
 	 * SESSION vars
@@ -10,22 +11,18 @@ class user {
 	 *   auth_date
 	 */
 	
-	private $conf		= array();
-	
 	private $connected	= false;
 	private $userName	= null;
 	private $login		= null;
 	private $password	= null;
 	private $flickrName = null;
 	
-	
 	/**
 	 *	Try to log on automatically
 	 */
 	
 	public function __construct() {
-		
-		$this->conf = config::get();
+		parent::__construct();
 		
 		if (!empty($_SESSION['auth_login'])) {
 			$this->connected = true;
@@ -63,15 +60,20 @@ class user {
 					
 					// reset error
 					$this->setError();
+					$message = $this->userName .' connected';
 				} else {
 					$this->setError('Login or password not valid.');
+					$message = $this->login .' connexion failed';
 				}
 			} else {
 				$this->setError('Login or password not valid.');
+				$message = $this->login .' connexion failed';
 			}
 			
 			# redirect to homepage
 			header('Location: '. $this->conf['general']['appURL']);
+			
+			return $message;
 		}
 	}
 	
@@ -80,6 +82,9 @@ class user {
 	 */
 	
 	private function logout() {
+	
+		$login = $this->login;
+		
 		unset ($_SESSION['auth_login']);
 		$this->connected = false;
 		
@@ -89,6 +94,8 @@ class user {
 		
 		# redirect to homepage
 		header('Location: '. $this->conf['general']['appURL']);
+		
+		return $login .' disconnected';
 	}
 	
 	/**
@@ -148,17 +155,37 @@ class user {
 	}
 	
 	/**
+	 *
+	 */
+	
+	private function show () {
+		return array (
+			'name'			=> 'User',
+			'description'	=> 'User manager',
+			'menuItems'		=> $this->getMenuItems()
+		);
+	}
+	
+	/**
 	 *	Method callable from URL
 	 */
 	
 	public function run($action_method) {
+		$this->action_method = $action_method;
+		$message = '';
 		
 		switch ($action_method) {
-			case 'logout':
-				$this->logout();
+			case 'about':
+				return $this->about();
 				break;
 			case 'login':
-				$this->login();
+				return $this->login();
+				break;
+			case 'logout':
+				return $this->logout();
+				break;
+			case 'show':
+				return $this->show();
 				break;
 		}
 	}
