@@ -37,18 +37,17 @@ class picture extends file {
 		$source = str_replace($filename, '', $source);
 		
 		# get username
-		list($user) = explode('/', $source);
-		$source = str_replace($user, '', $source);
+		$source = str_replace($this->user, '', $source);
 		
 		# thumbnail exists?
-		$thumbPath = $this->conf['general']['dataPath'] . $user .'/'. $this->conf['general']['thumbnailFolder'] . '/' . $source .'/';
+		$thumbPath = $this->conf['general']['dataPath'] . $this->user .'/'. $this->conf['general']['thumbnailFolder'] . $source;
 		$this->thumbnail = $thumbPath . $this->maxWidth .'x'. $this->maxHeight .'-'. $filename;
 		
 		if ($forceCreate) {
-		  $this->removeThumbnail($format);
+			$this->removeThumbnail($formatID);
 		}
 		
-		if (!file_exists($this->thumbnail) || $forceCreate) {
+		if (!is_file($this->thumbnail) || $forceCreate) {
 			tools::mkdir_r($thumbPath);
 			$this->createThumbnail();
 		}
@@ -69,7 +68,7 @@ class picture extends file {
 	private function createThumbnail() {
 		
 		# Create thumbnail for supported format only
-		switch($this->format) {
+		switch($this->mime) {
 			case 'image/jpg':
 			case 'image/jpeg':
 				$src_img = imagecreatefromjpeg($this->file);
@@ -96,6 +95,9 @@ class picture extends file {
 			case 'gif':
 				break;
 		}
+	}
+	
+	private function removeThumbnail($format) {
 	}
 	
 	/*

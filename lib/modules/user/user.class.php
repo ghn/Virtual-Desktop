@@ -30,6 +30,8 @@ class user extends plugin {
 			$this->userName = $_SESSION['auth_userName'];
 			$this->flickrName = $_SESSION['auth_flickrName'];
 			
+			$this->updateBus();
+			
 		} else if (isset($_POST['vd_auth_login']) && isset ($_POST['vd_auth_password'] ) ){
 			$this->login = $_POST['vd_auth_login'];
 			$this->password = sha1($_POST['vd_auth_password']);
@@ -61,6 +63,8 @@ class user extends plugin {
 					// reset error
 					$this->setError();
 					$message = $this->userName .' connected';
+					
+					$this->updateBus();
 				} else {
 					$this->setError('Login or password not valid.');
 					$message = $this->login .' connexion failed';
@@ -188,5 +192,19 @@ class user extends plugin {
 				return $this->show();
 				break;
 		}
+	}
+	
+	/**
+	 *
+	 */
+	 
+	private function updateBus() {
+		# save user info
+		bus::setData(
+			'user', array (
+				'login'			=> $this->getLogin(),
+				'flickrName'	=> $this->getFlickrName()
+			)
+		);
 	}
 }

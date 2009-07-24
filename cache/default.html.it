@@ -117,20 +117,23 @@ Options
 </a>
 </li>";s:5:"stats";s:68:"<h2>{name}</h2>
 <p>{description}</p>
-<p>Total disk space {stats}</p>";s:4:"logs";s:138:"<h2>{name}</h2>
+<p>Total disk space {stats}</p>";s:4:"logs";s:195:"<h2>{name}</h2>
 <p>{description}</p>
 <table>
 <tr>
+<th></th>
 <th>Date</th>
 <th>IP</th>
 <th>Module</th>
 <th>Message</th>
 </tr>
 {__logsList__}
-</table>";s:8:"logsList";s:77:"<tr>
+</table>
+<p><a href="{urlClearLogs}">Clear list</a></p>";s:8:"logsList";s:91:"<tr>
+<td>{id}</td>
 <td>{date}</td>
 <td>{ip}</td>
 <td>{module}</td>
 <td>{message}</td>
 </tr>";s:4:"user";s:36:"<h2>{name}</h2>
-<p>{description}</p>";s:7:"modules";s:36:"<li><a href="{link}">{name}</a></li>";}s:9:"variables";a:15:{s:10:"__global__";a:15:{s:8:"appTitle";b:1;s:10:"appVersion";b:1;s:9:"themeName";b:1;s:6:"appURL";b:1;s:11:"__log_out__";b:1;s:10:"__log_in__";b:1;s:9:"__tools__";b:1;s:13:"__menuItems__";b:1;s:12:"__homepage__";b:1;s:9:"__drive__";b:1;s:10:"__flickr__";b:1;s:9:"__stats__";b:1;s:8:"__logs__";b:1;s:8:"__user__";b:1;s:11:"__modules__";b:1;}s:7:"log_out";a:2:{s:8:"username";b:1;s:13:"urlDisconnect";b:1;}s:6:"log_in";a:1:{s:10:"urlConnect";b:1;}s:5:"tools";a:2:{s:9:"urlUpload";b:1;s:15:"urlCreateFolder";b:1;}s:9:"menuItems";a:3:{s:5:"class";b:1;s:3:"url";b:1;s:4:"name";b:1;}s:8:"homepage";a:2:{s:5:"error";b:1;s:4:"date";b:1;}s:5:"drive";a:3:{s:8:"__list__";b:1;s:7:"nbFiles";b:1;s:9:"directory";b:1;}s:4:"list";a:7:{s:4:"type";b:1;s:4:"path";b:1;s:5:"title";b:1;s:3:"rel";b:1;s:4:"icon";b:1;s:3:"alt";b:1;s:4:"name";b:1;}s:6:"flickr";a:3:{s:14:"__flickrList__";b:1;s:7:"nbFiles";b:1;s:9:"directory";b:1;}s:10:"flickrList";a:7:{s:4:"type";b:1;s:4:"path";b:1;s:5:"title";b:1;s:3:"rel";b:1;s:4:"icon";b:1;s:3:"alt";b:1;s:4:"name";b:1;}s:5:"stats";a:3:{s:4:"name";b:1;s:11:"description";b:1;s:5:"stats";b:1;}s:4:"logs";a:3:{s:4:"name";b:1;s:11:"description";b:1;s:12:"__logsList__";b:1;}s:8:"logsList";a:4:{s:4:"date";b:1;s:2:"ip";b:1;s:6:"module";b:1;s:7:"message";b:1;}s:4:"user";a:2:{s:4:"name";b:1;s:11:"description";b:1;}s:7:"modules";a:2:{s:4:"link";b:1;s:4:"name";b:1;}}s:8:"children";a:15:{s:10:"__global__";a:11:{s:7:"log_out";b:1;s:6:"log_in";b:1;s:5:"tools";b:1;s:9:"menuItems";b:1;s:8:"homepage";b:1;s:5:"drive";b:1;s:6:"flickr";b:1;s:5:"stats";b:1;s:4:"logs";b:1;s:4:"user";b:1;s:7:"modules";b:1;}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}s:5:"tools";a:0:{}s:9:"menuItems";a:0:{}s:8:"homepage";a:0:{}s:5:"drive";a:1:{s:4:"list";b:1;}s:4:"list";a:0:{}s:6:"flickr";a:1:{s:10:"flickrList";b:1;}s:10:"flickrList";a:0:{}s:5:"stats";a:0:{}s:4:"logs";a:1:{s:8:"logsList";b:1;}s:8:"logsList";a:0:{}s:4:"user";a:0:{}s:7:"modules";a:0:{}}s:9:"functions";a:15:{s:10:"__global__";a:0:{}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}s:5:"tools";a:0:{}s:9:"menuItems";a:0:{}s:8:"homepage";a:0:{}s:5:"drive";a:0:{}s:4:"list";a:0:{}s:6:"flickr";a:0:{}s:10:"flickrList";a:0:{}s:5:"stats";a:0:{}s:4:"logs";a:0:{}s:8:"logsList";a:0:{}s:4:"user";a:0:{}s:7:"modules";a:0:{}}}
+<p>{description}</p>";s:7:"modules";s:36:"<li><a href="{link}">{name}</a></li>";}s:9:"variables";a:15:{s:10:"__global__";a:15:{s:8:"appTitle";b:1;s:10:"appVersion";b:1;s:9:"themeName";b:1;s:6:"appURL";b:1;s:11:"__log_out__";b:1;s:10:"__log_in__";b:1;s:9:"__tools__";b:1;s:13:"__menuItems__";b:1;s:12:"__homepage__";b:1;s:9:"__drive__";b:1;s:10:"__flickr__";b:1;s:9:"__stats__";b:1;s:8:"__logs__";b:1;s:8:"__user__";b:1;s:11:"__modules__";b:1;}s:7:"log_out";a:2:{s:8:"username";b:1;s:13:"urlDisconnect";b:1;}s:6:"log_in";a:1:{s:10:"urlConnect";b:1;}s:5:"tools";a:2:{s:9:"urlUpload";b:1;s:15:"urlCreateFolder";b:1;}s:9:"menuItems";a:3:{s:5:"class";b:1;s:3:"url";b:1;s:4:"name";b:1;}s:8:"homepage";a:2:{s:5:"error";b:1;s:4:"date";b:1;}s:5:"drive";a:3:{s:8:"__list__";b:1;s:7:"nbFiles";b:1;s:9:"directory";b:1;}s:4:"list";a:7:{s:4:"type";b:1;s:4:"path";b:1;s:5:"title";b:1;s:3:"rel";b:1;s:4:"icon";b:1;s:3:"alt";b:1;s:4:"name";b:1;}s:6:"flickr";a:3:{s:14:"__flickrList__";b:1;s:7:"nbFiles";b:1;s:9:"directory";b:1;}s:10:"flickrList";a:7:{s:4:"type";b:1;s:4:"path";b:1;s:5:"title";b:1;s:3:"rel";b:1;s:4:"icon";b:1;s:3:"alt";b:1;s:4:"name";b:1;}s:5:"stats";a:3:{s:4:"name";b:1;s:11:"description";b:1;s:5:"stats";b:1;}s:4:"logs";a:4:{s:4:"name";b:1;s:11:"description";b:1;s:12:"__logsList__";b:1;s:12:"urlClearLogs";b:1;}s:8:"logsList";a:5:{s:2:"id";b:1;s:4:"date";b:1;s:2:"ip";b:1;s:6:"module";b:1;s:7:"message";b:1;}s:4:"user";a:2:{s:4:"name";b:1;s:11:"description";b:1;}s:7:"modules";a:2:{s:4:"link";b:1;s:4:"name";b:1;}}s:8:"children";a:15:{s:10:"__global__";a:11:{s:7:"log_out";b:1;s:6:"log_in";b:1;s:5:"tools";b:1;s:9:"menuItems";b:1;s:8:"homepage";b:1;s:5:"drive";b:1;s:6:"flickr";b:1;s:5:"stats";b:1;s:4:"logs";b:1;s:4:"user";b:1;s:7:"modules";b:1;}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}s:5:"tools";a:0:{}s:9:"menuItems";a:0:{}s:8:"homepage";a:0:{}s:5:"drive";a:1:{s:4:"list";b:1;}s:4:"list";a:0:{}s:6:"flickr";a:1:{s:10:"flickrList";b:1;}s:10:"flickrList";a:0:{}s:5:"stats";a:0:{}s:4:"logs";a:1:{s:8:"logsList";b:1;}s:8:"logsList";a:0:{}s:4:"user";a:0:{}s:7:"modules";a:0:{}}s:9:"functions";a:15:{s:10:"__global__";a:0:{}s:7:"log_out";a:0:{}s:6:"log_in";a:0:{}s:5:"tools";a:0:{}s:9:"menuItems";a:0:{}s:8:"homepage";a:0:{}s:5:"drive";a:0:{}s:4:"list";a:0:{}s:6:"flickr";a:0:{}s:10:"flickrList";a:0:{}s:5:"stats";a:0:{}s:4:"logs";a:0:{}s:8:"logsList";a:0:{}s:4:"user";a:0:{}s:7:"modules";a:0:{}}}

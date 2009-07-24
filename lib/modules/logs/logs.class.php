@@ -57,6 +57,7 @@ class logs extends plugin {
 			$ip = $_SERVER['REMOTE_ADDR'];
 			$date = date('Y-m-d');
 			
+			$this->logFile = dirname(__FILE__). '/test.log';
 			$handle = fopen($this->logFile, 'a');
 			fwrite($handle, $date ."\t". $ip ."\t". $module ."\t". $message ."\n");
 			fclose($handle);
@@ -77,25 +78,26 @@ class logs extends plugin {
 			$module = null;
 			$message = null;
 			
+			$i=1;
 			while (!feof($handle)) {
 				$buffer = fgets($handle, 4096);
 				if (!empty($buffer)) {
 					list($date, $ip, $module, $message) = split("\t", $buffer);
 					
 					$ret [] = array (
+						'id'		=> $i,
 						'date'		=> $date,
 						'ip'		=> $ip,
 						'module'	=> $module,
 						'message'	=> $message
 					);
+					++$i;
 				}
 			}
 			fclose($handle);
 			return $ret;
 		} else {
 			return array();
-		}
-		
-		
+		}		
 	}
 }

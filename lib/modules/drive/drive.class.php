@@ -9,12 +9,11 @@ require_once ('video.class.php');
 
 class drive extends plugin {
 	
-	private $nbFiles = 0;
-	private $absolutePath;
-	private $rootPath;
-	private $filePath;
-	
-	private $path = null;
+	private $nbFiles		= 0;
+	private $absolutePath	= null;
+	private $rootPath		= null;
+	private $file			= array();	// array of files
+	private $path			= '';
 	
 	/**
 	 *
@@ -24,7 +23,11 @@ class drive extends plugin {
 		parent::__construct();
 		
 		# get current path
-		$this->path = bus::getData('path');;
+		if (isset($_GET['path']) && !empty($_GET['path'])) {
+			$path = $_GET['path'];
+		} else {
+			$path = '';
+		}
 		
 		# get user login
 		$user = bus::getData('user');
@@ -34,12 +37,12 @@ class drive extends plugin {
 		$this->rootPath = $this->conf['general']['dataPath'] . $login . '/';
 		tools::mkdir_r($this->rootPath);
 		
-		if (empty($this->path)) {
-			$this->absolutePath = $this->rootPath;
-			$this->filePath = null;
+		if (is_file($this->rootPath . $path)) {
+			$this->absolutePath = $this->rootPath . $path;
+			$this->path = $path;
 		} else {
-			$this->absolutePath = $this->rootPath . $this->path .'/';
-			$this->filePath = $this->conf['general']['dataPath'] . $login . '/'. $this->path;
+			$this->absolutePath = $this->rootPath . $path .'/';
+			$this->path = $path .'/';
 		}
 	}
 	
@@ -53,8 +56,8 @@ class drive extends plugin {
 		
 		# return the file it there is one.
 		#  or list the current folder
-		if (is_file($this->filePath)) {
-			$file = new document($this->filePath);
+		if (is_file($this->absolutePath)) {
+			$file = new document($this->absolutePath);
 			$file->getFile();
 		} else {
 			if (empty($this->path)) {
@@ -122,7 +125,7 @@ class drive extends plugin {
 				if (empty($this->path)) {
 					$link = '?path='. self::doUrl($folder);
 				} else {
-					$link = '?path='. self::doUrl($this->path .'/'. $folder);
+					$link = '?path='. self::doUrl($this->path . $folder);
 				}
 				
 				$return[] = array (
@@ -131,7 +134,7 @@ class drive extends plugin {
 					'path'		=> $link,
 					'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
 					'alt'		=> '',
-					'name'		=>  $this->makeShort($folder),
+					'name'		=> self::makeShort($folder),
 					'rel'		=> ''
 				);
 			}
@@ -155,62 +158,20 @@ class drive extends plugin {
 			sort($tabFiles);
 			$this->nbFiles = count($tabFiles);
 			
-			foreach ($tabFiles as $file) {
+			foreach ($tabFiles as $key => $file) {
+			
 				$type = tools::getType($this->absolutePath . $file);
-				$current_file = new $type($this->absolutePath . $file);
+				$this->file[$key] = new $type($this->absolutePath . $file);
 				
-				switch ($type) {
-					case 'picture':
-						# file layout
-						$return[] = array (
-							'type' 		=> $type,
-							'title'		=> $file,
-							'path'		=> $this->conf['general']['appURL'] .'?path='. $current_file->getThumbnail(1),
-							'icon'		=> $this->conf['general']['appURL'] .'?path='. $current_file->getThumbnail(0),
-							'alt'		=> $type,
-							'name'		=> $this->makeShort($file),
-							'rel'		=> 'lightbox[set1]'
-						);
-						break;
-					
-					case 'audio':
-						# file layout
-						$return[] = array (
-							'type' 		=> $type,
-							'title'		=> $file,
-							'path'		=> $this->conf['general']['appURL'] .'?path='. $this->path .'/'. $file,
-							'icon'		=> $this->conf['general']['appURL'] .'?path=',
-							'alt'		=> $type,
-							'name'		=> $this->makeShort($file),
-							'rel'		=> 'lightbox[audio 50% 40]'
-						);
-						break;
-					
-					case 'video':
-						# file layout
-						$return[] = array (
-							'type' 		=> $type,
-							'title'		=> $file,
-							'path'		=> $this->conf['general']['appURL'] .'?path='. $this->path .'/'. $file,
-							'icon'		=> $this->conf['general']['appURL'] .'?path=',
-							'alt'		=> $type,
-							'name'		=> $this->makeShort($file),
-							'rel'		=> 'lightbox[flash 640 360]'
-						);
-						break;
-						
-					default:
-						# file layout
-						$return[] = array (
-							'type' 		=> $type,
-							'title'		=> $file,
-							'path'		=> $this->conf['general']['appURL'] .'?path='. $this->path .'/'. $file,
-							'icon'		=> $this->conf['general']['appURL'] .'?path='. '',
-							'alt'		=> $type,
-							'name'		=> $this->makeShort($file),
-							'rel'		=> ''
-						);
-				}
+				$return[] = array (
+					'type' 		=> $this->file[$key]->getFormat(),
+					'title'		=> $file,
+					'path'		=> $this->file[$key]->getURL(),
+					'icon'		=> $this->file[$key]->getIcon(),
+					'alt'		=> $this->file[$key]->getFormat(),
+					'name'		=> self::makeShort($file),
+					'rel'		=> $this->file[$key]->getRelAttribut()
+				);
 			}
 			
 			# close ressource
@@ -269,7 +230,7 @@ class drive extends plugin {
 	
 	private function moveup () {
 		
-		$up = explode ('/', $this->path, -1);
+		$up = explode ('/', $this->path, -2);
 		$up = implode ('/', $up);
 		
 		if (empty($up)) {

@@ -1,15 +1,14 @@
 <?php
 
 # required plugins
-require_once (LIB_MOD .'/user/user.class.php');
 require_once (LIB_MOD .'/logs/logs.class.php');
+require_once (LIB_MOD .'/user/user.class.php');
 
 class controller {
 	
 	private $conf			= array();	// configuration
 	private $action			= 'drive';	// module
 	private $action_method	= null;		// method within the module
-	private $path			= '';		// current path
 	
 	private $user;						// instance of class user
 	private $tpl;						// instance of class template
@@ -34,18 +33,7 @@ class controller {
 		
 		# execute action if connected!
 		if ($this->user->isConnected()) {
-			
-			# save user info
-			bus::setData(
-				'user', array (
-					'login'			=> $this->user->getLogin(),
-					'flickrName'	=> $this->user->getFlickrName()
-				)
-			);
-			
-			# save Path
-			bus::setData('path', $this->path);
-			
+		
 			# hide items
 			$this->tpl->hideBlock('log_in');
 			
@@ -115,11 +103,6 @@ class controller {
 		} else {
 			require_once (LIB_MOD . $this->action .'/'. $this->action .'.class.php');
 		}
-		
-		# get path
-		if (isset($_GET['path']) && !empty($_GET['path'])) {
-			$this->path = $_GET['path'];
-		}
 	}
 	
 	/**
@@ -127,7 +110,7 @@ class controller {
 	 */
 	
 	private function initTemplate() {
-		$this->tpl =& new HTML_Template_Sigma('./theme/'. $this->conf['theme']['name'], 'cache');
+		$this->tpl = new HTML_Template_Sigma('./theme/'. $this->conf['theme']['name'], 'cache');
 		$this->tpl->setErrorHandling(PEAR_ERROR_DIE);
 		$this->tpl->loadTemplateFile('default.html');
 	}
@@ -140,6 +123,7 @@ class controller {
 		# print all items and all attribut
 		if (is_array($html)) {
 			$this->tpl->setCurrentBlock($this->action);
+			//$this->tpl->addBlockfile('plugin__place', $this->action, LIB_MOD . $this->action .'/template.html');
 			
 			foreach ($html as $key => $var) {
 				if (!is_array($var)) {

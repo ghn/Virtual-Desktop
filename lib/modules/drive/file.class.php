@@ -4,10 +4,12 @@ require_once(LIB_CORE .'tools.class.php');
 
 abstract class file {
 	
-	protected $file		= '';		// file we'll work on (filesystem)
+	protected $file		= null;		// file we'll work on (filesystem)
+	protected $path		= null;
 	protected $conf		= array();	// configuration parameters
-	protected $format;				// file format
-	protected $mime;
+	protected $format	= null;		// file format
+	protected $mime		= null;
+	protected $user		= null;
 	
 	/**
 	 *
@@ -18,6 +20,11 @@ abstract class file {
 		$this->file = $file;
 		$this->format = tools::getType($file);
 		$this->mime = tools::getMimeType($file);
+		
+		$datas = bus::getData('user');
+		$this->user = $datas['login'];
+		
+		$this->path = bus::getData('path');
 	}
 	
 	/**
@@ -54,7 +61,62 @@ abstract class file {
 	 *
 	 */
 	
+	public function getFormat() {
+		return $this->format;
+	}
+	
+	/**
+	 *
+	 */
+	
 	public function getSize() {
 		return filesize($this->file);
+	}
+	
+	/**
+	 *
+	 */
+	
+	public function getIcon() {
+		
+		switch ($this->format) {
+			case 'picture':
+				return $this->conf['general']['appURL'] .'?path='. $this->getThumbnail(0);
+				break;
+				
+			default:
+				return 'unknow.png';
+		}
+	}
+	
+	/**
+	 *
+	 */
+	
+	public function getURL() {
+		return $this->conf['general']['appURL'] .'?path='. $this->path . basename($this->file);
+	}
+	
+	/**
+	 *
+	 */
+	
+	public function getRelAttribut() {
+		
+		switch ($this->format) {
+			case 'picture':
+				return 'lightbox[set1]';
+				break;
+			
+			case 'audio':
+				return 'lightbox[audio 50% 40]';
+				break;
+			
+			case 'video':
+				return 'lightbox[flash 640 360]';
+				break;
+			default:
+				return '';
+		}
 	}
 }
