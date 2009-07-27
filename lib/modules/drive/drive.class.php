@@ -24,9 +24,9 @@ class drive extends plugin {
 		
 		# get current path
 		if (isset($_GET['path']) && !empty($_GET['path'])) {
-			$path = $_GET['path'];
+			$this->path = $_GET['path'];
 		} else {
-			$path = '';
+			$this->path = '';
 		}
 		
 		# get user login
@@ -37,13 +37,18 @@ class drive extends plugin {
 		$this->rootPath = $this->conf['general']['dataPath'] . $login . '/';
 		tools::mkdir_r($this->rootPath);
 		
-		if (is_file($this->rootPath . $path)) {
-			$this->absolutePath = $this->rootPath . $path;
-			$this->path = $path;
+		if (is_file($this->rootPath . $this->path)) {
+			$this->absolutePath = $this->rootPath . $this->path;
 		} else {
-			$this->absolutePath = $this->rootPath . $path .'/';
-			$this->path = $path .'/';
+			if (!empty($this->path)) {
+				$this->absolutePath = $this->rootPath . $this->path  .'/';
+				$this->path = $this->path  .'/';
+			} else {
+				$this->absolutePath = $this->rootPath . $this->path;
+			}
 		}
+		
+		bus::setData('path', $this->path);
 	}
 	
 	/**

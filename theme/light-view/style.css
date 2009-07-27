@@ -212,6 +212,7 @@ div#module {
 			}
 		div#module ul li img {
 			border: 0;
+			height: 52px;
 		}
 		div#module ul li span.filename {
 			font-size: .8em;

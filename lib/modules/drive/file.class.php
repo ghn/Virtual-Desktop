@@ -85,7 +85,7 @@ abstract class file {
 				break;
 				
 			default:
-				return 'unknow.png';
+				return $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/unknown.png';
 		}
 	}
 	
