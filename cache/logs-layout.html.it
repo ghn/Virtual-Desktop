@@ -1,0 +1,19 @@
+a:4:{s:6:"blocks";a:2:{s:8:"logsList";s:91:"<tr>
+<td>{id}</td>
+<td>{date}</td>
+<td>{ip}</td>
+<td>{module}</td>
+<td>{message}</td>
+</tr>";s:10:"__global__";s:195:"<h2>{name}</h2>
+<p>{description}</p>
+<table>
+<tr>
+<th></th>
+<th>Date</th>
+<th>IP</th>
+<th>Module</th>
+<th>Message</th>
+</tr>
+{__logsList__}
+</table>
+<p><a href="{urlClearLogs}">Clear list</a></p>";}s:9:"variables";a:2:{s:8:"logsList";a:5:{s:2:"id";b:1;s:4:"date";b:1;s:2:"ip";b:1;s:6:"module";b:1;s:7:"message";b:1;}s:10:"__global__";a:4:{s:4:"name";b:1;s:11:"description";b:1;s:12:"__logsList__";b:1;s:12:"urlClearLogs";b:1;}}s:8:"children";a:2:{s:8:"logsList";a:0:{}s:10:"__global__";a:1:{s:8:"logsList";b:1;}}s:9:"functions";a:2:{s:8:"logsList";a:0:{}s:10:"__global__";a:0:{}}}

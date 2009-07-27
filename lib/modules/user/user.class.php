@@ -180,7 +180,13 @@ class user extends plugin {
 		
 		switch ($action_method) {
 			case 'about':
-				return $this->about();
+				$about = $this->about();
+				
+				return array (
+					'name'			=> $about['title'],
+					'description'	=> $about['description'],
+					'menuItems'		=> $this->getMenuItems()
+				);
 				break;
 			case 'login':
 				return $this->login();

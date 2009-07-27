@@ -6,7 +6,7 @@ general:
   appURL: http://localhost/finder/      # URL Access. Can be either HTTP or HTTPS
   appTitle: My Virtual Desktop          # Application title
   version: 0.4.5
-  dataPath: C:\xampp\www\_datas\
+  dataPath: C:\wamp\www\_datas\
   thumbnailFolder: .thumbnails
 
 theme:

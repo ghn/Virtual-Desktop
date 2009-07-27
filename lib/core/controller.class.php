@@ -37,14 +37,15 @@ class controller {
 			# hide items
 			$this->tpl->hideBlock('log_in');
 			
-			# execute component, then render it
-			$component = new $this->action ();
-			$html = $component->run($this->action_method);
-			$this->setComponentVars($html);
+			# execute plugin, then render it
+			$plugin = new $this->action ();
+			$html = $plugin->run($this->action_method);
+			$this->setPluginVars($html);
 			
 			# search all plugins
 			$modules = $this->listModules();
-			$this->setComponentVars($modules);
+			$this->tpl->setCurrentBlock('__global__');
+			$this->setVars($modules);
 		} else {
 			
 			# hide items
@@ -60,6 +61,7 @@ class controller {
 		}
 		
 		# print general information
+		$this->tpl->setCurrentBlock('__global__');
 		$this->tpl->setVariable(array(
 			'appTitle' 		=> $this->conf['general']['appTitle'],
 			'appVersion'	=> $this->conf['general']['version'],
@@ -119,11 +121,43 @@ class controller {
 	 *	SET VARIABLES
 	 */
 	 
-	private function setComponentVars($html) {
+	private function setPluginVars($html) {
+		
+		# print all items and all attribut
+		if (is_array($html)) {
+			$this->tpl->setRoot(LIB_MOD . $this->action .'/');
+			$this->tpl->addBlockfile('plugin__place', $this->action, $this->action .'-layout.html');
+			$this->tpl->setCurrentBlock($this->action);
+			
+			foreach ($html as $key => $var) {
+				if (!is_array($var)) {
+					$this->tpl->setVariable($key, $var);
+				} else {
+					foreach ($var as $item) {
+						foreach ($item as $k => $v) {
+							$this->tpl->setVariable(array ($k => $v));
+						}
+						$this->tpl->parse($key);
+					}
+				}
+			}
+			$this->tpl->parseCurrentBlock();
+			
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 *	SET VARIABLES
+	 */
+	 
+	private function setVars($html) {
+		
 		# print all items and all attribut
 		if (is_array($html)) {
 			$this->tpl->setCurrentBlock($this->action);
-			//$this->tpl->addBlockfile('plugin__place', $this->action, LIB_MOD . $this->action .'/template.html');
 			
 			foreach ($html as $key => $var) {
 				if (!is_array($var)) {

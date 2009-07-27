@@ -23,11 +23,10 @@ abstract class plugin {
 	protected function about() {
 		$file_about = LIB_MOD . $this->pluginName .'/about.yaml';
 		if (file_exists($file_about)) {
-			
 			return Spyc::YAMLLoad($file_about);
 		} else {
 			return array (
-				'name'			=> $this->pluginName,
+				'title'			=> $this->pluginName,
 				'description'	=> 'cannot find a description for this plugin',
 				'menuItems'		=> $this->getMenuItems()
 			);

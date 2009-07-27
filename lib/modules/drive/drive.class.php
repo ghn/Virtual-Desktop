@@ -70,8 +70,9 @@ class drive extends plugin {
 			} else {
 				$directory = $this->path;
 			}
+			
 			return array (
-				'list'		=> $this->listCurrentFolder(),	// must be called first
+				'driveList'	=> $this->listCurrentFolder(),	// must be called first
 				'menuItems'	=> $this->getMenuItems(),
 				'nbFiles'	=> $this->nbFiles(),
 				'directory'	=> $directory
@@ -94,7 +95,7 @@ class drive extends plugin {
 	private function listCurrentFolder () {
 		$return = array();
 		
-		# print 'go back' if needed
+		# Display 'go back' if needed
 		if (!empty($this->path)) {
 			$return[] = array (
 				'type' 		=> 'folder',

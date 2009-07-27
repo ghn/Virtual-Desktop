@@ -82,7 +82,7 @@ class logs extends plugin {
 			while (!feof($handle)) {
 				$buffer = fgets($handle, 4096);
 				if (!empty($buffer)) {
-					list($date, $ip, $module, $message) = split("\t", $buffer);
+					list($date, $ip, $module, $message) = explode("\t", $buffer);
 					
 					$ret [] = array (
 						'id'		=> $i,
