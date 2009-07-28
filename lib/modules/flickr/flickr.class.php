@@ -33,14 +33,12 @@ class flickr extends plugin {
 	 *
 	 */
 	
-	public function run ($action_method = 'show') {
-		$this->action_method = $action_method;
+	protected function show () {
 		return array (
-				'flickrList'	=> $this->getPictures(),	// must be called first
-				'menuItems'		=> $this->getMenuItems(),
-				'nbFiles'		=> $this->nbFiles(),
-				'directory'		=> 'my flickr account.'
-			);
+			'flickrList'	=> $this->getPictures(),	// must be called first
+			'nbFiles'		=> $this->nbFiles(),
+			'directory'		=> 'my flickr account.'
+		);
 	}
 	
 	/**

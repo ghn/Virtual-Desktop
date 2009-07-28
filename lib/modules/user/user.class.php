@@ -44,7 +44,7 @@ class user extends plugin {
 	 *
 	 */
 	
-	private function login() {
+	protected function login() {
 		
 		if (!$this->connected && !is_null($this->login) && !is_null($this->password)) {
 		
@@ -85,7 +85,7 @@ class user extends plugin {
 	 *
 	 */
 	
-	private function logout() {
+	protected function logout() {
 	
 		$login = $this->login;
 		
@@ -146,7 +146,7 @@ class user extends plugin {
 	 *
 	 */
 	
-	public function getLogin() {
+	protected function getLogin() {
 		return $this->login;
 	}
 	
@@ -162,7 +162,7 @@ class user extends plugin {
 	 *
 	 */
 	
-	private function show () {
+	protected function show () {
 		return array (
 			'name'			=> 'User',
 			'description'	=> 'User manager',
@@ -170,35 +170,6 @@ class user extends plugin {
 		);
 	}
 	
-	/**
-	 *	Method callable from URL
-	 */
-	
-	public function run($action_method) {
-		$this->action_method = $action_method;
-		$message = '';
-		
-		switch ($action_method) {
-			case 'about':
-				$about = $this->about();
-				
-				return array (
-					'name'			=> $about['title'],
-					'description'	=> $about['description'],
-					'menuItems'		=> $this->getMenuItems()
-				);
-				break;
-			case 'login':
-				return $this->login();
-				break;
-			case 'logout':
-				return $this->logout();
-				break;
-			case 'show':
-				return $this->show();
-				break;
-		}
-	}
 	
 	/**
 	 *

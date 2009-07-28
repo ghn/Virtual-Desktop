@@ -1,1 +1,0 @@
-a:4:{s:6:"blocks";a:2:{s:5:"test2";s:16:"ma var = {mavar}";s:10:"__global__";s:11:"{__test2__}";}s:9:"variables";a:2:{s:5:"test2";a:1:{s:5:"mavar";b:1;}s:10:"__global__";a:1:{s:9:"__test2__";b:1;}}s:8:"children";a:2:{s:5:"test2";a:0:{}s:10:"__global__";a:1:{s:5:"test2";b:1;}}s:9:"functions";a:2:{s:5:"test2";a:0:{}s:10:"__global__";a:0:{}}}

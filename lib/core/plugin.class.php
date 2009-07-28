@@ -4,7 +4,7 @@ abstract class plugin {
 	
 	private $listMethod			= array ('show', 'about');
 	protected $pluginName		= null;
-	protected $action_method	= null;
+	protected $actionMethod		= null;
 	protected $conf				= null;
 	
 	/**
@@ -20,17 +20,19 @@ abstract class plugin {
 	 *
 	 */
 	
-	protected function about() {
-		$file_about = LIB_MOD . $this->pluginName .'/about.yaml';
-		if (file_exists($file_about)) {
-			return Spyc::YAMLLoad($file_about);
-		} else {
-			return array (
-				'title'			=> $this->pluginName,
-				'description'	=> 'cannot find a description for this plugin',
-				'menuItems'		=> $this->getMenuItems()
-			);
+	public function run($actionMethod = 'show') {
+		
+		$this->actionMethod = $actionMethod;
+		
+		# check if the method exists, then execute it
+		if (!method_exists($this, $this->actionMethod)) {
+			$this->actionMethod = 'show';
 		}
+		
+		$ret = call_user_func(array($this, $this->actionMethod));
+		
+		$ret['menuItems'] = $this->getMenuItems();
+		return $ret;
 	}
 	
 	/**
@@ -45,11 +47,26 @@ abstract class plugin {
 	 *
 	 */
 	
-	protected function getMenuItems() {
+	private function about() {
+		$file_about = LIB_MOD . $this->pluginName .'/about.yaml';
+		if (file_exists($file_about)) {
+			return Spyc::YAMLLoad($file_about);
+		} else {
+			return array (
+				'title'			=> $this->pluginName,
+				'description'	=> 'cannot find a description for this plugin'
+			);
+		}
+	}
+	
+	/**
+	 *
+	 */
+	
+	private function getMenuItems() {
 		
 		foreach ($this->listMethod as $item) {
-			
-			if ($item == $this->action_method) {
+			if ($item == $this->actionMethod) {
 				$class = 'current';
 			} else {
 				$class = '';

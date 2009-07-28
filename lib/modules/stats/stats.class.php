@@ -21,37 +21,19 @@ class stats extends plugin {
 	 *
 	 */
 	
-	public function run($action_method = 'show') {
-		
-		$this->action_method = $action_method;
-		
-		switch ($action_method) {
-			case 'about':
-				$about = $this->about();
-				
-				return array (
-					'name'			=> $about['title'],
-					'description'	=> $about['description'],
-					'menuItems'		=> $this->getMenuItems()
-				);
-				break;
-				
-			case 'show':
-				return array(
-					'name'			=> 'Statistics',
-					'description'	=> 'stats of your folders',
-					'stats'			=> $this->show(),
-					'menuItems'		=> $this->getMenuItems()
-				);
-				break;
-		}
+	protected function show() {
+		return array(
+			'name'			=> 'Statistics',
+			'description'	=> 'stats of your folders',
+			'stats'			=> $this->calculate()
+		);
 	}
 	
 	/**
 	 *
 	 */
 	
-	private function show() {
+	private function calculate() {
 		$directory = $this->conf['general']['dataPath'] . $this->user .'/';
 		$space = $this->GetFolderSize($directory);
 		

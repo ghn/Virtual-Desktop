@@ -20,32 +20,13 @@ class logs extends plugin {
 	 *
 	 */
 	
-	public function run($action_method = 'show') {
-		$this->action_method = $action_method;
-		
-		switch ($action_method) {
-			case 'about':
-				$about = $this->about();
-				
-				return array (
-					'name'			=> $about['title'],
-					'description'	=> $about['description'],
-					'menuItems'		=> $this->getMenuItems()
-				);
-				break;
-				
-			case 'show':
-			default:
-				return array (
-					'name'			=> 'Log file',
-					'description'	=> '',
-					'logsList'		=> $this->show(),
-					'menuItems'		=> $this->getMenuItems()
-				);
-				break;
-		}
+	protected function show() {
+		return array (
+			'name'			=> 'Log file',
+			'description'	=> '',
+			'logsList'		=> $this->makeList()
+		);
 	}
-	
 	
 	/**
 	 *
@@ -68,7 +49,7 @@ class logs extends plugin {
 	 *
 	 */
 	
-	protected function show() {
+	private function makeList() {
 		
 		if (file_exists($this->logFile)) {
 			$handle = fopen($this->logFile, 'r');

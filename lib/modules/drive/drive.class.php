@@ -55,9 +55,9 @@ class drive extends plugin {
 	 *
 	 */
 	
-	public function run ($action_method = 'show') {
+	public function run ($actionMethod = 'show') {
 	
-		$this->action_method = $action_method;
+		$this->actionMethod = $actionMethod;
 		
 		# return the file it there is one.
 		#  or list the current folder

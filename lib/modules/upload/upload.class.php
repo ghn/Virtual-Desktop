@@ -2,7 +2,7 @@
 
 require_once (LIB_CORE .'plugin.class.php');
 
-class test extends plugin {
+class upload extends plugin {
 	
 	/**
 	 *
@@ -18,8 +18,15 @@ class test extends plugin {
 	
 	protected function show() {
 		return array (
-			'toto'	=> 12,
-			'lala'	=> 'salut'
+			'path'	=> 'test'
 		);
+	}
+	
+	/**
+	 *
+	 */
+	
+	private function upload() {
+	
 	}
 }

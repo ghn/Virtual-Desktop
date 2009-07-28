@@ -8,7 +8,7 @@ class controller {
 	
 	private $conf			= array();	// configuration
 	private $action			= 'drive';	// module
-	private $action_method	= null;		// method within the module
+	private $actionMethod	= null;		// method within the module
 	
 	private $user;						// instance of class user
 	private $tpl;						// instance of class template
@@ -27,7 +27,7 @@ class controller {
 		# Create user object and log result if any
 		$this->user = new user();
 		if ($this->action == 'user') {
-			$ret = $this->user->run($this->action_method);
+			$ret = $this->user->run($this->actionMethod);
 			logs::write('user', $ret);
 		}
 		
@@ -39,7 +39,7 @@ class controller {
 			
 			# execute plugin, then render it
 			$plugin = new $this->action ();
-			$html = $plugin->run($this->action_method);
+			$html = $plugin->run($this->actionMethod);
 			$this->setPluginVars($html);
 			
 			# search all plugins
@@ -67,7 +67,7 @@ class controller {
 			'appVersion'	=> $this->conf['general']['version'],
 			'themeName'		=> $this->conf['theme']['name'],
 			'appURL'		=> $this->conf['general']['appURL'],
-			'urlUpload'		=> $this->conf['general']['appURL'] .'?action=upload&amp;path=',
+			'urlUpload'		=> $this->conf['general']['appURL'] .'?action=upload.show',
 			'urlCreateFolder'=>$this->conf['general']['appURL'] .'?action=create.folder&amp;path=',
 			'urlDisconnect'	=> $this->conf['general']['appURL'] .'?action=user.logout',
 			'urlConnect'	=> $this->conf['general']['appURL'] .'?action=user.login',
@@ -87,7 +87,7 @@ class controller {
 	private function getParams() {
 		# get action
 		if (isset($_GET['action']) && !empty($_GET['action'])) {
-			@list($action, $this->action_method) = explode('.', $_GET['action']);
+			@list($action, $this->actionMethod) = explode('.', $_GET['action']);
 			
 			# check if module file exists
 			$classFile = LIB_MOD . $action .'/'. $action .'.class.php';
@@ -104,6 +104,11 @@ class controller {
 			}
 		} else {
 			require_once (LIB_MOD . $this->action .'/'. $this->action .'.class.php');
+		}
+		
+		# check action method
+		if (empty($this->actionMethod)) {
+			$this->actionMethod = 'show';
 		}
 	}
 	
@@ -126,7 +131,7 @@ class controller {
 		# print all items and all attribut
 		if (is_array($html)) {
 			$this->tpl->setRoot(LIB_MOD . $this->action .'/');
-			$this->tpl->addBlockfile('plugin__place', $this->action, $this->action .'-layout.html');
+			$this->tpl->addBlockfile('plugin__place', $this->action, $this->action .'-'. $this->actionMethod .'-layout.html');
 			$this->tpl->setCurrentBlock($this->action);
 			
 			foreach ($html as $key => $var) {

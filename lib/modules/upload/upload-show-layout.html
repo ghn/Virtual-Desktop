@@ -1,0 +1,34 @@
+<div id="upload">
+	<p>Upload in the folder <strong>{path}</strong></p>
+	{name} - {description}
+	<form action="{form-action}" method="post" enctype="multipart/form-data" name="upload">
+		<fieldset id="uploadForm">
+			<legend>File Upload</legend>
+			
+			<p>Selected your photo to upload.</p>
+			<label for="demo-photoupload">
+				Upload Photos:
+				<input type="file" name="photoupload" id="demo-photoupload" />
+			</label>
+		</fieldset>
+		
+		<div id="demo-status" class="hide">
+			<p>
+				<a href="#" id="actionBrowse">Browse Files</a> |
+				<input type="checkbox" id="selectImages" /><label for="selectImages">Images Only</label> |
+				<a href="#" id="actionClear">Clear List</a> |
+				<a href="#" id="actionUpload">Upload</a>
+			</p>
+		</div>
+		
+		<strong class="overall-title">Overall progress</strong><br />
+		<img src="themes/light-view/fancyUpload/images/progress-bar/bar.gif" class="progress overall-progress" alt="bar" />
+
+		<strong class="current-title">File Progress</strong><br />
+		<img src="themes/light-view/fancyUpload/images/progress-bar/bar.gif" class="progress current-progress" alt="bar" />
+	
+		<div class="current-text"></div>
+		
+		<ul id="demo-list"></ul>
+	</form>
+</div>
