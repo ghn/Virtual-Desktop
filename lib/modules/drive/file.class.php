@@ -94,7 +94,14 @@ abstract class file {
 	 */
 	
 	public function getURL() {
-		return $this->conf['general']['appURL'] .'?path='. $this->path . basename($this->file);
+		switch ($this->format) {
+			case 'picture':
+				return $this->conf['general']['appURL'] .'?path='. $this->getThumbnail(1);
+				break;
+			default:
+				return $this->conf['general']['appURL'] .'?path='. $this->path . basename($this->file);
+				break;
+		}
 	}
 	
 	/**
