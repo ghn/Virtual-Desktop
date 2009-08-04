@@ -165,8 +165,7 @@ class user extends plugin {
 	protected function show () {
 		return array (
 			'name'			=> 'User',
-			'description'	=> 'User manager',
-			'menuItems'		=> $this->getMenuItems()
+			'description'	=> 'User manager'
 		);
 	}
 	

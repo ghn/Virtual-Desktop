@@ -5,7 +5,7 @@
 *****************************************/
 
 /* INCLUDE OTHERS STYLE SHEETS */
-@import url("mediaboxadvanced/css/mediaboxAdvWhite.css");
+@import url("mediaboxadvanced/css/mediaboxAdvBlack.css");
 
 /* DEFAULT OPTIONS */
 body {
@@ -17,6 +17,7 @@ body {
 	font-size: 80%;
 	line-height: 1.6em;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	
 	border-top: 6px solid #455200;
 }            
 a {color: #000;}
@@ -64,7 +65,7 @@ div#login {
 	padding: 5px;
 	color: #fff;
 }
-	div#login p {margin: 0; display: inline;}
+	div#login p {margin: 0;}
 		div#login p span.logout a {
 			background: url(shortcuts/system-log-out.png) 3px 3px no-repeat #dde189;
 			text-decoration: none;
@@ -179,7 +180,7 @@ div#shortcuts {
 /**
  *	LIST FOLDERS & FILES
  */
-div#module {
+div#list {
 	clear: both;
 	background: #fff;
 	padding: .2em;
@@ -188,112 +189,117 @@ div#module {
 	-moz-border-radius-bottomleft: .5em;
 	-moz-border-radius-bottomright: .5em;
 }
-	div#module p.error {
-		color: red;
-	}
-	div#module ul li {
+	div#list ul li {
 		list-style-type: none;
 		text-align: center;
 		float: left;
 		width: 80px;
+		
 		margin: 3px;
 	}
-		div#module ul li a {
+		div#list ul li a {
 			display: block;
 			padding: 3px;
+			
 			height: 80px;
 			border: 1px solid #fff;
 		}
-			div#module ul li a:hover {
+			div#list ul li a:hover {
 				border: 1px solid #DDE189;
 			}
-		div#module ul li img {
+		div#list ul li img {
 			border: 0;
-			height: 52px;
 		}
-		div#module ul li span.filename {
+		div#list ul li span.filename {
 			font-size: .8em;
 		}
-		div#module ul li span.params {
+		div#list ul li span.params {
 			font-size: .8em;
 			color: #999;
 		}
 		
 			/* ITEM = file / images */
-			div#module ul li.picture div.actions {
+			div#list ul li.image div.actions {
 				position: relative;
 				top: -90px;
 				left: 35px;
 				background-color: #fff;
 			}
-				div#module ul li.picture div.actions ul li {
+				div#list ul li.image div.actions ul li {
 					width: 130px;
 					
 					text-align: left;
 				}
-					div#module ul li.picture div.actions ul li a {
+					div#list ul li.image div.actions ul li a {
 						display: inline;
 						padding-left: 22px;
 					}
-				div#module ul li.picture div.actions ul li.rotate a {
+				div#list ul li.image div.actions ul li.rotate a {
 					background: url(shortcuts/object-rotate-right.png) 3px 3px no-repeat #fff;
 				}
-				div#module ul li.picture div.actions ul li.refresh a {
+				div#list ul li.image div.actions ul li.refresh a {
 					background: url(shortcuts/view-refresh.png) 3px 3px no-repeat #fff;
 				}
-					div#module ul li.picture div.actions ul li a span {display: none;}
+					div#list ul li.image div.actions ul li a span {display: none;}
 					
-				div#module ul li.picture span.filename, div#module ul li.document span.filename {
+				div#list ul li.image span.filename, div#list ul li.document span.filename {
 					font-size: .6em;
 					color: #999;
 				}
-				div#module ul li.picture a, div#module ul li.picture a:hover {
+				div#list ul li.image a, div#list ul li.image a:hover {
 					color: #000;
 					text-decoration: none;
 				}
 			
 			/* ITEM = folders */
-			div#module ul li.folder img {
+			div#list ul li.folder img {
 				height: 52px;
 			}
-			div#module ul li.folder a, div#module ul li.folder a:hover {
+			div#list ul li.folder a, div#list ul li.folder a:hover {
 				color: #000;
 				text-decoration: none;
 			}
 			
 			/* ITEM = file / documents */
-			div#module ul li.document a, div#module ul li.document a:hover {
+			div#list ul li.document a, div#list ul li.document a:hover {
 				color: #000;
 				text-decoration: none;
 			}
+				div#list ul li.document img {
+					height: 52px;
+				}
 			
 			/* ITEM = file / videos */
-			div#module ul li.video a, div#module ul li.video a:hover {	
+			div#list ul li.video a, div#list ul li.video a:hover {	
 				color: #000;
 				text-decoration: none;
+			}
+			div#list ul li.video img {
+				height: 52px;
 			}
 			
 	/* info */
-	div#module div.info {
+	div#list div.info {
 		clear: both;
 		color: #999;
 		font-size: 60%;
 		text-align: left;
 	}
-		div#module div.info div.directory {}
+		div#list div.info div.directory {
+			position: absolute;
+			top: 90px;
+			left: 240px;
+		}
 	
 /**
  *	FOOTER
  */
 div#footer {
     padding: 1em;
+	background: #e8e8e8;
 }
-	div#footer div.copyright a {
+	div#footer img {border: 0;}
+	div#footer a {
 		color: #000;
 		text-decoration: none;
-	}
-	
-	div#footer div.modules ul li {
-		display: inline;
-		margin-right: 10px;
 	}

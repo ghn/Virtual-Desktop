@@ -7,6 +7,13 @@
 /* INCLUDE OTHERS STYLE SHEETS */
 @import url("mediaboxadvanced/css/mediaboxAdvWhite.css");
 
+
+/* HTML5 tags */  
+header, section, footer,  
+aside, nav, article, figure {  
+    display: block;  
+}
+
 /* DEFAULT OPTIONS */
 body {
 	margin: 0;
@@ -14,7 +21,7 @@ body {
     text-align: center;
    	background: #e8e8e8;
 	color: #000;
-	font-size: 80%;
+	font-size: 10pt;
 	line-height: 1.6em;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	border-top: 6px solid #455200;
@@ -33,20 +40,16 @@ div#page {
 /**
  *	HEADER
  */
-div#header {
+#banner {
 	padding: .5em 1em;
 }
-	div#header h1 {text-align: left;}
-		div#header h1 a {
+	#banner h1 {text-align: left;}
+		#banner h1 a {
 			color: #455200;
 			font-size: 1em;
 			font-family: Scrptina, verdana;
 			text-decoration: none;
 		}
-		div#heeader h1 a:hover {
-			color: #fff;
-		}
-
 
 /**
  *	LOGIN
@@ -74,38 +77,39 @@ div#login {
 			-moz-border-radius: .5em;
 		}
 
-
 /**
  *	CONTENT
  */
-div#content {
+ .body {}
+ .clear {clear:both;}
+#content {
     background: #dde189;
-    padding: .5em;
+    padding: .5em .5em 0 .5em;
+	margin: 0;
 }
-	div#navigation {
-		text-align: left;
-	}
-	
+
 /**
  *	TOOLS
  */
-div#tools {
+#tools {
 	position: absolute;
 	right: 200px;
 }
-	div#tools div.box-title {
+	#tools h2 {
 		text-align: center;
 		padding: 5px;
 		padding-left: 24px;
 		text-decoration: none;
 		color: #fff;
 		background: url(shortcuts/applications-system.png) 5px 7px no-repeat #455200;
+		font-weight: normal;
+		font-size: 10pt;
+		margin: 0;
 		border-radius: .5em;
 		-moz-border-radius-topleft: .5em;
 		-moz-border-radius-topright: .5em;
 	}
-	div#tools div.box-content {display:none;}
-		div#tools div.box-content ul {
+		#tools nav  ul {
 			margin: 0;
 			padding: 5px;
 			background-color: #455200;
@@ -115,13 +119,13 @@ div#tools {
 			position: absolute;
 			width: 231px;
 		}
-			div#tools div.box-content ul li {
+			#tools nav ul li {
 				margin: 0;
 				margin-bottom: 5px;
 				list-style: none;
 				
 			}
-				div#tools div.box-content ul li a {
+				#tools nav ul li a {
 					text-decoration: none;
 					padding: 3px;
 					padding-left: 20px;
@@ -130,36 +134,25 @@ div#tools {
 					-moz-border-radius: .5em;
 					display: block;
 				}
-					div#tools div.box-content ul li.newfolder a {
-						background-image: url(shortcuts/folder-new.png);
-					}
-					div#tools div.box-content ul li.newfile a {
-						background-image: url(shortcuts/file-new.png);
-					}
 
 /**
  *	SHORTCUTS
  */
-div#shortcuts {
-	/*width: 200px;*/
-	float: left;
-}
-	div#shortcuts div.box div.box-title {display: none;}
-	div#shortcuts div.box div.box-content ul {
+#shortcuts {}
+	#shortcuts h2 {display: none;}
+	#shortcuts nav ul {
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
 	}
-		div#shortcuts div.box div.box-content ul li {
+		#shortcuts nav ul li {
 			float: left;
 			margin-left: 3px;
-			
 		}
-			div#shortcuts div.box div.box-content ul li a {
+			#shortcuts nav ul li a {
 				display: block;
 				padding: 5px;
 				text-decoration: none;
-				
 				color: #fff;
 				background: #455200;
 				
@@ -167,11 +160,11 @@ div#shortcuts {
 				-moz-border-radius-topleft: .5em;
 				-moz-border-radius-topright: .5em;
 			}
-			div#shortcuts div.box div.box-content ul li a:hover {
+			#shortcuts nav ul li a:hover {
 				background: #fff;
 				color: #000;
 			}
-			div#shortcuts div.box div.box-content ul li.current a {
+			#shortcuts nav ul li.current a {
 				background-color: #fff;
 				color: #000;
 			}
@@ -179,121 +172,126 @@ div#shortcuts {
 /**
  *	LIST FOLDERS & FILES
  */
-div#module {
-	clear: both;
-	background: #fff;
-	padding: .2em;
+#plugin {
+	clear: left;
+	background: #dde189;
+	padding: 0 10px 10px 10px;
 	
 	border-radius: .5em;
 	-moz-border-radius-bottomleft: .5em;
 	-moz-border-radius-bottomright: .5em;
 }
-	div#module p.error {
-		color: red;
+	#plugin article {
+		background: #fff;
+		padding-top: 10px;
 	}
-	div#module ul li {
+	#plugin p.error {
+		color: #800000;
+		font-weight: bold;
+	}
+	#plugin ul li {
 		list-style-type: none;
 		text-align: center;
 		float: left;
 		width: 80px;
 		margin: 3px;
 	}
-		div#module ul li a {
+		#plugin ul li a {
 			display: block;
 			padding: 3px;
 			height: 80px;
 			border: 1px solid #fff;
 		}
-			div#module ul li a:hover {
+			#plugin ul li a:hover {
 				border: 1px solid #DDE189;
 			}
-		div#module ul li img {
+		#plugin ul li img {
 			border: 0;
 			height: 52px;
 		}
-		div#module ul li span.filename {
+		#plugin ul li span.filename {
 			font-size: .8em;
 		}
-		div#module ul li span.params {
+		#plugin ul li span.params {
 			font-size: .8em;
 			color: #999;
 		}
 		
 			/* ITEM = file / images */
-			div#module ul li.picture div.actions {
+			#plugin ul li.picture div.actions {
 				position: relative;
 				top: -90px;
 				left: 35px;
 				background-color: #fff;
 			}
-				div#module ul li.picture div.actions ul li {
+				#plugin ul li.picture div.actions ul li {
 					width: 130px;
 					
 					text-align: left;
 				}
-					div#module ul li.picture div.actions ul li a {
+					#plugin ul li.picture div.actions ul li a {
 						display: inline;
 						padding-left: 22px;
 					}
-				div#module ul li.picture div.actions ul li.rotate a {
+				#plugin ul li.picture div.actions ul li.rotate a {
 					background: url(shortcuts/object-rotate-right.png) 3px 3px no-repeat #fff;
 				}
-				div#module ul li.picture div.actions ul li.refresh a {
+				#plugin ul li.picture div.actions ul li.refresh a {
 					background: url(shortcuts/view-refresh.png) 3px 3px no-repeat #fff;
 				}
-					div#module ul li.picture div.actions ul li a span {display: none;}
+					#plugin ul li.picture div.actions ul li a span {display: none;}
 					
-				div#module ul li.picture span.filename, div#module ul li.document span.filename {
+				#plugin ul li.picture span.filename, #plugin ul li.document span.filename {
 					font-size: .6em;
 					color: #999;
 				}
-				div#module ul li.picture a, div#module ul li.picture a:hover {
+				#plugin ul li.picture a, #plugin ul li.picture a:hover {
 					color: #000;
 					text-decoration: none;
 				}
 			
 			/* ITEM = folders */
-			div#module ul li.folder img {
+			#plugin ul li.folder img {
 				height: 52px;
 			}
-			div#module ul li.folder a, div#module ul li.folder a:hover {
+			#plugin ul li.folder a, #plugin ul li.folder a:hover {
 				color: #000;
 				text-decoration: none;
 			}
 			
 			/* ITEM = file / documents */
-			div#module ul li.document a, div#module ul li.document a:hover {
+			#plugin ul li.document a, #plugin ul li.document a:hover {
 				color: #000;
 				text-decoration: none;
 			}
 			
 			/* ITEM = file / videos */
-			div#module ul li.video a, div#module ul li.video a:hover {	
+			#plugin ul li.video a, #plugin ul li.video a:hover {	
 				color: #000;
 				text-decoration: none;
 			}
 			
 	/* info */
-	div#module div.info {
+	#plugin div.info {
 		clear: both;
 		color: #999;
 		font-size: 60%;
 		text-align: left;
 	}
-		div#module div.info div.directory {}
+		#plugin div.info div.directory {}
 	
 /**
  *	FOOTER
  */
-div#footer {
+#contentinfo {
     padding: 1em;
 }
-	div#footer div.copyright a {
+	#contentinfo div.copyright a {
 		color: #000;
 		text-decoration: none;
 	}
 	
-	div#footer div.modules ul li {
+	#contentinfo div.modules ul li {
 		display: inline;
 		margin-right: 10px;
 	}

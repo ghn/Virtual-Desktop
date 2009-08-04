@@ -1,23 +1,23 @@
 window.addEvent("domready", function() {
 	
 	// login set focus if exists
-	if ($chk('vd_auth_login')) {
-		//$('vd_auth_login').focus();
+	if ($('vd_auth_login') != null) {
+		$('vd_auth_login').focus();
 	}
 	
 	// tool menu (show / hide)
-	if ($chk('div#tools div.box-content')) {
-		var toolsEvent = $$('div#tools div.box')[0];
-		var tools = $$('div#tools div.box-content')[0];
+	if ($('tools') != null) {
+		var toolsEvent = $$('#tools')[0];
+		var toolsList = $$('#tools nav')[0];
 		
-		tools.setStyle('display', 'none');
+		toolsList.setStyle('display', 'none');
 		
 		toolsEvent.addEvent('mouseover', function(elem) {
-			tools.setStyle('display', 'block');
+			toolsList.setStyle('display', 'block');
 		});
 		
 		toolsEvent.addEvent('mouseleave', function(elem) {
-			tools.setStyle('display', 'none');
+			toolsList.setStyle('display', 'none');
 		});
 	}
 });
