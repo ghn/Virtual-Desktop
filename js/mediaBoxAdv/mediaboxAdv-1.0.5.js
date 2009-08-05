@@ -727,7 +727,12 @@ var Mediabox;
 		if (mediaType == "img"){
 			mediaWidth = preload.width;
 			mediaHeight = preload.height;
-			image.setStyles({backgroundImage: "url("+URL+")", display: ""});
+			
+			var URLnew = URL;
+			URLnew = URLnew.replace('(', '%28');
+			URLnew = URLnew.replace(')', '%29');
+			
+			image.setStyles({backgroundImage: "url("+URLnew+")", display: ""});
 		} else if (mediaType == "obj") {
 			if (Browser.Plugins.Flash.version<8) {
 				image.setStyles({backgroundImage: "none", display: ""});
