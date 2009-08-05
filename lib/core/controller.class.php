@@ -42,9 +42,13 @@ class controller {
 			$html = $plugin->run($this->actionMethod);
 			$this->setPluginVars($html);
 			
+			# search JS & CSS files
+			$js = $plugin->getJS();
+			$css = $plugin->getCSS();
+			$this->setDependencies($js, $css);
+			
 			# search all plugins
 			$modules = $this->listModules();
-			$this->tpl->setCurrentBlock('__global__');
 			$this->setVars($modules);
 		} else {
 			
@@ -131,7 +135,7 @@ class controller {
 		# print all items and all attribut
 		if (is_array($html)) {
 			$this->tpl->setRoot(LIB_MOD . $this->action .'/');
-			$this->tpl->addBlockfile('plugin__place', $this->action, $this->action .'-'. $this->actionMethod .'-layout.html');
+			$this->tpl->addBlockfile('plugin__place', $this->action, 'templates/'. $this->action .'-'. $this->actionMethod .'-layout.html');
 			$this->tpl->setCurrentBlock($this->action);
 			
 			foreach ($html as $key => $var) {
@@ -181,6 +185,31 @@ class controller {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	/**
+	 *
+	 */
+	
+	private function setDependencies($js = null, $css = null) {
+		
+		# set JS
+		if ($js != null){
+			$this->tpl->setCurrentBlock('plugin-js');
+			foreach ($js as $item) {
+				$this->tpl->setVariable('name', $this->conf['general']['appURL'] .'lib/modules/'. $item);
+				$this->tpl->parse('plugin-js');
+			}
+		}
+		
+		# set CSS
+		if ($css != null) {
+			$this->tpl->setCurrentBlock('plugin-css');
+			foreach ($css as $item) {
+				$this->tpl->setVariable('name', $this->conf['general']['appURL'] .'lib/modules/'. $item);
+				$this->tpl->parse('plugin-css');
+			}
 		}
 	}
 	

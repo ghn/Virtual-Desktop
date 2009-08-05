@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>  
+<html lang="en">  
 	<head>
 		<title>{appTitle} {appVersion}</title>
 		<link rel="shortcut icon" type="image/x-icon" href="theme/{themeName}/favicon.ico" />
@@ -15,15 +14,21 @@
 		<script type="text/javascript" src="js/mootools-1.2-more.js"></script>
 		<script type="text/javascript" src="js/virtualdesktop/virtualdesktop.js"></script>
 		<script type="text/javascript" src="js/mediaBoxAdv/mediaboxAdv-1.0.5.js"></script>
-
+		
+		<!-- BEGIN plugin-js -->
+		<script type="text/javascript" src="{name}"></script>
+		<!-- END plugin-js -->
+		
 		<link rel="stylesheet" type="text/css" href="theme/{themeName}/style.css" />
+		
+		<!-- BEGIN plugin-css -->
+		<link rel="stylesheet" type="text/css" href="{name}" />
+		<!-- END plugin-css -->
 	</head>
 	
 	<body>
-		<div id="page">
-			<div id="header">
-				<h1><a href="{appURL}">{appTitle} {appVersion}</a></h1>
-			</div>
+		<header id="banner" class="body">
+			<h1><a href="{appURL}">{appTitle} {appVersion}</a></h1>
 			
 			<div id="login">
 				<!-- BEGIN log_out -->
@@ -49,71 +54,64 @@
 				</form>
 				<!-- END log_in -->
 			</div>
-			
-			<div id="content">
-				<div id="navigation">
-					<!-- BEGIN tools -->
-					<div id="tools">
-						<div class="box">
-							<div class="box-title">
-								Options
-							</div>
-							
-							<div class="box-content">
-								<ul>
-									<li><a href="{urlUpload}" rel="lightbox[upload 640 360]">Add files</a></li>
-									<li><a href="{urlCreateFolder}" rel="lightbox[createfolder 200 200]">Create a new folder</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<!-- END tools -->
-					
-					<div id="shortcuts">
-						<div class="box">
-							<div class="box-title">
-								Folders
-							</div>
-							<div class="box-content">
-								<ul>
-									<!-- BEGIN menuItems -->
-									<li class="{class}">
-										<a href="{url}">{name}</a>
-									</li>
-									<!-- END menuItems -->
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div id="module">
-					<!-- plugin content -->
-					{plugin__place}
-					
-					<!-- BEGIN homepage -->
-						<div id="homepage">
-							<p class="error">{error}</p>
-							<p>You're still not logged on. <strong>{date}</strong></p>
-						</div>
-					<!-- END homepage -->
-				</div>
-			</div>
-			
-			<div id="footer">
-				<div class="modules">
-					Display module: 
+		</header>
+		
+		<aside id="content" class="body">
+			<!-- BEGIN tools -->
+			<section id="tools">
+				<h2>Options</h2>
+				<nav>
 					<ul>
-					<!-- BEGIN modules -->
-						<li><a href="{link}">{name}</a></li>
-					<!-- END modules -->
+						<li><a href="{urlUpload}" rel="lightbox[upload 640 360]">Add files</a></li>
+						<li><a href="{urlCreateFolder}" rel="lightbox[createfolder 200 200]">Create a new folder</a></li>
 					</ul>
-				</div>
-				<div class="copyright">
-					&copy; 2007-2009 germain.cn |
-					<a href="thanks.html" rel="lightbox[thanks 640 360]" title="Credits">Thanks to</a>
-				</div>
+				</nav>
+			</section>
+			<!-- END tools -->
+			
+			<section id="shortcuts">
+				<h2>Folders</h2>
+				<nav>
+					<ul>
+						<!-- BEGIN menuItems -->
+						<li class="{class}">
+							<a href="{url}">{name}</a>
+						</li>
+						<!-- END menuItems -->
+					</ul>
+				</nav>
+			</section>
+			<div class="clear"></div>
+		</aside>
+				
+		<section id="plugin" class="body">
+			<article class="">
+				<!-- plugin content -->
+				{plugin__place}
+			</article>
+			
+			<!-- BEGIN homepage -->
+				<article id="homepage">
+					<p class="error">{error}</p>
+					<p>You're still not logged on. <strong>{date}</strong></p>
+				</article>
+			<!-- END homepage -->
+			
+		</section>
+			
+		<footer id="contentinfo" class="body">
+			<div class="modules">
+				Display module: 
+				<ul>
+				<!-- BEGIN modules -->
+					<li><a href="{link}">{name}</a></li>
+				<!-- END modules -->
+				</ul>
 			</div>
-		</div>
+			<div class="copyright">
+				&copy; 2007-2009 germain.cn |
+				<a href="thanks.html" rel="lightbox[thanks 640 360]" title="Credits">Thanks to</a>
+			</div>
+		</footer>
 	</body>
 </html>

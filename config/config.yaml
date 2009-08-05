@@ -10,7 +10,7 @@ general:
   thumbnailFolder: .thumbnails
 
 theme:
-  name: light-view-html5
+  name: light-view
   path:
   
 files:

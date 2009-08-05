@@ -39,6 +39,51 @@ abstract class plugin {
 	 *
 	 */
 	
+	public function getJS() {
+		$rep = LIB_MOD . $this->pluginName .'/js/';
+		if (is_dir($rep)) {
+			$res = opendir($rep);
+			while (false !== ($file = readdir($res))) {
+				if (is_file($rep . $file)) {
+					$tab[] = $this->pluginName .'/js/'. $file;
+				}
+			}
+			if (empty($tab)) {
+				return null;
+			} else {
+				return $tab;
+			}
+		}
+	}
+	
+	/**
+	 *
+	 */
+	
+	public function getCSS() {
+		$rep = LIB_MOD . $this->pluginName .'/css/';
+		if (is_dir($rep)) {
+			$res = opendir($rep);
+			while (false !== ($file = readdir($res))) {
+				$ext = substr($file, strrpos($file, '.') + 1);
+				if (is_file($rep . $file) && ($ext == 'css')) {
+					$tab[] = $this->pluginName .'/css/'. $file;
+				}
+			}
+			if (empty($tab)) {
+				return null;
+			} else {
+				return $tab;
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 *
+	 */
+	
 	protected function getListMethod() {
 		return $this->listMethod;
 	}
