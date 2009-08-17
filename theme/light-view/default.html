@@ -10,8 +10,8 @@
 		<meta http-equiv="expires" content="0" />
 		<meta name="robots" content="noindex, nofollow" />
 		
-		<script type="text/javascript" src="js/mootools-1.2.1-core-yc.js"></script>
-		<script type="text/javascript" src="js/mootools-1.2-more.js"></script>
+		<script type="text/javascript" src="js/mootools-1.2.3-core-yc.js"></script>
+		<script type="text/javascript" src="js/mootools-1.2.3.1-more.js"></script>
 		<script type="text/javascript" src="js/virtualdesktop/virtualdesktop.js"></script>
 		<script type="text/javascript" src="js/mediaBoxAdv/mediaboxAdv-1.0.5.js"></script>
 		
@@ -62,8 +62,11 @@
 				<h2>Options</h2>
 				<nav>
 					<ul>
-						<li><a href="{urlUpload}" rel="lightbox[upload 640 360]">Add files</a></li>
-						<li><a href="{urlCreateFolder}" rel="lightbox[createfolder 200 200]">Create a new folder</a></li>
+						<!-- BEGIN actionItems -->
+						<li class="{class}">
+							<a href="{url}" rel="{rel}">{name}</a>
+						</li>
+						<!-- END actionItems -->
 					</ul>
 				</nav>
 			</section>

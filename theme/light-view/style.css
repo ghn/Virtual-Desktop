@@ -76,6 +76,7 @@ div#login {
 			border-radius: .5em;
 			-moz-border-radius: .5em;
 		}
+		div#login p span.logged {}
 
 /**
  *	CONTENT
@@ -133,6 +134,7 @@ div#login {
 					border-radius: .5em;
 					-moz-border-radius: .5em;
 					display: block;
+					text-align: left;
 				}
 
 /**

@@ -1,7 +1,7 @@
 <div id="upload">
 	<p>Upload in the folder <strong>{path}</strong></p>
 	{name} - {description}
-	<form action="{form-action}" method="post" enctype="multipart/form-data" name="form-upload" id="upload-form">
+	<form action="{form-action}" method="post" enctype="multipart/form-data" name="upload-form" id="upload-form">
 		<fieldset id="uploadForm">
 			<legend>File Upload</legend>
 			
@@ -14,18 +14,18 @@
 		
 		<div id="upload-status" class="hide">
 			<p>
-				<a href="#" id="actionBrowse">Browse Files</a> |
+				<a href="#" id="upload-Browse">Browse Files</a> |
 				<input type="checkbox" id="selectImages" /><label for="selectImages">Images Only</label> |
-				<a href="#" id="actionClear">Clear List</a> |
-				<a href="#" id="actionUpload">Upload</a>
+				<a href="#" id="upload-clear">Clear List</a> |
+				<a href="#" id="upload-action">Upload</a>
 			</p>
 		</div>
 		
 		<strong class="overall-title">Overall progress</strong><br />
-		<img src="themes/light-view/fancyUpload/images/progress-bar/bar.gif" class="progress overall-progress" alt="bar" />
+		<img src="lib/modules/drive/css/bar.gif" class="progress overall-progress" alt="bar" />
 
 		<strong class="current-title">File Progress</strong><br />
-		<img src="themes/light-view/fancyUpload/images/progress-bar/bar.gif" class="progress current-progress" alt="bar" />
+		<img src="lib/modules/drive/css/bar.gif" class="progress current-progress" alt="bar" />
 	
 		<div class="current-text"></div>
 		

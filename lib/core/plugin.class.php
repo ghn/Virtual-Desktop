@@ -32,6 +32,7 @@ abstract class plugin {
 		$ret = call_user_func(array($this, $this->actionMethod));
 		
 		$ret['menuItems'] = $this->getMenuItems();
+		$ret['actionItems'] = $this->getActionItems();
 		return $ret;
 	}
 	
@@ -45,7 +46,11 @@ abstract class plugin {
 			$res = opendir($rep);
 			while (false !== ($file = readdir($res))) {
 				if (is_file($rep . $file)) {
-					$tab[] = $this->pluginName .'/js/'. $file;
+					$ext = substr($file, strrpos($file, '.') + 1);
+					
+					if ($ext == 'js') {
+						$tab[] = $this->pluginName .'/js/'. $file;
+					}
 				}
 			}
 			if (empty($tab)) {
@@ -78,8 +83,6 @@ abstract class plugin {
 		}
 	}
 	
-	
-	
 	/**
 	 *
 	 */
@@ -108,8 +111,8 @@ abstract class plugin {
 	 *
 	 */
 	
-	private function getMenuItems() {
-		
+	protected function getMenuItems() {
+		/*
 		foreach ($this->listMethod as $item) {
 			if ($item == $this->actionMethod) {
 				$class = 'current';
@@ -123,6 +126,26 @@ abstract class plugin {
 				'class'	=> $class
 			);
 		}
+		*/
+		$ret = array (
+			0 => array (
+				'url'	=> '?action='. $this->pluginName .'.show',
+				'name'	=> $this->pluginName,
+				'class'	=> 'current'
+			)
+		);
 		return $ret;
+	}
+	
+	/**
+	 *
+	 */
+	
+	protected function getActionItems() {
+		return array(
+			0	=> array(
+				'url'	=> '?action='. $this->pluginName .'.about',
+				'name'	=> 'About')
+			);
 	}
 }

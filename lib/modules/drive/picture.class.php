@@ -48,7 +48,8 @@ class picture extends file {
 		}
 		
 		if (!is_file($this->thumbnail) || $forceCreate) {
-			tools::mkdir_r($thumbPath);
+			$dir = new folder($thumbPath);
+			$dir->create();
 			$this->createThumbnail();
 		}
 		

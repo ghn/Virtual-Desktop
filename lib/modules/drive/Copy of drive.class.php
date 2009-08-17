@@ -38,8 +38,7 @@ class drive extends plugin {
 		
 		# init user path and create his folder if needed
 		$this->rootPath = $this->conf['general']['dataPath'] . $login . '/';
-		$dir = new folder($this->rootPath);
-		$dir->create();
+		tools::mkdir_r($this->rootPath);
 		
 		if (is_file($this->rootPath . $this->path)) {
 			$this->absolutePath = $this->rootPath . $this->path;
@@ -97,24 +96,13 @@ class drive extends plugin {
 				} else {
 					return array (
 						'path'			=> $this->path,
-						'action'		=> '?action=drive.newfolder&path='. $this->path,
+						'action'		=> '?action=drive.newfolder&path='. $_GET['path'],
 						'menuItems'		=> $this->getMenuItems(),
 						'actionItems'	=> $this->getActionItems(),
 						'nbFiles'		=> $this->nbFiles(),
 						'directory'		=> $directory
 					);
 				}
-			case 'upload':
-				return array (
-						'path'			=> $this->path,
-						'action'		=> '?action=drive.newfolder&path='. $this->path,
-						'menuItems'		=> $this->getMenuItems(),
-						'actionItems'	=> $this->getActionItems(),
-						'nbFiles'		=> $this->nbFiles(),
-						'directory'		=> $directory
-					);
-				break;
-				
 			default:
 				return array (
 					'menuItems'		=> $this->getMenuItems(),
@@ -153,9 +141,25 @@ class drive extends plugin {
 				);
 		}
 		
-		$dir = new folder($this->absolutePath);
-		foreach($dir->listAll() as $folder) {
-			if (!in_array($folder, $this->conf['files']['hiddenItems'])) {
+		if (is_dir($this->absolutePath)) {
+			$res = opendir($this->absolutePath);
+			
+			#
+			#	LIST FOLDERS
+			#
+			
+			$tabFolders = array ();
+			while (false !== ($folder = readdir($res))) {
+				if ((is_dir($this->absolutePath . $folder)) && ($folder != ".") && ($folder != "..") && (!in_array($folder, $this->conf['files']['hiddenItems']))) {
+					$tabFolders[] = $folder;
+		    	}
+			}
+			
+			# sort result
+			sort($tabFolders);
+			
+			foreach ($tabFolders as $folder) {
+				
 				# folder layout
 				if (empty($this->path)) {
 					$link = '?path='. self::doUrl($folder);
@@ -173,44 +177,45 @@ class drive extends plugin {
 					'rel'		=> ''
 				);
 			}
-		}
-		
-		
-		#
-		#	LIST FILES
-		#
-		
-		$res = opendir($this->absolutePath);
-		$tabFiles = array ();
-		while (false !== ($file = readdir($res))) {
-			if ((is_file($this->absolutePath . $file)) && ($file != ".") && ($file != "..") && (!in_array($file, $this->conf['files']['hiddenItems']))) {
-				$tabFiles[] = $file;
-			}
-		}
-		
-		# sort result
-		sort($tabFiles);
-		$this->nbFiles = count($tabFiles);
-		
-		foreach ($tabFiles as $key => $file) {
-		
-			$type = tools::getType($this->absolutePath . $file);
-			$this->file[$key] = new $type($this->absolutePath . $file);
 			
-			$return[] = array (
-				'type' 		=> $this->file[$key]->getFormat(),
-				'title'		=> $file,
-				'path'		=> $this->file[$key]->getURL(),
-				'icon'		=> $this->file[$key]->getIcon(),
-				'alt'		=> $this->file[$key]->getFormat(),
-				'name'		=> self::makeShort($file),
-				'rel'		=> $this->file[$key]->getRelAttribut()
-			);
+			# close ressource
+			closedir($res);
+			
+			#
+			#	LIST FILES
+			#
+			
+			$res = opendir($this->absolutePath);
+			$tabFiles = array ();
+			while (false !== ($file = readdir($res))) {
+				if ((is_file($this->absolutePath . $file)) && ($file != ".") && ($file != "..") && (!in_array($file, $this->conf['files']['hiddenItems']))) {
+					$tabFiles[] = $file;
+		    	}
+			}
+			
+			# sort result
+			sort($tabFiles);
+			$this->nbFiles = count($tabFiles);
+			
+			foreach ($tabFiles as $key => $file) {
+			
+				$type = tools::getType($this->absolutePath . $file);
+				$this->file[$key] = new $type($this->absolutePath . $file);
+				
+				$return[] = array (
+					'type' 		=> $this->file[$key]->getFormat(),
+					'title'		=> $file,
+					'path'		=> $this->file[$key]->getURL(),
+					'icon'		=> $this->file[$key]->getIcon(),
+					'alt'		=> $this->file[$key]->getFormat(),
+					'name'		=> self::makeShort($file),
+					'rel'		=> $this->file[$key]->getRelAttribut()
+				);
+			}
+			
+			# close ressource
+			closedir($res);
 		}
-		
-		# close ressource
-		closedir($res);
-
 		return $return;
 	}
 	
@@ -307,12 +312,6 @@ class drive extends plugin {
 				'url'	=> '?action='. $this->pluginName .'.newfolder&amp;path='. $this->path,
 				'name'	=> 'Create a new folder'),
 			1	=> array(
-				'url'	=> '?action='. $this->pluginName .'.removefolder&amp;path='. $this->path,
-				'name'	=> 'Delete the current folder'),
-			2	=> array(
-				'url'	=> '?action='. $this->pluginName .'.upload&amp;path='. $this->path,
-				'name'	=> 'Upload files'),
-			3	=> array(
 				'url'	=> '?action='. $this->pluginName .'.about',
 				'name'	=> 'About')
 			);
