@@ -2,8 +2,7 @@
 
 require_once (LIB_CORE .'plugin.class.php');
 require_once (LIB_CORE .'tools.class.php');
-
-require_once ('folder.class.php');
+require_once (LIB_CORE .'folder.class.php');
 
 require_once ('document.class.php');
 require_once ('picture.class.php');
@@ -17,6 +16,7 @@ class drive extends plugin {
 	private $rootPath		= null;
 	private $file			= array();	// array of files
 	private $path			= '';
+	private $pathUrl		= '';
 	
 	/**
 	 *
@@ -31,6 +31,8 @@ class drive extends plugin {
 		} else {
 			$this->path = '';
 		}
+		
+		$this->pathUrl = $this->path;
 		
 		# get user login
 		$user = bus::getData('user');
@@ -93,11 +95,10 @@ class drive extends plugin {
 					$foldername = $_POST['foldername'];
 					$dir = new folder($this->absolutePath . $foldername);
 					$dir->create();
-					
 				} else {
 					return array (
-						'path'			=> $this->path,
-						'action'		=> '?action=drive.newfolder&path='. $this->path,
+						'path'			=> $this->pathUrl,
+						'action'		=> '?action=drive.newfolder&path='. $this->pathUrl,
 						'menuItems'		=> $this->getMenuItems(),
 						'actionItems'	=> $this->getActionItems(),
 						'nbFiles'		=> $this->nbFiles(),
@@ -105,14 +106,62 @@ class drive extends plugin {
 					);
 				}
 			case 'upload':
-				return array (
-						'path'			=> $this->path,
-						'action'		=> '?action=drive.newfolder&path='. $this->path,
+				# if the file has been uploaded
+				if (count($_POST) > 0) {
+					
+					$error = false;
+
+					# file is uploaded?
+					if (!isset($_FILES['Filedata']) || !is_uploaded_file($_FILES['Filedata']['tmp_name'])) {
+						$error = 'Invalid Upload';
+					}
+					
+					# check file format
+					//if (!$error && !in_array($size[2], array(1, 2, 3, 7, 8) ) ) {
+					//	$error = 'Please upload only images of type JPEG, GIF or PNG.';
+					//}
+					
+					# return values
+					if ($error) {
+						$return = array(
+							'status' => '0',
+							'error' => $error
+						);
+					} else {
+						$return = array(
+							'status' => '1',
+							'name' => $_FILES['Filedata']['name']
+						);
+						
+						move_uploaded_file($_FILES['Filedata']['tmp_name'], $this->absolutePath . $_FILES['Filedata']['name']);
+						
+						// ... and if available, we get image data
+						$info = @getimagesize($_FILES['Filedata']['tmp_name']);
+					 
+						if ($info) {
+							$return['width'] = $info[0];
+							$return['height'] = $info[1];
+							$return['mime'] = $info['mime'];
+						}
+					}
+
+					header('Content-type: application/json');
+					echo json_encode($return);
+					
+					return array (
+						'actionItems'	=> $this->getActionItems()
+					);
+					
+				} else {
+					return array (
+						'path'			=> $this->pathUrl,
+						'action'		=> '?action=drive.upload&standalone=true&path='. $this->pathUrl,
 						'menuItems'		=> $this->getMenuItems(),
 						'actionItems'	=> $this->getActionItems(),
 						'nbFiles'		=> $this->nbFiles(),
 						'directory'		=> $directory
 					);
+				}
 				break;
 				
 			default:
@@ -138,80 +187,68 @@ class drive extends plugin {
 	 */
 	
 	private function listCurrentFolder () {
-		$return = array();
+		$lstFolders = $lstFiles = array();
+		$count = 0;
 		
 		# Display 'go back' if needed
 		if (!empty($this->path)) {
-			$return[] = array (
+			$lstFolders[] = array (
 				'type' 		=> 'folder',
 				'title'		=> 'Go backward',
 				'path'		=> $this->moveup(),
 				'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
 				'alt'		=> '',
-				'name'		=> '...',
+				'name'		=> '..',
 				'rel'		=> ''
 				);
 		}
 		
 		$dir = new folder($this->absolutePath);
-		foreach($dir->listAll() as $folder) {
-			if (!in_array($folder, $this->conf['files']['hiddenItems'])) {
+		foreach($dir->listAll() as $key => $item) {
+			if (!in_array($item['name'], $this->conf['files']['hiddenItems'])) {
 				# folder layout
 				if (empty($this->path)) {
-					$link = '?path='. self::doUrl($folder);
+					$link = '?path='. self::doUrl($item['name']);
 				} else {
-					$link = '?path='. self::doUrl($this->path . $folder);
+					$link = '?path='. self::doUrl($this->path . $item['name']);
 				}
 				
-				$return[] = array (
-					'type' 		=> 'folder',
-					'title'		=> $folder,
-					'path'		=> $link,
-					'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
-					'alt'		=> '',
-					'name'		=> self::makeShort($folder),
-					'rel'		=> ''
-				);
+				switch ($item['type']) {
+					case 'dir':
+						$lstFolders[] = array (
+							'type' 		=> 'folder',
+							'title'		=> $item['name'],
+							'path'		=> $link,
+							'icon'		=> $this->conf['general']['appURL'] .'theme/'. $this->conf['theme']['name'] .'/icons/folder-enable.png',
+							'alt'		=> '',
+							'name'		=> self::makeShort($item['name']),
+							'rel'		=> ''
+						);
+						break;
+						
+					case 'file':
+						$type = tools::getType($this->absolutePath . $item['name']);
+						$this->file[$key] = new $type($this->absolutePath . $item['name']);
+						
+						$lstFiles[] = array (
+							'type' 		=> $this->file[$key]->getFormat(),
+							'title'		=> $item['name'],
+							'path'		=> $this->file[$key]->getURL(),
+							'icon'		=> $this->file[$key]->getIcon(),
+							'alt'		=> $this->file[$key]->getFormat(),
+							'name'		=> $this->makeShort($item['name']),
+							'rel'		=> $this->file[$key]->getRelAttribut()
+						);
+						$count++;
+						break;
+				}
 			}
 		}
 		
+		$this->nbFiles = $count;
 		
-		#
-		#	LIST FILES
-		#
-		
-		$res = opendir($this->absolutePath);
-		$tabFiles = array ();
-		while (false !== ($file = readdir($res))) {
-			if ((is_file($this->absolutePath . $file)) && ($file != ".") && ($file != "..") && (!in_array($file, $this->conf['files']['hiddenItems']))) {
-				$tabFiles[] = $file;
-			}
-		}
-		
-		# sort result
-		sort($tabFiles);
-		$this->nbFiles = count($tabFiles);
-		
-		foreach ($tabFiles as $key => $file) {
-		
-			$type = tools::getType($this->absolutePath . $file);
-			$this->file[$key] = new $type($this->absolutePath . $file);
-			
-			$return[] = array (
-				'type' 		=> $this->file[$key]->getFormat(),
-				'title'		=> $file,
-				'path'		=> $this->file[$key]->getURL(),
-				'icon'		=> $this->file[$key]->getIcon(),
-				'alt'		=> $this->file[$key]->getFormat(),
-				'name'		=> self::makeShort($file),
-				'rel'		=> $this->file[$key]->getRelAttribut()
-			);
-		}
-		
-		# close ressource
-		closedir($res);
-
-		return $return;
+		# merge both array and return
+		return array_merge($lstFolders, $lstFiles);
 	}
 	
 	/**
@@ -219,41 +256,37 @@ class drive extends plugin {
 	 */
 	
 	protected function getMenuItems () {
-
-		# list folder at top level if exists
-		$res = opendir($this->rootPath);
 		
-		$tab = array ();
-		while (false !== ($file = readdir($res))) {
-			if ((is_dir ($this->rootPath . $file) == 1) && ($file != ".") && ($file != "..") && (!in_array($file, $this->conf['files']['hiddenItems']))) {
-				$tab[] = $file;
-			}
-		}
-		sort($tab);
-		
+		# Link to "Home"
 		if (empty($this->path)) {
-			$ret[0]['class'] = 'current';
-			$ret[0]['url'] = $this->conf['general']['appURL'];
-			$ret[0]['name'] = 'Home';
+			$ret[0]['name']	= 'Home';
+			$ret[0]['url']	= $this->conf['general']['appURL'];
+			$ret[0]['class']= 'current';
 		} else {
-			$ret[0]['class'] = '';
-			$ret[0]['url'] = $this->conf['general']['appURL'];
-			$ret[0]['name'] = 'Home';
+			$ret[0]['name']	= 'Home';
+			$ret[0]['url']	= $this->conf['general']['appURL'];
+			$ret[0]['class']= '';
 		}
 		
-		# get root folder
+		# get root folders
 		list($root) = explode ('/', $this->path);
-		foreach ($tab as $key => $val) {
-			if ($val == $root) {
-				$ret[$key+1]['class'] = 'current';
-			} else {
-				$ret[$key+1]['class'] = '';
-			}
-			
-			$ret[$key+1]['url'] = '?path='. $val;
-			$ret[$key+1]['name'] = $val;
-		}
 		
+		# list folder at top level if exists
+		$dir = new folder ($this->rootPath);
+		
+		foreach($dir->listAll() as $key => $item) {
+			if (($item['type'] == 'dir') && (!in_array($item['name'], $this->conf['files']['hiddenItems']))) {
+				
+				if ($item['name'] == $root) {
+					$ret[$key+1]['class'] = 'current';
+				} else {
+					$ret[$key+1]['class'] = '';
+				}
+				
+				$ret[$key+1]['url'] = '?path='. $item['name'];
+				$ret[$key+1]['name'] = $item['name'];
+			}
+		}
 		return $ret;
 	}
 	
@@ -270,7 +303,7 @@ class drive extends plugin {
 		if (empty($up)) {
 			return $this->conf['general']['appURL'];
 		} else {
-			return $this->conf['general']['appURL'] .'?path='. self::doUrl($up);
+			return $this->conf['general']['appURL'] .'?path='. $this->doUrl($up);
 		}
 	}
 	
@@ -304,13 +337,13 @@ class drive extends plugin {
 	protected function getActionItems() {
 		return array(
 			0	=> array(
-				'url'	=> '?action='. $this->pluginName .'.newfolder&amp;path='. $this->path,
+				'url'	=> '?action='. $this->pluginName .'.newfolder&amp;path='. $this->pathUrl,
 				'name'	=> 'Create a new folder'),
 			1	=> array(
-				'url'	=> '?action='. $this->pluginName .'.removefolder&amp;path='. $this->path,
+				'url'	=> '?action='. $this->pluginName .'.removefolder&amp;path='. $this->pathUrl,
 				'name'	=> 'Delete the current folder'),
 			2	=> array(
-				'url'	=> '?action='. $this->pluginName .'.upload&amp;path='. $this->path,
+				'url'	=> '?action='. $this->pluginName .'.upload&amp;path='. $this->pathUrl,
 				'name'	=> 'Upload files'),
 			3	=> array(
 				'url'	=> '?action='. $this->pluginName .'.about',

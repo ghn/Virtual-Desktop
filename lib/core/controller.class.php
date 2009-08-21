@@ -9,6 +9,7 @@ class controller {
 	private $conf			= array();	// configuration
 	private $action			= 'drive';	// module
 	private $actionMethod	= null;		// method within the module
+	private $standalone		= false;	// define whether to display the layout or not (to display plugin only if desired)
 	
 	private $user;						// instance of class user
 	private $tpl;						// instance of class template
@@ -28,7 +29,7 @@ class controller {
 		$this->user = new user();
 		if ($this->action == 'user') {
 			$ret = $this->user->run($this->actionMethod);
-			logs::write('user', $ret);
+			logs::write($this->action, $ret);
 		}
 		
 		# execute action if connected!
@@ -79,8 +80,10 @@ class controller {
 			'username'		=> $this->user->getUserName()
 		));
 		
-		# print the page
-		$this->tpl->show();
+		# print the page only if not standalone
+		if (!$this->standalone) {
+			$this->tpl->show();
+		}
 	}
 	
 	
@@ -114,6 +117,13 @@ class controller {
 		if (empty($this->actionMethod)) {
 			$this->actionMethod = 'show';
 		}
+		
+		# standalone plugin??
+		if (isset($_GET['standalone']) && $_GET['standalone'] == 'true') {
+			$this->standalone = true;
+		} else {
+			$this->standalone = false;
+		}
 	}
 	
 	/**
@@ -123,6 +133,7 @@ class controller {
 	private function initTemplate() {
 		$this->tpl = new HTML_Template_Sigma('./theme/'. $this->conf['theme']['name'], 'cache');
 		$this->tpl->setErrorHandling(PEAR_ERROR_DIE);
+		
 		$this->tpl->loadTemplateFile('default.html');
 	}
 	
@@ -163,7 +174,6 @@ class controller {
 	 */
 	 
 	private function setVars($html) {
-		
 		# print all items and all attribut
 		if (is_array($html)) {
 			$this->tpl->setCurrentBlock($this->action);

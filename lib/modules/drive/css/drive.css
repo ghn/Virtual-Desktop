@@ -1,0 +1,81 @@
+#drive ul li {
+	list-style-type: none;
+	text-align: center;
+	float: left;
+	width: 80px;
+	margin: 3px;
+}
+	#drive ul li a {
+		display: block;
+		padding: 3px;
+		height: 80px;
+		border: 1px solid #fff;
+	}
+		#drive ul li a:hover {
+			border: 1px solid #DDE189;
+		}
+	#drive ul li img {
+		border: 0;
+		height: 52px;
+	}
+	#drive ul li span.filename {
+		font-size: .8em;
+	}
+	#drive ul li span.params {
+		font-size: .8em;
+		color: #999;
+	}
+	
+		/* ITEM = file / images */
+		#drive ul li.picture div.actions {
+			position: relative;
+			top: -90px;
+			left: 35px;
+			background-color: #fff;
+		}
+			#drive ul li.picture div.actions ul li {
+				width: 130px;
+				
+				text-align: left;
+			}
+				#drive ul li.picture div.actions ul li a {
+					display: inline;
+					padding-left: 22px;
+				}
+			#drive ul li.picture div.actions ul li.rotate a {
+				background: url(shortcuts/object-rotate-right.png) 3px 3px no-repeat #fff;
+			}
+			#drive ul li.picture div.actions ul li.refresh a {
+				background: url(shortcuts/view-refresh.png) 3px 3px no-repeat #fff;
+			}
+				#drive ul li.picture div.actions ul li a span {display: none;}
+				
+			#drive ul li.picture span.filename, #drive ul li.document span.filename {
+				font-size: .6em;
+				color: #999;
+			}
+			#drive ul li.picture a, #drive ul li.picture a:hover {
+				color: #000;
+				text-decoration: none;
+			}
+		
+		/* ITEM = folders */
+		#drive ul li.folder img {
+			height: 52px;
+		}
+		#drive ul li.folder a, #drive ul li.folder a:hover {
+			color: #000;
+			text-decoration: none;
+		}
+		
+		/* ITEM = file / documents */
+		#drive ul li.document a, #drive ul li.document a:hover {
+			color: #000;
+			text-decoration: none;
+		}
+		
+		/* ITEM = file / videos */
+		#drive ul li.video a, #drive ul li.video a:hover {	
+			color: #000;
+			text-decoration: none;
+		}

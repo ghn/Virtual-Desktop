@@ -1,34 +1,27 @@
 <div id="upload">
-	<p>Upload in the folder <strong>{path}</strong></p>
-	{name} - {description}
-	<form action="{form-action}" method="post" enctype="multipart/form-data" name="upload-form" id="upload-form">
-		<fieldset id="uploadForm">
-			<legend>File Upload</legend>
-			
-			<p>Selected your photo to upload.</p>
-			<label for="demo-photoupload">
-				Upload Photos:
-				<input type="file" name="photoupload" id="demo-photoupload" />
-			</label>
-		</fieldset>
-		
-		<div id="upload-status" class="hide">
+	<p>Save these files in <strong>{path}</strong></p>.
+	<form action="{action}" method="post" enctype="multipart/form-data" id="upload-form">
+		<div id="upload-status">
 			<p>
-				<a href="#" id="upload-Browse">Browse Files</a> |
-				<input type="checkbox" id="selectImages" /><label for="selectImages">Images Only</label> |
+				<a href="#" id="upload-browse">Browse Files</a> |
 				<a href="#" id="upload-clear">Clear List</a> |
-				<a href="#" id="upload-action">Upload</a>
+				<a href="#" id="upload-upload">Start Upload</a>
 			</p>
+		
+		<div>
+		<div>
+			<strong class="overall-title">Overall Progress (0 B)</strong>
+			<img title="0%" src="lib/modules/drive/css/bar.gif" class="progress overall-progress"><span class="progress-text"></span>
 		</div>
 		
-		<strong class="overall-title">Overall progress</strong><br />
-		<img src="lib/modules/drive/css/bar.gif" class="progress overall-progress" alt="bar" />
-
-		<strong class="current-title">File Progress</strong><br />
-		<img src="lib/modules/drive/css/bar.gif" class="progress current-progress" alt="bar" />
-	
+		<div>
+			<strong class="current-title">File Progress</strong><br>
+			<img title="0%" src="lib/modules/drive/css/bar.gif" class="progress current-progress"><span class="progress-text"></span>
+		</div>
 		<div class="current-text"></div>
 		
 		<ul id="upload-list"></ul>
 	</form>
+</div>
+</div>
 </div>

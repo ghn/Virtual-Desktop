@@ -59,9 +59,14 @@ class folder {
 			$res = opendir($this->folder);
 			
 			$tabFolders = array ();
+			$i = 0;
 			while (false !== ($item = readdir($res))) {
-				if ((is_dir($this->folder . $item)) && ($item != ".") && ($item != "..")) {
-					$tabFolders[] = $item;
+				if (($item != ".") && ($item != "..")) {
+					$tabFolders[$i] = array(
+						'type'	=> filetype($this->folder . $item),
+						'name'	=> $item
+					);
+					++$i;
 		    	}
 			}
 			closedir($res);

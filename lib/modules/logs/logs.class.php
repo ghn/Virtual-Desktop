@@ -35,7 +35,7 @@ class logs extends plugin {
 	public function write($module, $message) {
 		
 		if (!empty($message) && !is_array($message)) {
-			$ip = $_SERVER['REMOTE_ADDR'];
+			$ip = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 			$date = date('Y-m-d');
 			
 			$this->logFile = dirname(__FILE__). '/test.log';

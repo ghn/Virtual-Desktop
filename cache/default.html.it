@@ -1,5 +1,7 @@
-a:4:{s:6:"blocks";a:10:{s:10:"__global__";s:1570:"<!DOCTYPE html>
-<html lang="en">
+a:4:{s:6:"blocks";a:10:{s:10:"__global__";s:1768:"<!-- DOCTYPE html -->
+<!-- html lang="en" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>{appTitle} {appVersion}</title>
 <link rel="shortcut icon" type="image/x-icon" href="theme/{themeName}/favicon.ico" />
@@ -9,7 +11,7 @@ a:4:{s:6:"blocks";a:10:{s:10:"__global__";s:1570:"<!DOCTYPE html>
 <meta http-equiv="expires" content="0" />
 <meta name="robots" content="noindex, nofollow" />
 <script type="text/javascript" src="js/mootools-1.2.3-core-yc.js"></script>
-<script type="text/javascript" src="js/mootools-1.2.3.1-more.js"></script>
+<!-- script type="text/javascript" src="js/mootools-1.2.3.1-more.js"></script -->
 <script type="text/javascript" src="js/virtualdesktop/virtualdesktop.js"></script>
 <script type="text/javascript" src="js/mediaBoxAdv/mediaboxAdv-1.0.5.js"></script>
 {__plugin-js__}

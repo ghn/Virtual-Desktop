@@ -9,7 +9,7 @@
 	border: 1px solid #eee;
 }
 	#upload-status .progress {
-		background: url(../images/progress-bar/progress.gif) no-repeat;
+		background: url(progress.gif) no-repeat;
 		background-position: +50% 0;
 		margin-right: 0.5em;
 		vertical-align: middle;
@@ -21,10 +21,10 @@
 
 #upload-list {
 	list-style: none;
-	width: 450px;
 	margin: 0;
 }
 	#upload-list li.validation-error {
+		float: none;
 		padding-left: 44px;
 		display: block;
 		clear: left;
@@ -32,22 +32,21 @@
 		color: #8a1f11;
 		cursor: pointer;
 		border-bottom: 1px solid #fbc2c4;
-		background: #fbe3e4 url(../images/failed.png) no-repeat 4px 4px;
+		background: #fbe3e4 url(failed.png) no-repeat 4px 4px;
 	}
 	#upload-list li.file {
 		border-bottom: 1px solid #eee;
-		background: url(../images/file.png) no-repeat 4px 4px;
-		overflow: auto;
+		background: url(file.png) no-repeat 4px 4px;
 	}
 		#upload-list li.file .file-uploading {
-			background-image: url(../images/uploading.png);
+			background-image: url(uploading.png);
 			background-color: #D9DDE9;
 		}
 		#upload-list li.file .file-success {
-			background-image: url(../images/success.png);
+			background-image: url(success.png);
 		}
 		#upload-list li.file .file-failed {
-			background-image: url(../images/failed.png);
+			background-image: url(failed.png);
 		}
 		#upload-list li.file .file-name {
 			font-size: 1.2em;
