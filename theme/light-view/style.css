@@ -1,0 +1,218 @@
+/*****************************************
+ *
+ *	MAIN STYLE SHEET
+ *
+*****************************************/
+
+/* INCLUDE OTHERS STYLE SHEETS */
+@import url("mediaboxadvanced/css/mediaboxAdvWhite.css");
+
+
+/* HTML5 tags */  
+header, section, footer,  
+aside, nav, article, figure {  
+    display: block;  
+}
+
+/* DEFAULT OPTIONS */
+body {
+	margin: 0;
+	padding: 1em;
+    text-align: center;
+   	background: #e8e8e8;
+	color: #000;
+	font-size: 10pt;
+	line-height: 1.6em;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	border-top: 6px solid #455200;
+}            
+a {color: #000;}
+a:hover {color: red;}
+
+/**
+ *	PAGE
+ */
+div#page {
+    -moz-border-radius: .5em;
+	border-radius: .5em;
+}
+
+/**
+ *	HEADER
+ */
+#banner {
+	padding: .5em 1em;
+}
+	#banner h1 {text-align: left;}
+		#banner h1 a {
+			color: #455200;
+			font-size: 1em;
+			font-family: Scrptina, verdana;
+			text-decoration: none;
+		}
+
+/**
+ *	LOGIN
+ */
+div#login {
+	position: absolute;
+	top: 0;
+	right: 20px;
+	background: #455200;
+	
+	border-radius: .5em;
+	-moz-border-radius-bottomleft: .5em;
+	-moz-border-radius-bottomright: .5em;
+	
+	padding: 5px;
+	color: #fff;
+}
+	div#login p {margin: 0; display: inline;}
+		div#login p span.logout a {
+			background: url(shortcuts/system-log-out.png) 3px 3px no-repeat #dde189;
+			text-decoration: none;
+			padding: 3px;
+			padding-left: 20px;
+			border-radius: .5em;
+			-moz-border-radius: .5em;
+		}
+		div#login p span.logged {}
+
+/**
+ *	CONTENT
+ */
+ .body {}
+ .clear {clear:both;}
+#content {
+    background: #dde189;
+    padding: .5em .5em 0 .5em;
+	margin: 0;
+}
+
+/**
+ *	TOOLS
+ */
+#tools {
+	position: absolute;
+	right: 200px;
+}
+	#tools h2 {
+		text-align: center;
+		padding: 5px;
+		padding-left: 24px;
+		text-decoration: none;
+		color: #fff;
+		background: url(shortcuts/applications-system.png) 5px 7px no-repeat #455200;
+		font-weight: normal;
+		font-size: 10pt;
+		margin: 0;
+		border-radius: .5em;
+		-moz-border-radius-topleft: .5em;
+		-moz-border-radius-topright: .5em;
+	}
+		#tools nav  ul {
+			margin: 0;
+			padding: 5px;
+			background-color: #455200;
+			border-radius: .5em;
+			-moz-border-radius-bottomleft: .5em;
+			-moz-border-radius-bottomright: .5em;
+			position: absolute;
+			width: 231px;
+		}
+			#tools nav ul li {
+				margin: 0;
+				margin-bottom: 5px;
+				list-style: none;
+				
+			}
+				#tools nav ul li a {
+					text-decoration: none;
+					padding: 3px;
+					padding-left: 20px;
+					background: url(shortcuts/system-log-out.png) 3px 5px no-repeat #dde189;
+					border-radius: .5em;
+					-moz-border-radius: .5em;
+					display: block;
+					text-align: left;
+				}
+
+/**
+ *	SHORTCUTS
+ */
+#shortcuts {}
+	#shortcuts h2 {display: none;}
+	#shortcuts nav ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+		#shortcuts nav ul li {
+			float: left;
+			margin-left: 3px;
+		}
+			#shortcuts nav ul li a {
+				display: block;
+				padding: 5px;
+				text-decoration: none;
+				color: #fff;
+				background: #455200;
+				
+				border-radius: .5em;
+				-moz-border-radius-topleft: .5em;
+				-moz-border-radius-topright: .5em;
+			}
+			#shortcuts nav ul li a:hover {
+				background: #fff;
+				color: #000;
+			}
+			#shortcuts nav ul li.current a {
+				background-color: #fff;
+				color: #000;
+			}
+
+/**
+ *	LIST FOLDERS & FILES
+ */
+#plugin {
+	clear: left;
+	background: #dde189;
+	padding: 0 10px 10px 10px;
+	
+	border-radius: .5em;
+	-moz-border-radius-bottomleft: .5em;
+	-moz-border-radius-bottomright: .5em;
+}
+	#plugin article {
+		background: #fff;
+		padding-top: 10px;
+	}
+	#plugin p.error {
+		color: #800000;
+		font-weight: bold;
+	}
+	
+	/* info */
+	#plugin div.info {
+		clear: both;
+		color: #999;
+		font-size: 60%;
+		text-align: left;
+	}
+		#plugin div.info div.directory {}
+	
+/**
+ *	FOOTER
+ */
+#contentinfo {
+    padding: 1em;
+}
+	#contentinfo div.copyright a {
+		color: #000;
+		text-decoration: none;
+	}
+	
+	#contentinfo div.modules ul li {
+		display: inline;
+		margin-right: 10px;
+	}

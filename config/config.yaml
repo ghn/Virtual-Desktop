@@ -1,0 +1,49 @@
+#
+# configuration File (YAML syntax)
+#
+
+general:
+  appURL: http://localhost/finder/      # URL Access. Can be either HTTP or HTTPS
+  appTitle: My Virtual Desktop          # Application title
+  version: 0.4.6
+  dataPath: C:\wamp\www\_datas\
+  thumbnailFolder: .thumbnails
+
+theme:
+  name: light-view
+  path:
+  
+files:
+  mimeMagicPath: C:\wamp\bin\php\magic\magic.mime
+  nameMaxLenght: 8                      # define the max lenght for the files and folders name
+  hiddenItems:                          # list of files you don't want to be shown
+    - .thumbnails
+    - .DS_Store
+    - Thumbs.db
+
+  pictures:
+    thumbFormats:
+      -
+        - 52
+        - 52
+      -
+        - 800
+        - 800
+    type:
+      - image/jpeg
+      - image/png
+      - image/gif
+  
+  video:
+    type:
+      - video/quicktime
+      - video/x-msvideo
+      - flv
+      - video/mpeg
+
+  audio:
+    type:
+      - audio/mpeg
+
+flickr:
+  APIKey: < your api key here >

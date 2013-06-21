@@ -1,0 +1,25 @@
+#logs {padding: 0 10px;}
+#logs table{
+	border-collapse: collapse;
+}
+	#logs table th {
+		text-align: left;
+		background: #455200;
+		color: #fff;
+		padding: 3px;
+		padding-right: 10px;
+	}
+		#logs table th.first {
+			-moz-border-radius-topleft: .5em;
+			border-radius: .5em;
+		}
+		#logs table th.last {
+			-moz-border-radius-topright: .5em;
+			border-radius: .5em;
+		}
+	#logs table td{
+		text-align: left;
+		padding: 3px;
+		padding-right: 10px;
+		border-bottom: 1px dashed #dde189;
+	}

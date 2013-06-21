@@ -1,0 +1,12 @@
+a:4:{s:6:"blocks";a:1:{s:10:"__global__";s:346:"<form name="newfolder" action="{action}" method="post">
+<fieldset>
+<legend>Create a new folder</legend>
+<p>This folder will be created in <strong>{path}</strong>.</p>
+<p>
+<label for="foldername">Folder name: </legend><input type="text" name="foldername" id="foldername" />
+</p>
+<p>
+<input type="submit" value="Create!" />
+</p>
+</fieldset>
+</form>";}s:9:"variables";a:1:{s:10:"__global__";a:2:{s:6:"action";b:1;s:4:"path";b:1;}}s:8:"children";a:1:{s:10:"__global__";a:0:{}}s:9:"functions";a:1:{s:10:"__global__";a:0:{}}}
